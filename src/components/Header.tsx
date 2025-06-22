@@ -17,6 +17,8 @@ const Header: React.FC = () => {
             <span className="text-xl font-bold">Helpful</span>
           </Link>
           <feedback-elf-button type="bug" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
+          <feedback-elf-button type="feature" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
+          <feedback-elf-button type="review" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
         </div>
       </div>
     </header>
