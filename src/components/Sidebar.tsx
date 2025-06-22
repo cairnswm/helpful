@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, Braces, FileText, Shield, 
@@ -38,24 +38,25 @@ const Sidebar: React.FC = () => {
   const [recentTools, setRecentTools] = useState<RecentTool[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const toggleGroup = (groupTitle: string) => {
-    setExpandedGroup(expandedGroup === groupTitle ? '' : groupTitle);
-  };
+  const toggleGroup = useCallback((groupTitle: string) => {
+    setExpandedGroup(prev => prev === groupTitle ? '' : groupTitle);
+  }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
 
-  // Map of icon names to components
-  const iconMap: { [key: string]: React.ComponentType<any> } = {
+  // Map of icon names to components - memoized to prevent recreation
+  const iconMap = useMemo(() => ({
     Home, Braces, FileText, Shield, Binary, Link2, Search, GitCompare,
     Hash, Clock, Palette, Database, Code, Globe, Plus, Terminal,
     Eye, Zap, Image, ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
     FileX, Lock, RefreshCw, FileSpreadsheet, Crop, RotateCw, Move, Camera,
     Settings
-  };
+  }), []);
 
-  const navGroups: NavGroup[] = [
+  // Navigation groups - memoized to prevent recreation
+  const navGroups = useMemo<NavGroup[]>(() => [
     {
       title: 'General',
       icon: Home,
@@ -165,17 +166,19 @@ const Sidebar: React.FC = () => {
         { path: '/http-status-reference', label: 'HTTP Status Reference', icon: Info }
       ]
     }
-  ];
+  ], []);
 
-  // Get all tools from nav groups for lookup
-  const allTools = navGroups.flatMap(group => 
-    group.items.map(item => ({
-      ...item,
-      iconName: item.icon.name || 'Home'
-    }))
+  // Get all tools from nav groups for lookup - memoized
+  const allTools = useMemo(() => 
+    navGroups.flatMap(group => 
+      group.items.map(item => ({
+        ...item,
+        iconName: item.icon.name || 'Home'
+      }))
+    ), [navGroups]
   );
 
-  // Load recent tools from localStorage
+  // Load recent tools from localStorage only once
   useEffect(() => {
     const stored = localStorage.getItem('recentTools');
     if (stored) {
@@ -189,7 +192,7 @@ const Sidebar: React.FC = () => {
     }
   }, []);
 
-  // Track tool usage
+  // Track tool usage - optimized with useCallback and debouncing
   useEffect(() => {
     // Don't track home page
     if (location.pathname === '/') return;
@@ -197,28 +200,42 @@ const Sidebar: React.FC = () => {
     const currentTool = allTools.find(tool => tool.path === location.pathname);
     if (!currentTool) return;
 
-    const newRecentTool: RecentTool = {
-      path: currentTool.path,
-      label: currentTool.label,
-      icon: currentTool.iconName,
-      lastUsed: Date.now()
-    };
+    // Debounce the update to prevent excessive re-renders
+    const timeoutId = setTimeout(() => {
+      const newRecentTool: RecentTool = {
+        path: currentTool.path,
+        label: currentTool.label,
+        icon: currentTool.iconName,
+        lastUsed: Date.now()
+      };
 
-    setRecentTools(prevRecent => {
-      // Remove if already exists
-      const filtered = prevRecent.filter(tool => tool.path !== currentTool.path);
-      
-      // Add to beginning
-      const updated = [newRecentTool, ...filtered];
-      
-      // Keep only last 3
-      const limited = updated.slice(0, 3);
-      
-      // Save to localStorage
-      localStorage.setItem('recentTools', JSON.stringify(limited));
-      
-      return limited;
-    });
+      setRecentTools(prevRecent => {
+        // Check if this tool is already the most recent
+        if (prevRecent.length > 0 && prevRecent[0].path === currentTool.path) {
+          return prevRecent; // No change needed
+        }
+
+        // Remove if already exists
+        const filtered = prevRecent.filter(tool => tool.path !== currentTool.path);
+        
+        // Add to beginning
+        const updated = [newRecentTool, ...filtered];
+        
+        // Keep only last 3
+        const limited = updated.slice(0, 3);
+        
+        // Save to localStorage
+        try {
+          localStorage.setItem('recentTools', JSON.stringify(limited));
+        } catch (error) {
+          console.error('Failed to save recent tools:', error);
+        }
+        
+        return limited;
+      });
+    }, 100); // 100ms debounce
+
+    return () => clearTimeout(timeoutId);
   }, [location.pathname, allTools]);
 
   // Close mobile menu when route changes
@@ -226,7 +243,7 @@ const Sidebar: React.FC = () => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const SidebarContent = () => (
+  const SidebarContent = React.memo(() => (
     <>
       <div className="flex-1 overflow-y-auto">
         <div className="p-6">
@@ -241,10 +258,9 @@ const Sidebar: React.FC = () => {
               </div>
               <div className="space-y-1">
                 {recentTools.map((tool) => {
-                  const IconComponent = iconMap[tool.icon] || Home;
+                  const IconComponent = iconMap[tool.icon as keyof typeof iconMap] || Home;
                   const isActive = location.pathname === tool.path;
                 
-                  
                   return (
                     <Link
                       key={tool.path}
@@ -332,7 +348,7 @@ const Sidebar: React.FC = () => {
         </div>
       </div>
     </>
-  );
+  ));
 
   return (
     <>
