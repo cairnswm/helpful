@@ -33,6 +33,10 @@ import PasswordChecker from './pages/PasswordChecker';
 import YamlJsonConverter from './pages/YamlJsonConverter';
 import MarkdownHtmlConverter from './pages/MarkdownHtmlConverter';
 import XmlJsonConverter from './pages/XmlJsonConverter';
+import CsvXlsxConverter from './pages/CsvXlsxConverter';
+import JsonXlsxConverter from './pages/JsonXlsxConverter';
+import MarkdownPdfConverter from './pages/MarkdownPdfConverter';
+import HtmlPdfConverter from './pages/HtmlPdfConverter';
 
 function App() {
   return (
@@ -74,6 +78,10 @@ function App() {
               <Route path="/yaml-json-converter" element={<YamlJsonConverter />} />
               <Route path="/markdown-html-converter" element={<MarkdownHtmlConverter />} />
               <Route path="/xml-json-converter" element={<XmlJsonConverter />} />
+              <Route path="/csv-xlsx-converter" element={<CsvXlsxConverter />} />
+              <Route path="/json-xlsx-converter" element={<JsonXlsxConverter />} />
+              <Route path="/markdown-pdf-converter" element={<MarkdownPdfConverter />} />
+              <Route path="/html-pdf-converter" element={<HtmlPdfConverter />} />
             </Routes>
           </main>
         </div>

@@ -8,7 +8,7 @@ import {
   Eye, Zap, Image, ArrowRightLeft,
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
-  RefreshCw
+  RefreshCw, FileSpreadsheet
 } from 'lucide-react';
 
 interface NavItem {
@@ -60,6 +60,16 @@ const Sidebar: React.FC = () => {
         { path: '/yaml-json-converter', label: 'YAML ↔ JSON', icon: RefreshCw },
         { path: '/xml-json-converter', label: 'XML ↔ JSON', icon: RefreshCw },
         { path: '/markdown-html-converter', label: 'Markdown ↔ HTML', icon: RefreshCw }
+      ]
+    },
+    {
+      title: 'Excel & PDF Tools',
+      icon: FileSpreadsheet,
+      items: [
+        { path: '/csv-xlsx-converter', label: 'CSV to XLSX', icon: FileSpreadsheet },
+        { path: '/json-xlsx-converter', label: 'JSON to XLSX', icon: FileSpreadsheet },
+        { path: '/markdown-pdf-converter', label: 'Markdown to PDF', icon: FileText },
+        { path: '/html-pdf-converter', label: 'HTML to PDF', icon: FileText }
       ]
     },
     {

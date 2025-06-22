@@ -5,7 +5,7 @@ import {
   GitCompare, Hash, Clock, Palette, Database, Code, 
   Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
   ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-  FileX, Lock, RefreshCw
+  FileX, Lock, RefreshCw, FileSpreadsheet
 } from 'lucide-react';
 
 const Home: React.FC = () => {
@@ -173,6 +173,38 @@ const Home: React.FC = () => {
       keywords: ['markdown', 'html', 'convert', 'md', 'markup', 'format']
     },
     {
+      icon: FileSpreadsheet,
+      title: 'CSV to XLSX Converter',
+      description: 'Convert CSV files to Excel XLSX format with auto-sized columns.',
+      path: '/csv-xlsx-converter',
+      color: 'bg-green-700',
+      keywords: ['csv', 'xlsx', 'excel', 'convert', 'spreadsheet', 'export']
+    },
+    {
+      icon: FileSpreadsheet,
+      title: 'JSON to XLSX Converter',
+      description: 'Convert JSON data to Excel XLSX format with nested object support.',
+      path: '/json-xlsx-converter',
+      color: 'bg-blue-700',
+      keywords: ['json', 'xlsx', 'excel', 'convert', 'spreadsheet', 'export']
+    },
+    {
+      icon: FileText,
+      title: 'Markdown to PDF',
+      description: 'Convert Markdown documents to professional PDF files with styling.',
+      path: '/markdown-pdf-converter',
+      color: 'bg-red-600',
+      keywords: ['markdown', 'pdf', 'convert', 'document', 'export', 'print']
+    },
+    {
+      icon: FileText,
+      title: 'HTML to PDF',
+      description: 'Convert HTML documents to PDF with CSS styling and layout support.',
+      path: '/html-pdf-converter',
+      color: 'bg-orange-700',
+      keywords: ['html', 'pdf', 'convert', 'document', 'export', 'print']
+    },
+    {
       icon: Globe,
       title: 'API Request Builder',
       description: 'Build and test HTTP requests with custom headers, body, and methods.',
@@ -277,7 +309,7 @@ const Home: React.FC = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search tools... (e.g., json, yaml, convert, password)"
+              placeholder="Search tools... (e.g., json, yaml, convert, password, xlsx, pdf)"
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
             />
           </div>
@@ -364,7 +396,7 @@ const Home: React.FC = () => {
                 <span className="text-orange-600 font-bold text-xl">🔧</span>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Comprehensive</h4>
-              <p className="text-gray-600 text-sm">29+ essential tools for modern development</p>
+              <p className="text-gray-600 text-sm">33+ essential tools for modern development</p>
             </div>
           </div>
         </div>
