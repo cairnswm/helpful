@@ -5,7 +5,9 @@ import {
   Binary, Link2, Search, GitCompare, 
   Hash, Clock, Palette, Database,
   Code, Globe, Plus, Terminal,
-  Eye, Zap, Image
+  Eye, Zap, Image, ArrowRightLeft,
+  CheckCircle, Info, Type, BarChart3,
+  FileX, Lock
 } from 'lucide-react';
 
 const Sidebar: React.FC = () => {
@@ -21,16 +23,23 @@ const Sidebar: React.FC = () => {
     { path: '/regex-tester', label: 'Regex Tester', icon: Search },
     { path: '/diff-checker', label: 'Diff Checker', icon: GitCompare },
     { path: '/uuid-generator', label: 'UUID Generator', icon: Hash },
+    { path: '/uuid-validator', label: 'UUID Validator', icon: CheckCircle },
     { path: '/timestamp-converter', label: 'Timestamp Converter', icon: Clock },
     { path: '/css-formatter', label: 'CSS Formatter', icon: Code },
     { path: '/sql-formatter', label: 'SQL Formatter', icon: Database },
+    { path: '/sql-query-analyzer', label: 'SQL Query Analyzer', icon: BarChart3 },
     { path: '/hex-converter', label: 'Hex Converter', icon: Binary },
     { path: '/color-picker', label: 'Color Picker', icon: Palette },
     { path: '/json-schema-validator', label: 'JSON Schema Validator', icon: Zap },
+    { path: '/json-csv-converter', label: 'JSON/CSV Converter', icon: ArrowRightLeft },
     { path: '/api-request-builder', label: 'API Request Builder', icon: Globe },
     { path: '/jwt-generator', label: 'JWT Generator', icon: Plus },
     { path: '/command-builder', label: 'Command Builder', icon: Terminal },
     { path: '/markdown-previewer', label: 'Markdown Previewer', icon: Eye },
+    { path: '/xml-formatter', label: 'XML Formatter', icon: FileX },
+    { path: '/text-case-converter', label: 'Text Case Converter', icon: Type },
+    { path: '/password-checker', label: 'Password Checker', icon: Lock },
+    { path: '/http-status-reference', label: 'HTTP Status Reference', icon: Info },
     { path: '/image-resizer', label: 'Image Resizer', icon: Image }
   ];
 

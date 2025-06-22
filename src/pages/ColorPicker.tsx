@@ -9,6 +9,12 @@ interface ColorFormats {
   cmyk: string;
 }
 
+interface TailwindShade {
+  shade: string;
+  hex: string;
+  rgb: string;
+}
+
 const ColorPicker: React.FC = () => {
   const [color, setColor] = useState('#3b82f6');
   const [formats, setFormats] = useState<ColorFormats>({
@@ -18,6 +24,7 @@ const ColorPicker: React.FC = () => {
     hsv: 'hsv(217, 76%, 96%)',
     cmyk: 'cmyk(76%, 47%, 0%, 4%)'
   });
+  const [tailwindShades, setTailwindShades] = useState<TailwindShade[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
 
   const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
@@ -105,6 +112,70 @@ const ColorPicker: React.FC = () => {
     };
   };
 
+  const hslToRgb = (h: number, s: number, l: number): { r: number; g: number; b: number } => {
+    h /= 360;
+    s /= 100;
+    l /= 100;
+
+    const hue2rgb = (p: number, q: number, t: number) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+
+    let r, g, b;
+
+    if (s === 0) {
+      r = g = b = l;
+    } else {
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1/3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return {
+      r: Math.round(r * 255),
+      g: Math.round(g * 255),
+      b: Math.round(b * 255)
+    };
+  };
+
+  const rgbToHex = (r: number, g: number, b: number): string => {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  };
+
+  const generateTailwindShades = (baseColor: string): TailwindShade[] => {
+    const rgb = hexToRgb(baseColor);
+    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+    
+    const shades = [
+      { shade: '50', lightness: 95 },
+      { shade: '100', lightness: 90 },
+      { shade: '200', lightness: 80 },
+      { shade: '300', lightness: 70 },
+      { shade: '400', lightness: 60 },
+      { shade: '500', lightness: 50 },
+      { shade: '600', lightness: 40 },
+      { shade: '700', lightness: 30 },
+      { shade: '800', lightness: 20 },
+      { shade: '900', lightness: 10 },
+      { shade: '950', lightness: 5 }
+    ];
+
+    return shades.map(({ shade, lightness }) => {
+      const adjustedRgb = hslToRgb(hsl.h, hsl.s, lightness);
+      const hex = rgbToHex(adjustedRgb.r, adjustedRgb.g, adjustedRgb.b);
+      const rgb = `rgb(${adjustedRgb.r}, ${adjustedRgb.g}, ${adjustedRgb.b})`;
+      
+      return { shade, hex, rgb };
+    });
+  };
+
   const updateFormats = useCallback((hexColor: string) => {
     const rgb = hexToRgb(hexColor);
     const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
@@ -118,6 +189,8 @@ const ColorPicker: React.FC = () => {
       hsv: `hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)`,
       cmyk: `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`
     });
+
+    setTailwindShades(generateTailwindShades(hexColor));
   }, []);
 
   const handleColorChange = (newColor: string) => {
@@ -149,11 +222,11 @@ const ColorPicker: React.FC = () => {
 
   return (
     <div className="p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Color Picker & Converter</h1>
           <p className="text-gray-600">
-            Pick colors and convert between different color formats (Hex, RGB, HSL, HSV, CMYK).
+            Pick colors and convert between different color formats with Tailwind CSS shade variations.
           </p>
         </div>
 
@@ -258,6 +331,52 @@ const ColorPicker: React.FC = () => {
           </div>
         </div>
 
+        {/* Tailwind CSS Shades */}
+        <div className="mt-6 bg-white rounded-lg shadow-lg border border-gray-200">
+          <div className="p-4 bg-gray-50 border-b rounded-t-lg">
+            <h3 className="text-lg font-semibold text-gray-800">Tailwind CSS Color Shades</h3>
+            <p className="text-sm text-gray-600 mt-1">
+              Color variations inspired by Tailwind CSS shade system
+            </p>
+          </div>
+          
+          <div className="p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+              {tailwindShades.map((shade) => (
+                <div
+                  key={shade.shade}
+                  className="group relative"
+                >
+                  <div
+                    className="w-full h-16 rounded-lg border border-gray-200 cursor-pointer transition-transform hover:scale-105"
+                    style={{ backgroundColor: shade.hex }}
+                    onClick={() => handleCopy(`shade-${shade.shade}`, shade.hex)}
+                    title={`Click to copy ${shade.hex}`}
+                  />
+                  <div className="mt-2 text-center">
+                    <div className="text-xs font-medium text-gray-700">
+                      {shade.shade}
+                    </div>
+                    <div className="text-xs text-gray-500 font-mono">
+                      {shade.hex}
+                    </div>
+                  </div>
+                  
+                  {/* Copy indicator */}
+                  {copied === `shade-${shade.shade}` && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg">
+                      <div className="flex items-center space-x-1 text-white text-xs font-medium">
+                        <Check className="h-3 w-3" />
+                        <span>Copied!</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Color Information */}
         <div className="mt-6 bg-indigo-50 rounded-lg p-4">
           <h4 className="font-semibold text-indigo-900 mb-2">Color Format Information</h4>
@@ -267,6 +386,7 @@ const ColorPicker: React.FC = () => {
             <p><strong>HSL:</strong> Hue, Saturation, Lightness - intuitive for designers</p>
             <p><strong>HSV:</strong> Hue, Saturation, Value - similar to HSL but different lightness calculation</p>
             <p><strong>CMYK:</strong> Cyan, Magenta, Yellow, Key (black) - subtractive color model for printing</p>
+            <p><strong>Tailwind Shades:</strong> Color variations from 50 (lightest) to 950 (darkest)</p>
           </div>
         </div>
       </div>

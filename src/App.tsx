@@ -23,6 +23,13 @@ import JwtGenerator from './pages/JwtGenerator';
 import CommandBuilder from './pages/CommandBuilder';
 import MarkdownPreviewer from './pages/MarkdownPreviewer';
 import ImageResizer from './pages/ImageResizer';
+import JsonCsvConverter from './pages/JsonCsvConverter';
+import UuidValidator from './pages/UuidValidator';
+import HttpStatusReference from './pages/HttpStatusReference';
+import TextCaseConverter from './pages/TextCaseConverter';
+import SqlQueryAnalyzer from './pages/SqlQueryAnalyzer';
+import XmlFormatter from './pages/XmlFormatter';
+import PasswordChecker from './pages/PasswordChecker';
 
 function App() {
   return (
@@ -54,6 +61,13 @@ function App() {
               <Route path="/command-builder" element={<CommandBuilder />} />
               <Route path="/markdown-previewer" element={<MarkdownPreviewer />} />
               <Route path="/image-resizer" element={<ImageResizer />} />
+              <Route path="/json-csv-converter" element={<JsonCsvConverter />} />
+              <Route path="/uuid-validator" element={<UuidValidator />} />
+              <Route path="/http-status-reference" element={<HttpStatusReference />} />
+              <Route path="/text-case-converter" element={<TextCaseConverter />} />
+              <Route path="/sql-query-analyzer" element={<SqlQueryAnalyzer />} />
+              <Route path="/xml-formatter" element={<XmlFormatter />} />
+              <Route path="/password-checker" element={<PasswordChecker />} />
             </Routes>
           </main>
         </div>

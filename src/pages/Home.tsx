@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { 
   Braces, FileText, Shield, Binary, Link2, Search, 
   GitCompare, Hash, Clock, Palette, Database, Code, 
-  Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image 
+  Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
+  ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
+  FileX, Lock
 } from 'lucide-react';
 
 const Home: React.FC = () => {
@@ -25,7 +27,7 @@ const Home: React.FC = () => {
     {
       icon: Shield,
       title: 'JWT Decoder',
-      description: 'Decode and inspect JWT tokens. View header, payload, and signature information.',
+      description: 'Decode and inspect JWT tokens. View header, payload, and expiration information.',
       path: '/jwt-decoder',
       color: 'bg-green-500'
     },
@@ -65,6 +67,13 @@ const Home: React.FC = () => {
       color: 'bg-pink-500'
     },
     {
+      icon: CheckCircle,
+      title: 'UUID Validator',
+      description: 'Check if a given string is a valid UUID and identify its version.',
+      path: '/uuid-validator',
+      color: 'bg-emerald-500'
+    },
+    {
       icon: Clock,
       title: 'Timestamp Converter',
       description: 'Convert Unix timestamps to human-readable dates and vice versa.',
@@ -86,6 +95,13 @@ const Home: React.FC = () => {
       color: 'bg-emerald-500'
     },
     {
+      icon: BarChart3,
+      title: 'SQL Query Analyzer',
+      description: 'Analyze SQL queries for performance optimization and best practices.',
+      path: '/sql-query-analyzer',
+      color: 'bg-blue-600'
+    },
+    {
       icon: Binary,
       title: 'Hex Converter',
       description: 'Convert between text strings and hexadecimal representation.',
@@ -95,7 +111,7 @@ const Home: React.FC = () => {
     {
       icon: Palette,
       title: 'Color Picker',
-      description: 'Pick colors and convert between different color formats (Hex, RGB, HSL, CMYK).',
+      description: 'Pick colors and convert between formats with Tailwind CSS shades.',
       path: '/color-picker',
       color: 'bg-rose-500'
     },
@@ -105,6 +121,13 @@ const Home: React.FC = () => {
       description: 'Validate JSON data against a schema to ensure structure and constraints.',
       path: '/json-schema-validator',
       color: 'bg-amber-500'
+    },
+    {
+      icon: ArrowRightLeft,
+      title: 'JSON/CSV Converter',
+      description: 'Transform JSON data to CSV format and vice versa for data processing.',
+      path: '/json-csv-converter',
+      color: 'bg-green-600'
     },
     {
       icon: Globe,
@@ -135,6 +158,34 @@ const Home: React.FC = () => {
       color: 'bg-neutral-500'
     },
     {
+      icon: FileX,
+      title: 'XML Formatter',
+      description: 'Format, validate, and convert XML documents with syntax highlighting.',
+      path: '/xml-formatter',
+      color: 'bg-orange-600'
+    },
+    {
+      icon: Type,
+      title: 'Text Case Converter',
+      description: 'Convert text between camelCase, snake_case, kebab-case, PascalCase, etc.',
+      path: '/text-case-converter',
+      color: 'bg-purple-600'
+    },
+    {
+      icon: Lock,
+      title: 'Password Checker',
+      description: 'Evaluate the strength and entropy of passwords with detailed analysis.',
+      path: '/password-checker',
+      color: 'bg-red-600'
+    },
+    {
+      icon: Info,
+      title: 'HTTP Status Reference',
+      description: 'Lookup meaning and explanation of HTTP status codes.',
+      path: '/http-status-reference',
+      color: 'bg-blue-700'
+    },
+    {
       icon: Image,
       title: 'Image Resizer',
       description: 'Upload and resize images to reduce file size while maintaining quality.',
@@ -151,7 +202,7 @@ const Home: React.FC = () => {
             Welcome to Helpful
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            A comprehensive collection of professional developer utilities. Format code, decode tokens, convert data, and streamline your development workflow with our powerful tools.
+            A comprehensive collection of professional developer utilities. Format code, decode tokens, and convert data with ease.
           </p>
         </div>
 
@@ -215,7 +266,7 @@ const Home: React.FC = () => {
                 <span className="text-orange-600 font-bold text-xl">🔧</span>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Comprehensive</h4>
-              <p className="text-gray-600 text-sm">19+ essential tools for modern development</p>
+              <p className="text-gray-600 text-sm">26+ essential tools for modern development</p>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Copy, Check, RotateCcw, AlertCircle, Clock, User, Key } from 'lucide-react';
+import { Copy, Check, RotateCcw, AlertCircle, Clock, User, Key, Shield } from 'lucide-react';
 
 interface JwtPayload {
   [key: string]: any;
@@ -11,6 +11,9 @@ interface DecodedJwt {
   signature: string;
   isValid: boolean;
   error?: string;
+  isExpired?: boolean;
+  expiresIn?: string;
+  timeToExpiry?: number;
 }
 
 const JwtDecoder: React.FC = () => {
@@ -30,6 +33,42 @@ const JwtDecoder: React.FC = () => {
     }
   };
 
+  const formatTimestamp = (timestamp: number): string => {
+    return new Date(timestamp * 1000).toLocaleString();
+  };
+
+  const getTimeToExpiry = (exp: number): { timeToExpiry: number; expiresIn: string; isExpired: boolean } => {
+    const now = Math.floor(Date.now() / 1000);
+    const timeToExpiry = exp - now;
+    const isExpired = timeToExpiry <= 0;
+    
+    let expiresIn = '';
+    if (isExpired) {
+      const expiredTime = Math.abs(timeToExpiry);
+      if (expiredTime < 60) {
+        expiresIn = `Expired ${expiredTime} seconds ago`;
+      } else if (expiredTime < 3600) {
+        expiresIn = `Expired ${Math.floor(expiredTime / 60)} minutes ago`;
+      } else if (expiredTime < 86400) {
+        expiresIn = `Expired ${Math.floor(expiredTime / 3600)} hours ago`;
+      } else {
+        expiresIn = `Expired ${Math.floor(expiredTime / 86400)} days ago`;
+      }
+    } else {
+      if (timeToExpiry < 60) {
+        expiresIn = `Expires in ${timeToExpiry} seconds`;
+      } else if (timeToExpiry < 3600) {
+        expiresIn = `Expires in ${Math.floor(timeToExpiry / 60)} minutes`;
+      } else if (timeToExpiry < 86400) {
+        expiresIn = `Expires in ${Math.floor(timeToExpiry / 3600)} hours`;
+      } else {
+        expiresIn = `Expires in ${Math.floor(timeToExpiry / 86400)} days`;
+      }
+    }
+    
+    return { timeToExpiry, expiresIn, isExpired };
+  };
+
   const decodeJwt = (token: string): DecodedJwt => {
     if (!token.trim()) {
       return { header: {}, payload: {}, signature: '', isValid: false, error: 'No token provided' };
@@ -45,11 +84,26 @@ const JwtDecoder: React.FC = () => {
       const payload = JSON.parse(base64UrlDecode(parts[1]));
       const signature = parts[2];
 
+      let isExpired = false;
+      let expiresIn = '';
+      let timeToExpiry = 0;
+
+      // Check expiration
+      if (payload.exp) {
+        const expiryData = getTimeToExpiry(payload.exp);
+        isExpired = expiryData.isExpired;
+        expiresIn = expiryData.expiresIn;
+        timeToExpiry = expiryData.timeToExpiry;
+      }
+
       return {
         header,
         payload,
         signature,
-        isValid: true
+        isValid: true,
+        isExpired,
+        expiresIn,
+        timeToExpiry
       };
     } catch (error) {
       return {
@@ -84,10 +138,6 @@ const JwtDecoder: React.FC = () => {
   const handleClear = () => {
     setInput('');
     setDecoded(null);
-  };
-
-  const formatTimestamp = (timestamp: number): string => {
-    return new Date(timestamp * 1000).toLocaleString();
   };
 
   const renderJsonSection = (title: string, data: JwtPayload, icon: React.ReactNode, section: 'header' | 'payload') => (
@@ -162,13 +212,65 @@ const JwtDecoder: React.FC = () => {
     );
   };
 
+  const renderExpirationInfo = () => {
+    if (!decoded?.isValid || !decoded.payload.exp) return null;
+
+    return (
+      <div className={`p-4 rounded-lg border ${
+        decoded.isExpired 
+          ? 'bg-red-50 border-red-200' 
+          : decoded.timeToExpiry && decoded.timeToExpiry < 3600
+          ? 'bg-yellow-50 border-yellow-200'
+          : 'bg-green-50 border-green-200'
+      }`}>
+        <div className="flex items-center space-x-2 mb-2">
+          <Clock className={`h-5 w-5 ${
+            decoded.isExpired 
+              ? 'text-red-600' 
+              : decoded.timeToExpiry && decoded.timeToExpiry < 3600
+              ? 'text-yellow-600'
+              : 'text-green-600'
+          }`} />
+          <span className={`font-medium ${
+            decoded.isExpired 
+              ? 'text-red-800' 
+              : decoded.timeToExpiry && decoded.timeToExpiry < 3600
+              ? 'text-yellow-800'
+              : 'text-green-800'
+          }`}>
+            JWT Expiration Status
+          </span>
+        </div>
+        <p className={`text-sm ${
+          decoded.isExpired 
+            ? 'text-red-700' 
+            : decoded.timeToExpiry && decoded.timeToExpiry < 3600
+            ? 'text-yellow-700'
+            : 'text-green-700'
+        }`}>
+          {decoded.expiresIn}
+        </p>
+        {decoded.isExpired && (
+          <p className="text-xs text-red-600 mt-1">
+            ⚠️ This token has expired and should not be accepted by services.
+          </p>
+        )}
+        {decoded.timeToExpiry && decoded.timeToExpiry < 3600 && decoded.timeToExpiry > 0 && (
+          <p className="text-xs text-yellow-600 mt-1">
+            ⚠️ This token will expire soon. Consider refreshing it.
+          </p>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">JWT Decoder</h1>
           <p className="text-gray-600">
-            Decode and inspect JWT tokens. View header, payload, and common claims information.
+            Decode and inspect JWT tokens. View header, payload, expiration information, and common claims.
           </p>
         </div>
 
@@ -212,9 +314,12 @@ const JwtDecoder: React.FC = () => {
           </div>
         )}
 
+        {/* Expiration Warning */}
+        {decoded?.isValid && renderExpirationInfo()}
+
         {/* Decoded Content */}
         {decoded?.isValid && (
-          <div className="space-y-6">
+          <div className="space-y-6 mt-6">
             {/* Common Claims */}
             {renderPayloadInfo(decoded.payload)}
             
