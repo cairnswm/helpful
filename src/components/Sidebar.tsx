@@ -9,7 +9,7 @@ import {
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
   RefreshCw, FileSpreadsheet, History,
-  Crop, RotateCw, Move, Camera
+  Crop, RotateCw, Move, Camera, Menu, X
 } from 'lucide-react';
 
 interface NavItem {
@@ -35,9 +35,14 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
   const [expandedGroup, setExpandedGroup] = useState<string>('general');
   const [recentTools, setRecentTools] = useState<RecentTool[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleGroup = (groupTitle: string) => {
     setExpandedGroup(expandedGroup === groupTitle ? '' : groupTitle);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   // Map of icon names to components
@@ -213,8 +218,13 @@ const Sidebar: React.FC = () => {
     });
   }, [location.pathname, allTools]);
 
-  return (
-    <aside className="w-64 bg-white shadow-lg border-r border-gray-200 h-full flex flex-col">
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  const SidebarContent = () => (
+    <>
       <div className="flex-1 overflow-y-auto">
         <div className="p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Tools</h2>
@@ -305,13 +315,60 @@ const Sidebar: React.FC = () => {
         </div>
       </div>
       
+      {/* Feedback Buttons */}
       <div className="p-6 border-t border-gray-200 bg-white flex-shrink-0">
+        <div className="space-y-3 mb-4">
+          <div className="flex items-center space-x-2">
+            <feedback-elf-button type="review" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
+            <feedback-elf-button type="bug" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
+          </div>
+          <div className="flex justify-center">
+            <feedback-elf-button type="feature" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
+          </div>
+        </div>
+        
         <div className="text-center">
           <p className="text-sm text-gray-500">Professional Developer Tools</p>
           <p className="text-xs text-gray-400 mt-1">Built with React & Tailwind</p>
         </div>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={toggleMobileMenu}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
+      >
+        {isMobileMenuOpen ? (
+          <X className="h-6 w-6 text-gray-600" />
+        ) : (
+          <Menu className="h-6 w-6 text-gray-600" />
+        )}
+      </button>
+
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={toggleMobileMenu}
+        />
+      )}
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex w-64 bg-white shadow-lg border-r border-gray-200 h-full flex-col">
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile Sidebar */}
+      <aside className={`lg:hidden fixed left-0 top-0 h-full w-64 bg-white shadow-lg border-r border-gray-200 z-50 transform transition-transform duration-300 ease-in-out ${
+        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+      } flex flex-col`}>
+        <SidebarContent />
+      </aside>
+    </>
   );
 };
 
