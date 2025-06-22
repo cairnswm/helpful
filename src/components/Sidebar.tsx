@@ -8,7 +8,8 @@ import {
   Eye, Zap, Image, ArrowRightLeft,
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
-  RefreshCw, FileSpreadsheet, History
+  RefreshCw, FileSpreadsheet, History,
+  Crop, RotateCw, Move, Camera
 } from 'lucide-react';
 
 interface NavItem {
@@ -44,7 +45,7 @@ const Sidebar: React.FC = () => {
     Home, Braces, FileText, Shield, Binary, Link2, Search, GitCompare,
     Hash, Clock, Palette, Database, Code, Globe, Plus, Terminal,
     Eye, Zap, Image, ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-    FileX, Lock, RefreshCw, FileSpreadsheet
+    FileX, Lock, RefreshCw, FileSpreadsheet, Crop, RotateCw, Move, Camera
   };
 
   const navGroups: NavGroup[] = [
@@ -53,9 +54,21 @@ const Sidebar: React.FC = () => {
       icon: Home,
       items: [
         { path: '/', label: 'Home', icon: Home },
-        { path: '/image-resizer', label: 'Image Resizer', icon: Image },
         { path: '/diff-checker', label: 'Diff Checker', icon: GitCompare },
         { path: '/regex-tester', label: 'Regex Tester', icon: Search }
+      ]
+    },
+    {
+      title: 'Image Tools',
+      icon: Image,
+      items: [
+        { path: '/image-resizer', label: 'Image Resizer', icon: Image },
+        { path: '/image-cropper', label: 'Image Cropper', icon: Crop },
+        { path: '/image-rotator-flipper', label: 'Rotate & Flip', icon: RotateCw },
+        { path: '/image-filters-effects', label: 'Filters & Effects', icon: Palette },
+        { path: '/watermark-overlay', label: 'Watermark Overlay', icon: Move },
+        { path: '/image-metadata-editor', label: 'Metadata Editor', icon: Camera },
+        { path: '/image-color-adjustments', label: 'Color Adjustments', icon: Palette }
       ]
     },
     {
@@ -217,6 +230,7 @@ const Sidebar: React.FC = () => {
                 {recentTools.map((tool) => {
                   const IconComponent = iconMap[tool.icon] || Home;
                   const isActive = location.pathname === tool.path;
+                
                   
                   return (
                     <Link

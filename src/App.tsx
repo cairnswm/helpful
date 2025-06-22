@@ -37,6 +37,12 @@ import CsvXlsxConverter from './pages/CsvXlsxConverter';
 import JsonXlsxConverter from './pages/JsonXlsxConverter';
 import MarkdownPdfConverter from './pages/MarkdownPdfConverter';
 import HtmlPdfConverter from './pages/HtmlPdfConverter';
+import ImageCropper from './pages/ImageCropper';
+import ImageRotatorFlipper from './pages/ImageRotatorFlipper';
+import ImageFiltersEffects from './pages/ImageFiltersEffects';
+import WatermarkOverlay from './pages/WatermarkOverlay';
+import ImageMetadataEditor from './pages/ImageMetadataEditor';
+import ImageColorAdjustments from './pages/ImageColorAdjustments';
 
 function App() {
   const handleBoltClick = () => {
@@ -86,6 +92,12 @@ function App() {
               <Route path="/json-xlsx-converter" element={<JsonXlsxConverter />} />
               <Route path="/markdown-pdf-converter" element={<MarkdownPdfConverter />} />
               <Route path="/html-pdf-converter" element={<HtmlPdfConverter />} />
+              <Route path="/image-cropper" element={<ImageCropper />} />
+              <Route path="/image-rotator-flipper" element={<ImageRotatorFlipper />} />
+              <Route path="/image-filters-effects" element={<ImageFiltersEffects />} />
+              <Route path="/watermark-overlay" element={<WatermarkOverlay />} />
+              <Route path="/image-metadata-editor" element={<ImageMetadataEditor />} />
+              <Route path="/image-color-adjustments" element={<ImageColorAdjustments />} />
             </Routes>
           </main>
         </div>

@@ -5,7 +5,8 @@ import {
   GitCompare, Hash, Clock, Palette, Database, Code, 
   Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
   ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-  FileX, Lock, RefreshCw, FileSpreadsheet
+  FileX, Lock, RefreshCw, FileSpreadsheet, Crop, RotateCw,
+  Move, Camera
 } from 'lucide-react';
 
 const Home: React.FC = () => {
@@ -205,6 +206,62 @@ const Home: React.FC = () => {
       keywords: ['html', 'pdf', 'convert', 'document', 'export', 'print']
     },
     {
+      icon: Image,
+      title: 'Image Resizer',
+      description: 'Upload and resize images to reduce file size while maintaining quality.',
+      path: '/image-resizer',
+      color: 'bg-fuchsia-500',
+      keywords: ['image', 'resize', 'compress', 'optimize', 'photo', 'picture']
+    },
+    {
+      icon: Crop,
+      title: 'Image Cropper',
+      description: 'Select and crop portions of images with adjustable aspect ratios.',
+      path: '/image-cropper',
+      color: 'bg-blue-500',
+      keywords: ['image', 'crop', 'cut', 'select', 'aspect', 'ratio']
+    },
+    {
+      icon: RotateCw,
+      title: 'Image Rotator & Flipper',
+      description: 'Rotate images by any angle and flip them horizontally or vertically.',
+      path: '/image-rotator-flipper',
+      color: 'bg-purple-500',
+      keywords: ['image', 'rotate', 'flip', 'transform', 'angle', 'mirror']
+    },
+    {
+      icon: Palette,
+      title: 'Image Filters & Effects',
+      description: 'Apply filters like grayscale, sepia, blur, and brightness adjustments.',
+      path: '/image-filters-effects',
+      color: 'bg-pink-500',
+      keywords: ['image', 'filter', 'effect', 'grayscale', 'sepia', 'blur']
+    },
+    {
+      icon: Move,
+      title: 'Watermark Overlay',
+      description: 'Add text or image watermarks for branding and copyright protection.',
+      path: '/watermark-overlay',
+      color: 'bg-cyan-500',
+      keywords: ['image', 'watermark', 'overlay', 'brand', 'copyright', 'protect']
+    },
+    {
+      icon: Camera,
+      title: 'Image Metadata Editor',
+      description: 'View and edit EXIF data like camera info, GPS tags, and timestamps.',
+      path: '/image-metadata-editor',
+      color: 'bg-indigo-500',
+      keywords: ['image', 'metadata', 'exif', 'camera', 'gps', 'timestamp']
+    },
+    {
+      icon: Palette,
+      title: 'Image Color Adjustments',
+      description: 'Fine-tune saturation, hue, exposure, and color balance professionally.',
+      path: '/image-color-adjustments',
+      color: 'bg-rose-500',
+      keywords: ['image', 'color', 'adjust', 'saturation', 'hue', 'exposure']
+    },
+    {
       icon: Globe,
       title: 'API Request Builder',
       description: 'Build and test HTTP requests with custom headers, body, and methods.',
@@ -267,14 +324,6 @@ const Home: React.FC = () => {
       path: '/http-status-reference',
       color: 'bg-blue-700',
       keywords: ['http', 'status', 'code', 'error', 'response', 'reference']
-    },
-    {
-      icon: Image,
-      title: 'Image Resizer',
-      description: 'Upload and resize images to reduce file size while maintaining quality.',
-      path: '/image-resizer',
-      color: 'bg-fuchsia-500',
-      keywords: ['image', 'resize', 'compress', 'optimize', 'photo', 'picture']
     }
   ];
 
@@ -297,7 +346,7 @@ const Home: React.FC = () => {
             Welcome to Helpful
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            A comprehensive collection of professional developer utilities. Format code, decode tokens, convert files, and streamline your development workflow.
+            A comprehensive collection of professional developer utilities. Format code, decode tokens, convert files, manipulate images, and streamline your development workflow.
           </p>
         </div>
 
@@ -309,7 +358,7 @@ const Home: React.FC = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search tools... (e.g., json, yaml, convert, password, xlsx, pdf)"
+              placeholder="Search tools... (e.g., json, yaml, convert, password, xlsx, pdf, image)"
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
             />
           </div>
@@ -396,7 +445,7 @@ const Home: React.FC = () => {
                 <span className="text-orange-600 font-bold text-xl">🔧</span>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Comprehensive</h4>
-              <p className="text-gray-600 text-sm">33+ essential tools for modern development</p>
+              <p className="text-gray-600 text-sm">39+ essential tools for modern development</p>
             </div>
           </div>
         </div>
