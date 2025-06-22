@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, Braces, FileText, Shield, 
@@ -8,7 +8,7 @@ import {
   Eye, Zap, Image, ArrowRightLeft,
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
-  RefreshCw, FileSpreadsheet
+  RefreshCw, FileSpreadsheet, History
 } from 'lucide-react';
 
 interface NavItem {
@@ -23,12 +23,28 @@ interface NavGroup {
   items: NavItem[];
 }
 
+interface RecentTool {
+  path: string;
+  label: string;
+  icon: string;
+  lastUsed: number;
+}
+
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const [expandedGroup, setExpandedGroup] = useState<string>('general');
+  const [recentTools, setRecentTools] = useState<RecentTool[]>([]);
 
   const toggleGroup = (groupTitle: string) => {
     setExpandedGroup(expandedGroup === groupTitle ? '' : groupTitle);
+  };
+
+  // Map of icon names to components
+  const iconMap: { [key: string]: React.ComponentType<any> } = {
+    Home, Braces, FileText, Shield, Binary, Link2, Search, GitCompare,
+    Hash, Clock, Palette, Database, Code, Globe, Plus, Terminal,
+    Eye, Zap, Image, ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
+    FileX, Lock, RefreshCw, FileSpreadsheet
   };
 
   const navGroups: NavGroup[] = [
@@ -130,11 +146,99 @@ const Sidebar: React.FC = () => {
     }
   ];
 
+  // Get all tools from nav groups for lookup
+  const allTools = navGroups.flatMap(group => 
+    group.items.map(item => ({
+      ...item,
+      iconName: item.icon.name || 'Home'
+    }))
+  );
+
+  // Load recent tools from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem('recentTools');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setRecentTools(parsed);
+      } catch (error) {
+        console.error('Failed to parse recent tools:', error);
+        setRecentTools([]);
+      }
+    }
+  }, []);
+
+  // Track tool usage
+  useEffect(() => {
+    // Don't track home page
+    if (location.pathname === '/') return;
+
+    const currentTool = allTools.find(tool => tool.path === location.pathname);
+    if (!currentTool) return;
+
+    const newRecentTool: RecentTool = {
+      path: currentTool.path,
+      label: currentTool.label,
+      icon: currentTool.iconName,
+      lastUsed: Date.now()
+    };
+
+    setRecentTools(prevRecent => {
+      // Remove if already exists
+      const filtered = prevRecent.filter(tool => tool.path !== currentTool.path);
+      
+      // Add to beginning
+      const updated = [newRecentTool, ...filtered];
+      
+      // Keep only last 3
+      const limited = updated.slice(0, 3);
+      
+      // Save to localStorage
+      localStorage.setItem('recentTools', JSON.stringify(limited));
+      
+      return limited;
+    });
+  }, [location.pathname, allTools]);
+
   return (
     <aside className="w-64 bg-white shadow-lg border-r border-gray-200 h-full flex flex-col">
       <div className="flex-1 overflow-y-auto">
         <div className="p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Tools</h2>
+          
+          {/* Recently Used Tools */}
+          {recentTools.length > 0 && (
+            <div className="mb-6">
+              <div className="flex items-center space-x-2 mb-3">
+                <History className="h-4 w-4 text-purple-600" />
+                <span className="font-medium text-sm text-gray-700">Recently Used</span>
+              </div>
+              <div className="space-y-1">
+                {recentTools.map((tool) => {
+                  const IconComponent = iconMap[tool.icon] || Home;
+                  const isActive = location.pathname === tool.path;
+                  
+                  return (
+                    <Link
+                      key={tool.path}
+                      to={tool.path}
+                      className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 text-sm ${
+                        isActive
+                          ? 'bg-purple-50 text-purple-700 border border-purple-200 shadow-sm'
+                          : 'text-gray-600 hover:bg-purple-50 hover:text-purple-700'
+                      }`}
+                    >
+                      <IconComponent className={`h-4 w-4 ${isActive ? 'text-purple-600' : 'text-gray-400'}`} />
+                      <span className="font-medium">{tool.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+              <div className="border-t border-gray-200 mt-4 pt-4"></div>
+            </div>
+          )}
+
+          {/* Regular Navigation */}
           <nav className="space-y-2">
             {navGroups.map((group) => {
               const GroupIcon = group.icon;
