@@ -39,6 +39,10 @@ import MarkdownPdfConverter from './pages/MarkdownPdfConverter';
 import HtmlPdfConverter from './pages/HtmlPdfConverter';
 
 function App() {
+  const handleBoltClick = () => {
+    window.open('http://bolt.new', '_blank');
+  };
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -46,7 +50,7 @@ function App() {
         <Header />
         <div className="flex flex-1 overflow-hidden">
           <Sidebar />
-          <main className="flex-1 overflow-auto">
+          <main className="flex-1 overflow-auto pb-24">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/format-json" element={<FormatJson />} />
@@ -85,6 +89,20 @@ function App() {
             </Routes>
           </main>
         </div>
+        
+        {/* Floating Bolt.new Icon */}
+        <button
+          onClick={handleBoltClick}
+          className="fixed bottom-6 right-6 w-16 h-16 bg-black rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 z-50 group"
+          title="Powered by Bolt.new - Click to visit"
+        >
+          <img
+            src="/black_circle_360x360.png"
+            alt="Powered by Bolt.new"
+            className="w-full h-full rounded-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded-full transition-all duration-300"></div>
+        </button>
       </div>
     </Router>
   );
