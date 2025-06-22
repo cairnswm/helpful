@@ -317,14 +317,10 @@ const Sidebar: React.FC = () => {
       
       {/* Feedback Buttons */}
       <div className="p-6 border-t border-gray-200 bg-white flex-shrink-0">
-        <div className="space-y-3 mb-4">
-          <div className="flex items-center space-x-2">
-            <feedback-elf-button type="review" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
-            <feedback-elf-button type="bug" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
-          </div>
-          <div className="flex justify-center">
-            <feedback-elf-button type="feature" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
-          </div>
+        <div className="space-y-2 mb-4">
+          <feedback-elf-button type="review" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
+          <feedback-elf-button type="bug" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
+          <feedback-elf-button type="feature" api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" />
         </div>
         
         <div className="text-center">
