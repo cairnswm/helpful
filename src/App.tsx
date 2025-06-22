@@ -18,6 +18,7 @@ import SqlFormatter from './pages/SqlFormatter';
 import HexConverter from './pages/HexConverter';
 import ColorPicker from './pages/ColorPicker';
 import JsonSchemaValidator from './pages/JsonSchemaValidator';
+import JsonSchemaCreator from './pages/JsonSchemaCreator';
 import ApiRequestBuilder from './pages/ApiRequestBuilder';
 import JwtGenerator from './pages/JwtGenerator';
 import CommandBuilder from './pages/CommandBuilder';
@@ -73,6 +74,7 @@ function App() {
               <Route path="/hex-converter" element={<HexConverter />} />
               <Route path="/color-picker" element={<ColorPicker />} />
               <Route path="/json-schema-validator" element={<JsonSchemaValidator />} />
+              <Route path="/json-schema-creator" element={<JsonSchemaCreator />} />
               <Route path="/api-request-builder" element={<ApiRequestBuilder />} />
               <Route path="/jwt-generator" element={<JwtGenerator />} />
               <Route path="/command-builder" element={<CommandBuilder />} />

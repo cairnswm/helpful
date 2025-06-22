@@ -6,7 +6,7 @@ import {
   Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
   ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
   FileX, Lock, RefreshCw, FileSpreadsheet, Crop, RotateCw,
-  Move, Camera
+  Move, Camera, Settings
 } from 'lucide-react';
 
 const Home: React.FC = () => {
@@ -140,6 +140,14 @@ const Home: React.FC = () => {
       path: '/json-schema-validator',
       color: 'bg-amber-500',
       keywords: ['json', 'schema', 'validate', 'structure', 'constraint']
+    },
+    {
+      icon: Settings,
+      title: 'JSON Schema Creator',
+      description: 'Generate JSON Schema from example JSON data automatically with type inference.',
+      path: '/json-schema-creator',
+      color: 'bg-indigo-600',
+      keywords: ['json', 'schema', 'generate', 'create', 'infer', 'example']
     },
     {
       icon: ArrowRightLeft,
@@ -358,7 +366,7 @@ const Home: React.FC = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search tools... (e.g., json, yaml, convert, password, xlsx, pdf, image)"
+              placeholder="Search tools... (e.g., json, yaml, convert, password, xlsx, pdf, image, schema)"
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
             />
           </div>
@@ -445,7 +453,7 @@ const Home: React.FC = () => {
                 <span className="text-orange-600 font-bold text-xl">🔧</span>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Comprehensive</h4>
-              <p className="text-gray-600 text-sm">39+ essential tools for modern development</p>
+              <p className="text-gray-600 text-sm">40+ essential tools for modern development</p>
             </div>
           </div>
         </div>

@@ -9,7 +9,8 @@ import {
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
   RefreshCw, FileSpreadsheet, History,
-  Crop, RotateCw, Move, Camera, Menu, X
+  Crop, RotateCw, Move, Camera, Menu, X,
+  Settings
 } from 'lucide-react';
 
 interface NavItem {
@@ -50,7 +51,8 @@ const Sidebar: React.FC = () => {
     Home, Braces, FileText, Shield, Binary, Link2, Search, GitCompare,
     Hash, Clock, Palette, Database, Code, Globe, Plus, Terminal,
     Eye, Zap, Image, ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-    FileX, Lock, RefreshCw, FileSpreadsheet, Crop, RotateCw, Move, Camera
+    FileX, Lock, RefreshCw, FileSpreadsheet, Crop, RotateCw, Move, Camera,
+    Settings
   };
 
   const navGroups: NavGroup[] = [
@@ -83,6 +85,7 @@ const Sidebar: React.FC = () => {
         { path: '/format-json', label: 'Format JSON', icon: Braces },
         { path: '/string-to-json', label: 'String to JSON', icon: FileText },
         { path: '/json-schema-validator', label: 'JSON Schema Validator', icon: Zap },
+        { path: '/json-schema-creator', label: 'JSON Schema Creator', icon: Settings },
         { path: '/json-csv-converter', label: 'JSON/CSV Converter', icon: ArrowRightLeft }
       ]
     },
