@@ -7,7 +7,8 @@ import {
   Code, Globe, Plus, Terminal,
   Eye, Zap, Image, ArrowRightLeft,
   CheckCircle, Info, Type, BarChart3,
-  FileX, Lock, ChevronDown, ChevronRight
+  FileX, Lock, ChevronDown, ChevronRight,
+  RefreshCw
 } from 'lucide-react';
 
 interface NavItem {
@@ -49,6 +50,16 @@ const Sidebar: React.FC = () => {
         { path: '/string-to-json', label: 'String to JSON', icon: FileText },
         { path: '/json-schema-validator', label: 'JSON Schema Validator', icon: Zap },
         { path: '/json-csv-converter', label: 'JSON/CSV Converter', icon: ArrowRightLeft }
+      ]
+    },
+    {
+      title: 'File Converters',
+      icon: RefreshCw,
+      items: [
+        { path: '/json-csv-converter', label: 'JSON ↔ CSV', icon: ArrowRightLeft },
+        { path: '/yaml-json-converter', label: 'YAML ↔ JSON', icon: RefreshCw },
+        { path: '/xml-json-converter', label: 'XML ↔ JSON', icon: RefreshCw },
+        { path: '/markdown-html-converter', label: 'Markdown ↔ HTML', icon: RefreshCw }
       ]
     },
     {

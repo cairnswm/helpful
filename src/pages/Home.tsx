@@ -5,7 +5,7 @@ import {
   GitCompare, Hash, Clock, Palette, Database, Code, 
   Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
   ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-  FileX, Lock
+  FileX, Lock, RefreshCw
 } from 'lucide-react';
 
 const Home: React.FC = () => {
@@ -149,6 +149,30 @@ const Home: React.FC = () => {
       keywords: ['json', 'csv', 'convert', 'transform', 'data', 'export']
     },
     {
+      icon: RefreshCw,
+      title: 'YAML/JSON Converter',
+      description: 'Convert between YAML and JSON formats with syntax validation.',
+      path: '/yaml-json-converter',
+      color: 'bg-purple-600',
+      keywords: ['yaml', 'json', 'convert', 'config', 'data', 'format']
+    },
+    {
+      icon: RefreshCw,
+      title: 'XML/JSON Converter',
+      description: 'Transform XML documents to JSON and vice versa with structure preservation.',
+      path: '/xml-json-converter',
+      color: 'bg-orange-600',
+      keywords: ['xml', 'json', 'convert', 'transform', 'data', 'structure']
+    },
+    {
+      icon: RefreshCw,
+      title: 'Markdown/HTML Converter',
+      description: 'Convert Markdown to HTML and HTML back to Markdown format.',
+      path: '/markdown-html-converter',
+      color: 'bg-indigo-600',
+      keywords: ['markdown', 'html', 'convert', 'md', 'markup', 'format']
+    },
+    {
       icon: Globe,
       title: 'API Request Builder',
       description: 'Build and test HTTP requests with custom headers, body, and methods.',
@@ -241,7 +265,7 @@ const Home: React.FC = () => {
             Welcome to Helpful
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            A comprehensive collection of professional developer utilities. Format code, decode tokens, and convert data with ease.
+            A comprehensive collection of professional developer utilities. Format code, decode tokens, convert files, and streamline your development workflow.
           </p>
         </div>
 
@@ -253,7 +277,7 @@ const Home: React.FC = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search tools... (e.g., json, base64, password)"
+              placeholder="Search tools... (e.g., json, yaml, convert, password)"
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
             />
           </div>
@@ -340,7 +364,7 @@ const Home: React.FC = () => {
                 <span className="text-orange-600 font-bold text-xl">🔧</span>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Comprehensive</h4>
-              <p className="text-gray-600 text-sm">26+ essential tools for modern development</p>
+              <p className="text-gray-600 text-sm">29+ essential tools for modern development</p>
             </div>
           </div>
         </div>

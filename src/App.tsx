@@ -30,6 +30,9 @@ import TextCaseConverter from './pages/TextCaseConverter';
 import SqlQueryAnalyzer from './pages/SqlQueryAnalyzer';
 import XmlFormatter from './pages/XmlFormatter';
 import PasswordChecker from './pages/PasswordChecker';
+import YamlJsonConverter from './pages/YamlJsonConverter';
+import MarkdownHtmlConverter from './pages/MarkdownHtmlConverter';
+import XmlJsonConverter from './pages/XmlJsonConverter';
 
 function App() {
   return (
@@ -68,6 +71,9 @@ function App() {
               <Route path="/sql-query-analyzer" element={<SqlQueryAnalyzer />} />
               <Route path="/xml-formatter" element={<XmlFormatter />} />
               <Route path="/password-checker" element={<PasswordChecker />} />
+              <Route path="/yaml-json-converter" element={<YamlJsonConverter />} />
+              <Route path="/markdown-html-converter" element={<MarkdownHtmlConverter />} />
+              <Route path="/xml-json-converter" element={<XmlJsonConverter />} />
             </Routes>
           </main>
         </div>
