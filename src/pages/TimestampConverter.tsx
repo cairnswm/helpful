@@ -135,7 +135,7 @@ const TimestampConverter: React.FC = () => {
           <div className="bg-white rounded-lg shadow-lg border border-gray-200">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
               <div className="flex items-center space-x-2">
-                <Hash className="h-5 w-5 text-blue-600" />
+                <Clock className="h-5 w-5 text-blue-600" />
                 <h3 className="text-lg font-semibold text-gray-800">Unix Timestamp</h3>
               </div>
               <button

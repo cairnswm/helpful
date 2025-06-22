@@ -24,16 +24,10 @@ interface NavGroup {
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['general']));
+  const [expandedGroup, setExpandedGroup] = useState<string>('general');
 
   const toggleGroup = (groupTitle: string) => {
-    const newExpanded = new Set(expandedGroups);
-    if (newExpanded.has(groupTitle)) {
-      newExpanded.delete(groupTitle);
-    } else {
-      newExpanded.add(groupTitle);
-    }
-    setExpandedGroups(newExpanded);
+    setExpandedGroup(expandedGroup === groupTitle ? '' : groupTitle);
   };
 
   const navGroups: NavGroup[] = [
@@ -123,7 +117,7 @@ const Sidebar: React.FC = () => {
           <nav className="space-y-2">
             {navGroups.map((group) => {
               const GroupIcon = group.icon;
-              const isExpanded = expandedGroups.has(group.title.toLowerCase());
+              const isExpanded = expandedGroup === group.title.toLowerCase();
               
               return (
                 <div key={group.title}>
