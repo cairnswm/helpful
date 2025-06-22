@@ -1,0 +1,29 @@
+name: Publish Project to Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install Dependencies
+        run: npm ci 
+        
+      - name: Build Site
+        run: npm run build
+
+      - name: Deploy Site
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ vars.FTP_SERVER }}
+          username: ${{ vars.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ vars.SERVER_DIR }}
+          dangerous-clean-slate: false
