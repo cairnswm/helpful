@@ -384,7 +384,7 @@ This tool provides a simple way to convert Markdown documents to professional-lo
               </h3>
             </div>
             
-            <div className="flex-1 p-4 overflow-auto"  style={{ maxHeight: 'calc(100vh - 400px)'>
+            <div className="flex-1 p-4 overflow-auto"  style={{ maxHeight: 'calc(100vh - 400px)'}}>
               {previewMode === 'markdown' ? (
                 <pre className="text-sm font-mono text-gray-800 whitespace-pre-wrap">
                   {input || 'Markdown content will appear here...'}
