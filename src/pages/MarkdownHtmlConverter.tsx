@@ -412,7 +412,7 @@ It can span multiple lines</p>
               ) : output ? (
                 mode === 'markdownToHtml' && viewMode === 'preview' ? (
                   <div 
-                    className="markdown prose prose-sm max-w-none"
+                    className="prose prose-sm max-w-none"
                     dangerouslySetInnerHTML={{ __html: output }}
                   />
                 ) : (
