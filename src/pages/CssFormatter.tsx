@@ -26,7 +26,7 @@ const CssFormatter: React.FC = () => {
         .replace(/;\s*/g, ';\n  ')
         .replace(/\s*}\s*/g, '\n}\n\n')
         // Fix selectors
-        .replace(/,(?=[^{]*{)/g, ',\n')
+        .replace(/,(?=[^{]*{)/g, ',\n') 
         // Clean up multiple newlines
         .replace(/\n\s*\n\s*\n/g, '\n\n')
         .trim();
