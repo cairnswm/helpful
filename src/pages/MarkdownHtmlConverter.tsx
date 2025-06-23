@@ -9,7 +9,7 @@ const MarkdownHtmlConverter: React.FC = () => {
   const [mode, setMode] = useState<'markdownToHtml' | 'htmlToMarkdown'>('markdownToHtml');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
-  const [viewMode, setViewMode] = useState<'code' | 'preview'>('code');
+  const [viewMode, setViewMode] = useState<'code' | 'preview'>('preview');
 
   // Configure marked options
   marked.setOptions({
