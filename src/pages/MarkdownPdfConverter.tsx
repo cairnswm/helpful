@@ -9,7 +9,7 @@ const MarkdownPdfConverter: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
-  const [previewMode, setPreviewMode] = useState<'markdown' | 'html'>('markdown');
+  const [previewMode, setPreviewMode] = useState<'markdown' | 'html'>('html');
 
   // Configure marked options
   marked.setOptions({
