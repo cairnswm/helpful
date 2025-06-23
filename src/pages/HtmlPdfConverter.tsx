@@ -453,7 +453,7 @@ function generateReport(data) {
               </div>
             </div>
             
-            <div className="flex-1 p-4">
+            <div className="flex-1 p-4 h-[calc(100vh-400px)]">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
