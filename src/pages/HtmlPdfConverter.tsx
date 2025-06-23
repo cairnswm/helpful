@@ -409,7 +409,7 @@ function generateReport(data) {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-400px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Panel */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
@@ -477,7 +477,7 @@ function generateReport(data) {
               </h3>
             </div>
             
-            <div className="flex-1 p-4 overflow-auto">
+            <div className="flex-1 p-4 overflow-auto"  style={{ maxHeight: 'calc(100vh - 400px)' }}>
               {previewMode === 'code' ? (
                 <pre className="text-sm font-mono text-gray-800 whitespace-pre-wrap">
                   {input || 'HTML content will appear here...'}
