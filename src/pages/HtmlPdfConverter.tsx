@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Download, FileText, Upload, Eye, Code } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import "./reset.css";
 
 const HtmlPdfConverter: React.FC = () => {
   const [input, setInput] = useState('');
