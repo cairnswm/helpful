@@ -320,7 +320,7 @@ This tool provides a simple way to convert Markdown documents to professional-lo
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-400px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Panel */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
@@ -364,7 +364,7 @@ This tool provides a simple way to convert Markdown documents to professional-lo
               </div>
             </div>
             
-            <div className="flex-1 p-4">
+            <div className="flex-1 p-4 overflow-auto" style={{ maxHeight: 'calc(100vh - 400px)' }}>
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
