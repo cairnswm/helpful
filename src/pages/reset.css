@@ -1,0 +1,11 @@
+.your-reset-class {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+.your-reset-class * {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
