@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download, Eye, Edit } from 'lucide-react';
 import { marked } from 'marked';
+import "./Markdown.css";
 
 const MarkdownHtmlConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -411,7 +412,7 @@ It can span multiple lines</p>
               ) : output ? (
                 mode === 'markdownToHtml' && viewMode === 'preview' ? (
                   <div 
-                    className="prose prose-sm max-w-none"
+                    className="markdown prose prose-sm max-w-none"
                     dangerouslySetInnerHTML={{ __html: output }}
                   />
                 ) : (
