@@ -9,7 +9,7 @@ const HtmlPdfConverter: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
-  const [previewMode, setPreviewMode] = useState<'code' | 'preview'>('code');
+  const [previewMode, setPreviewMode] = useState<'code' | 'preview'>('preview');
   const [conversionMethod, setConversionMethod] = useState<'html' | 'canvas'>('html');
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
