@@ -487,7 +487,17 @@ function generateReport(data) {
                   {input ? (
                     <div dangerouslySetInnerHTML={{ __html: input }} />
                   ) : (
-                    <p className="text-gray-500">HTML preview will appear here...</p>
+<div
+  style={{
+    width: '100%',
+    height: '100%',
+    overflow: 'auto',
+    all: 'unset', // CSS reset for all inherited styles (somewhat experimental)
+    maxWidth: '100%',
+  }}
+  className="your-reset-class"
+  dangerouslySetInnerHTML={{ __html: input }}
+/>
                   )}
                 </div>
               )}
