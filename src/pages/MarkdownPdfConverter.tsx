@@ -80,11 +80,11 @@ const MarkdownPdfConverter: React.FC = () => {
         
         switch (header.tagName) {
           case 'H1':
-            element.style.fontSize = '24px';
+            element.style.fontSize = '30px';
             element.style.color = '#2563eb';
             break;
           case 'H2':
-            element.style.fontSize = '20px';
+            element.style.fontSize = '24px';
             element.style.color = '#3b82f6';
             break;
           case 'H3':
