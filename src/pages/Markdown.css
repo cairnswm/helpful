@@ -1,0 +1,33 @@
+.prose h1 {
+  font-size: 30px;
+  color: #2563eb;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.prose h2 {
+  font-size: 24px;
+  color: #3b82f6;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.prose h3 {
+  font-size: 18px;
+  color: #60a5fa;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-size: 16px;
+  color: #93c5fd;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
