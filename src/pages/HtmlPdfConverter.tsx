@@ -453,7 +453,7 @@ function generateReport(data) {
               </div>
             </div>
             
-            <div className="flex-1 p-4 overflow-auto" style={{ maxHeight: 'calc(100vh - 400px)' }}>
+            <div className="flex-1 p-4 overflow-auto" style={{ minHeight: "50vh", maxHeight: 'calc(100vh - 400px)' }}>
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -477,7 +477,7 @@ function generateReport(data) {
               </h3>
             </div>
             
-            <div className="flex-1 p-4 overflow-auto"  style={{ maxHeight: 'calc(100vh - 400px)' }}>
+            <div className="flex-1 p-4 overflow-auto"  style={{ minHeight: "50vh", maxHeight: 'calc(100vh - 400px)' }}>
               {previewMode === 'code' ? (
                 <pre className="text-sm font-mono text-gray-800 whitespace-pre-wrap">
                   {input || 'HTML content will appear here...'}
