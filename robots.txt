@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://helpful.cairns.co.za/sitemap.xml
