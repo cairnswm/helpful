@@ -18,7 +18,6 @@ import SqlFormatter from './pages/SqlFormatter';
 import HexConverter from './pages/HexConverter';
 import ColorPicker from './pages/ColorPicker';
 import JsonSchemaValidator from './pages/JsonSchemaValidator';
-import JsonSchemaCreator from './pages/JsonSchemaCreator';
 import ApiRequestBuilder from './pages/ApiRequestBuilder';
 import JwtGenerator from './pages/JwtGenerator';
 import CommandBuilder from './pages/CommandBuilder';
@@ -34,22 +33,12 @@ import PasswordChecker from './pages/PasswordChecker';
 import YamlJsonConverter from './pages/YamlJsonConverter';
 import MarkdownHtmlConverter from './pages/MarkdownHtmlConverter';
 import XmlJsonConverter from './pages/XmlJsonConverter';
-import CsvXlsxConverter from './pages/CsvXlsxConverter';
-import JsonXlsxConverter from './pages/JsonXlsxConverter';
-import MarkdownPdfConverter from './pages/MarkdownPdfConverter';
-import HtmlPdfConverter from './pages/HtmlPdfConverter';
-import ImageCropper from './pages/ImageCropper';
-import ImageRotatorFlipper from './pages/ImageRotatorFlipper';
-import ImageFiltersEffects from './pages/ImageFiltersEffects';
-import WatermarkOverlay from './pages/WatermarkOverlay';
-import ImageMetadataEditor from './pages/ImageMetadataEditor';
-import ImageColorAdjustments from './pages/ImageColorAdjustments';
+import ColorConverter from './pages/ColorConverter';
+import TimezoneConverter from './pages/TimezoneConverter';
+import HashGenerator from './pages/HashGenerator';
+import NumberBaseConverter from './pages/NumberBaseConverter';
 
 function App() {
-  const handleBoltClick = () => {
-    window.open('http://bolt.new', '_blank');
-  };
-
   return (
     <Router>
       <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -57,7 +46,7 @@ function App() {
         <Header />
         <div className="flex flex-1 overflow-hidden">
           <Sidebar />
-          <main className="flex-1 overflow-auto pb-24">
+          <main className="flex-1 overflow-auto">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/format-json" element={<FormatJson />} />
@@ -74,7 +63,6 @@ function App() {
               <Route path="/hex-converter" element={<HexConverter />} />
               <Route path="/color-picker" element={<ColorPicker />} />
               <Route path="/json-schema-validator" element={<JsonSchemaValidator />} />
-              <Route path="/json-schema-creator" element={<JsonSchemaCreator />} />
               <Route path="/api-request-builder" element={<ApiRequestBuilder />} />
               <Route path="/jwt-generator" element={<JwtGenerator />} />
               <Route path="/command-builder" element={<CommandBuilder />} />
@@ -90,33 +78,13 @@ function App() {
               <Route path="/yaml-json-converter" element={<YamlJsonConverter />} />
               <Route path="/markdown-html-converter" element={<MarkdownHtmlConverter />} />
               <Route path="/xml-json-converter" element={<XmlJsonConverter />} />
-              <Route path="/csv-xlsx-converter" element={<CsvXlsxConverter />} />
-              <Route path="/json-xlsx-converter" element={<JsonXlsxConverter />} />
-              <Route path="/markdown-pdf-converter" element={<MarkdownPdfConverter />} />
-              <Route path="/html-pdf-converter" element={<HtmlPdfConverter />} />
-              <Route path="/image-cropper" element={<ImageCropper />} />
-              <Route path="/image-rotator-flipper" element={<ImageRotatorFlipper />} />
-              <Route path="/image-filters-effects" element={<ImageFiltersEffects />} />
-              <Route path="/watermark-overlay" element={<WatermarkOverlay />} />
-              <Route path="/image-metadata-editor" element={<ImageMetadataEditor />} />
-              <Route path="/image-color-adjustments" element={<ImageColorAdjustments />} />
+              <Route path="/color-converter" element={<ColorConverter />} />
+              <Route path="/timezone-converter" element={<TimezoneConverter />} />
+              <Route path="/hash-generator" element={<HashGenerator />} />
+              <Route path="/number-base-converter" element={<NumberBaseConverter />} />
             </Routes>
           </main>
         </div>
-        
-        {/* Floating Bolt.new Icon */}
-        <button
-          onClick={handleBoltClick}
-          className="fixed bottom-6 right-6 w-16 h-16 bg-black rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 z-50 group"
-          title="Powered by Bolt.new - Click to visit"
-        >
-          <img
-            src="/black_circle_360x360.png"
-            alt="Powered by Bolt.new"
-            className="w-full h-full rounded-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded-full transition-all duration-300"></div>
-        </button>
       </div>
     </Router>
   );

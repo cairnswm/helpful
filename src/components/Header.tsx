@@ -16,11 +16,10 @@ const Header: React.FC = () => {
             </div>
             <span className="text-xl font-bold">Helpful</span>
           </Link>
-          {/* <feedback-elf-review api_key="00062f05-00062f1e-4c2f-856e-aef968a7fcd6" /> */}
         </div>
       </div>
     </header>
   );
 };
 
-export default Header; 
+export default Header;

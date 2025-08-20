@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download, Eye, Edit } from 'lucide-react';
 import { marked } from 'marked';
-import "./Markdown.css";
 
 const MarkdownHtmlConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -9,7 +8,7 @@ const MarkdownHtmlConverter: React.FC = () => {
   const [mode, setMode] = useState<'markdownToHtml' | 'htmlToMarkdown'>('markdownToHtml');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
-  const [viewMode, setViewMode] = useState<'code' | 'preview'>('preview');
+  const [viewMode, setViewMode] = useState<'code' | 'preview'>('code');
 
   // Configure marked options
   marked.setOptions({

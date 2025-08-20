@@ -16,17 +16,33 @@ const UuidGenerator: React.FC = () => {
   };
 
   const generateV1 = (): string => {
-    // Simplified V1 UUID generation (not fully compliant but demonstrates the concept)
-    const timestamp = Date.now();
-    const random = Math.random().toString(16).substring(2, 15);
-    const clockSeq = Math.random().toString(16).substring(2, 6);
-    const node = Math.random().toString(16).substring(2, 14);
+    // Proper V1 UUID generation following RFC 4122
+    // Get current timestamp in 100-nanosecond intervals since UUID epoch (Oct 15, 1582)
+    const uuidEpoch = new Date('1582-10-15T00:00:00Z').getTime();
+    const now = Date.now();
+    const timestamp = (now - uuidEpoch) * 10000; // Convert to 100-nanosecond intervals
     
-    const timeLow = (timestamp & 0xffffffff).toString(16).padStart(8, '0');
-    const timeMid = ((timestamp >> 32) & 0xffff).toString(16).padStart(4, '0');
-    const timeHigh = (((timestamp >> 48) & 0x0fff) | 0x1000).toString(16).padStart(4, '0');
+    // Split timestamp into components
+    const timeLow = Math.floor(timestamp) & 0xffffffff;
+    const timeMid = Math.floor(timestamp / 0x100000000) & 0xffff;
+    const timeHiAndVersion = (Math.floor(timestamp / 0x1000000000000) & 0x0fff) | 0x1000; // Version 1
     
-    return `${timeLow}-${timeMid}-${timeHigh}-${clockSeq}-${node}`;
+    // Generate 14-bit clock sequence with variant bits
+    const clockSeq = Math.floor(Math.random() * 0x3fff) | 0x8000; // Variant bits: 10
+    
+    // Generate 48-bit node (simulating MAC address)
+    const node = Math.floor(Math.random() * 0x1000000000000);
+    
+    // Format as UUID string
+    const timeLowHex = timeLow.toString(16).padStart(8, '0');
+    const timeMidHex = timeMid.toString(16).padStart(4, '0');
+    const timeHiAndVersionHex = timeHiAndVersion.toString(16).padStart(4, '0');
+    const clockSeqHex = clockSeq.toString(16).padStart(4, '0');
+    const nodeHex = Math.abs(node).toString(16).padStart(12, '0');
+
+    console.log("timeLowHex", timeLowHex)
+    
+    return `${timeLowHex}-${timeMidHex}-${timeHiAndVersionHex}-${clockSeqHex}-${nodeHex}`;
   };
 
   const generateUuids = useCallback(() => {

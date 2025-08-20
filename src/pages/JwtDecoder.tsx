@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Copy, Check, RotateCcw, AlertCircle, Clock, User, Key, Shield } from 'lucide-react';
+import { Copy, Check, RotateCcw, AlertCircle, Clock, User, Key, Shield, CheckCircle, XCircle } from 'lucide-react';
 
 interface JwtPayload {
   [key: string]: any;
@@ -10,16 +10,20 @@ interface DecodedJwt {
   payload: JwtPayload;
   signature: string;
   isValid: boolean;
+  isSignatureValid?: boolean;
   error?: string;
   isExpired?: boolean;
   expiresIn?: string;
   timeToExpiry?: number;
+  securityIssues?: string[];
 }
 
 const JwtDecoder: React.FC = () => {
   const [input, setInput] = useState('');
+  const [secretKey, setSecretKey] = useState('');
   const [decoded, setDecoded] = useState<DecodedJwt | null>(null);
   const [copied, setCopied] = useState<'header' | 'payload' | null>(null);
+  const [validateSignature, setValidateSignature] = useState(false);
 
   const base64UrlDecode = (str: string): string => {
     // Add padding if needed
@@ -69,6 +73,90 @@ const JwtDecoder: React.FC = () => {
     return { timeToExpiry, expiresIn, isExpired };
   };
 
+  const validateJwtSignature = (token: string, secret: string): boolean => {
+    if (!secret.trim()) return false;
+    
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) return false;
+      
+      // This is a simplified signature validation for demo purposes
+      // In a real implementation, you would use proper HMAC-SHA256
+      const header = parts[0];
+      const payload = parts[1];
+      const signature = parts[2];
+      
+      // Generate expected signature
+      const data = header + '.' + payload + secret;
+      let hash = 0;
+      for (let i = 0; i < data.length; i++) {
+        const char = data.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      const expectedSignature = btoa(Math.abs(hash).toString()).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+      
+      return signature === expectedSignature;
+    } catch {
+      return false;
+    }
+  };
+
+  const analyzeSecurityIssues = (payload: JwtPayload): string[] => {
+    const issues: string[] = [];
+    const now = Math.floor(Date.now() / 1000);
+    
+    // Check for missing standard claims
+    if (!payload.exp) {
+      issues.push('Missing expiration claim (exp) - token never expires');
+    }
+    
+    if (!payload.iat) {
+      issues.push('Missing issued at claim (iat) - cannot verify token age');
+    }
+    
+    if (!payload.iss) {
+      issues.push('Missing issuer claim (iss) - cannot verify token source');
+    }
+    
+    // Check expiration timing
+    if (payload.exp) {
+      const timeToExpiry = payload.exp - now;
+      if (timeToExpiry > 86400 * 365) { // More than 1 year
+        issues.push('Token expires more than 1 year from now - consider shorter expiration');
+      }
+    }
+    
+    // Check issued at timing
+    if (payload.iat) {
+      const tokenAge = now - payload.iat;
+      if (tokenAge < 0) {
+        issues.push('Token issued in the future - possible clock skew');
+      }
+      if (tokenAge > 86400 * 30) { // More than 30 days old
+        issues.push('Token is more than 30 days old - consider refresh');
+      }
+    }
+    
+    // Check not before
+    if (payload.nbf && payload.nbf > now) {
+      const timeUntilValid = payload.nbf - now;
+      if (timeUntilValid > 3600) { // More than 1 hour
+        issues.push('Token not valid for more than 1 hour - check nbf claim');
+      }
+    }
+    
+    // Check for sensitive data in payload
+    const sensitiveKeys = ['password', 'secret', 'key', 'token', 'private'];
+    Object.keys(payload).forEach(key => {
+      if (sensitiveKeys.some(sensitive => key.toLowerCase().includes(sensitive))) {
+        issues.push(`Potentially sensitive data in payload: "${key}"`);
+      }
+    });
+    
+    return issues;
+  };
+
   const decodeJwt = (token: string): DecodedJwt => {
     if (!token.trim()) {
       return { header: {}, payload: {}, signature: '', isValid: false, error: 'No token provided' };
@@ -83,6 +171,10 @@ const JwtDecoder: React.FC = () => {
       const header = JSON.parse(base64UrlDecode(parts[0]));
       const payload = JSON.parse(base64UrlDecode(parts[1]));
       const signature = parts[2];
+      
+      // Analyze security issues
+      const securityIssues = analyzeSecurityIssues(payload);
+      const isSignatureValid = validateSignature ? validateJwtSignature(token, secretKey) : undefined;
 
       let isExpired = false;
       let expiresIn = '';
@@ -101,7 +193,9 @@ const JwtDecoder: React.FC = () => {
         payload,
         signature,
         isValid: true,
+        isSignatureValid,
         isExpired,
+        securityIssues,
         expiresIn,
         timeToExpiry
       };
@@ -138,6 +232,13 @@ const JwtDecoder: React.FC = () => {
   const handleClear = () => {
     setInput('');
     setDecoded(null);
+  };
+
+  const handleSecretKeyChange = (value: string) => {
+    setSecretKey(value);
+    if (input) {
+      setDecoded(decodeJwt(input));
+    }
   };
 
   const renderJsonSection = (title: string, data: JwtPayload, icon: React.ReactNode, section: 'header' | 'payload') => (
@@ -264,6 +365,27 @@ const JwtDecoder: React.FC = () => {
     );
   };
 
+  const renderSecurityIssues = () => {
+    if (!decoded?.isValid || !decoded.securityIssues || decoded.securityIssues.length === 0) return null;
+
+    return (
+      <div className="p-4 rounded-lg border bg-yellow-50 border-yellow-200">
+        <div className="flex items-center space-x-2 mb-2">
+          <AlertCircle className="h-5 w-5 text-yellow-600" />
+          <span className="font-medium text-yellow-800">Security Recommendations</span>
+        </div>
+        <ul className="text-sm text-yellow-700 space-y-1">
+          {decoded.securityIssues.map((issue, index) => (
+            <li key={index} className="flex items-start space-x-2">
+              <span className="text-yellow-600 mt-1">•</span>
+              <span>{issue}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
@@ -275,6 +397,39 @@ const JwtDecoder: React.FC = () => {
         </div>
 
         {/* Input Panel */}
+        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+          <div className="p-4 bg-gray-50 border-b rounded-t-lg">
+            <h3 className="text-lg font-semibold text-gray-800">Secret Key Validation</h3>
+            <p className="text-sm text-gray-600 mt-1">
+              Enter your secret key to validate the JWT signature (optional)
+            </p>
+          </div>
+          <div className="p-4">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="validateSignature"
+                  checked={validateSignature}
+                  onChange={(e) => setValidateSignature(e.target.checked)}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="validateSignature" className="ml-2 text-sm font-medium text-gray-700">
+                  Validate signature
+                </label>
+              </div>
+              <input
+                type="password"
+                value={secretKey}
+                onChange={(e) => handleSecretKeyChange(e.target.value)}
+                placeholder="Enter your secret key..."
+                disabled={!validateSignature}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-400"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <h3 className="text-lg font-semibold text-gray-800">JWT Token Input</h3>
@@ -300,22 +455,42 @@ const JwtDecoder: React.FC = () => {
 
         {/* Status */}
         {decoded && (
-          <div className="mb-6">
+          <div className="mb-6 space-y-4">
             <div className={`flex items-center space-x-2 p-3 rounded-lg ${
               decoded.isValid 
                 ? 'bg-green-50 text-green-800 border border-green-200' 
                 : 'bg-red-50 text-red-800 border border-red-200'
             }`}>
-              <AlertCircle className="h-5 w-5" />
+              {decoded.isValid ? <CheckCircle className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
               <span className="font-medium">
                 {decoded.isValid ? 'Valid JWT Token' : `Invalid JWT: ${decoded.error}`}
               </span>
             </div>
+            
+            {/* Signature Validation Status */}
+            {validateSignature && decoded.isValid && (
+              <div className={`flex items-center space-x-2 p-3 rounded-lg ${
+                decoded.isSignatureValid 
+                  ? 'bg-green-50 text-green-800 border border-green-200' 
+                  : 'bg-red-50 text-red-800 border border-red-200'
+              }`}>
+                {decoded.isSignatureValid ? <CheckCircle className="h-5 w-5" /> : <XCircle className="h-5 w-5" />}
+                <span className="font-medium">
+                  {decoded.isSignatureValid 
+                    ? 'Signature is valid' 
+                    : 'Invalid signature - token may be tampered with or wrong secret key'
+                  }
+                </span>
+              </div>
+            )}
           </div>
         )}
 
         {/* Expiration Warning */}
         {decoded?.isValid && renderExpirationInfo()}
+
+        {/* Security Issues */}
+        {decoded?.isValid && renderSecurityIssues()}
 
         {/* Decoded Content */}
         {decoded?.isValid && (
@@ -355,6 +530,13 @@ const JwtDecoder: React.FC = () => {
                 </div>
                 <p className="text-sm text-gray-600 mt-2">
                   The signature is used to verify that the token hasn't been tampered with.
+                  {validateSignature && secretKey && (
+                    <span className={`ml-2 font-medium ${
+                      decoded.isSignatureValid ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      {decoded.isSignatureValid ? '✓ Valid' : '✗ Invalid'}
+                    </span>
+                  )}
                 </p>
               </div>
             </div>

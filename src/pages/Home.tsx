@@ -5,8 +5,7 @@ import {
   GitCompare, Hash, Clock, Palette, Database, Code, 
   Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
   ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-  FileX, Lock, RefreshCw, FileSpreadsheet, Crop, RotateCw,
-  Move, Camera, Settings
+  FileX, Lock, RefreshCw, Calculator
 } from 'lucide-react';
 
 const Home: React.FC = () => {
@@ -134,20 +133,20 @@ const Home: React.FC = () => {
       keywords: ['color', 'picker', 'hex', 'rgb', 'hsl', 'tailwind', 'palette']
     },
     {
+      icon: Palette,
+      title: 'Color Converter',
+      description: 'Convert between color formats: HEX, RGB, HSL, HSV, CMYK, LAB, and XYZ.',
+      path: '/color-converter',
+      color: 'bg-pink-500',
+      keywords: ['color', 'convert', 'hex', 'rgb', 'hsl', 'hsv', 'cmyk', 'lab', 'xyz']
+    },
+    {
       icon: Zap,
       title: 'JSON Schema Validator',
       description: 'Validate JSON data against a schema to ensure structure and constraints.',
       path: '/json-schema-validator',
       color: 'bg-amber-500',
       keywords: ['json', 'schema', 'validate', 'structure', 'constraint']
-    },
-    {
-      icon: Settings,
-      title: 'JSON Schema Creator',
-      description: 'Generate JSON Schema from example JSON data automatically with type inference.',
-      path: '/json-schema-creator',
-      color: 'bg-indigo-600',
-      keywords: ['json', 'schema', 'generate', 'create', 'infer', 'example']
     },
     {
       icon: ArrowRightLeft,
@@ -180,94 +179,6 @@ const Home: React.FC = () => {
       path: '/markdown-html-converter',
       color: 'bg-indigo-600',
       keywords: ['markdown', 'html', 'convert', 'md', 'markup', 'format']
-    },
-    {
-      icon: FileSpreadsheet,
-      title: 'CSV to XLSX Converter',
-      description: 'Convert CSV files to Excel XLSX format with auto-sized columns.',
-      path: '/csv-xlsx-converter',
-      color: 'bg-green-700',
-      keywords: ['csv', 'xlsx', 'excel', 'convert', 'spreadsheet', 'export']
-    },
-    {
-      icon: FileSpreadsheet,
-      title: 'JSON to XLSX Converter',
-      description: 'Convert JSON data to Excel XLSX format with nested object support.',
-      path: '/json-xlsx-converter',
-      color: 'bg-blue-700',
-      keywords: ['json', 'xlsx', 'excel', 'convert', 'spreadsheet', 'export']
-    },
-    {
-      icon: FileText,
-      title: 'Markdown to PDF',
-      description: 'Convert Markdown documents to professional PDF files with styling.',
-      path: '/markdown-pdf-converter',
-      color: 'bg-red-600',
-      keywords: ['markdown', 'pdf', 'convert', 'document', 'export', 'print']
-    },
-    {
-      icon: FileText,
-      title: 'HTML to PDF',
-      description: 'Convert HTML documents to PDF with CSS styling and layout support.',
-      path: '/html-pdf-converter',
-      color: 'bg-orange-700',
-      keywords: ['html', 'pdf', 'convert', 'document', 'export', 'print']
-    },
-    {
-      icon: Image,
-      title: 'Image Resizer',
-      description: 'Upload and resize images to reduce file size while maintaining quality.',
-      path: '/image-resizer',
-      color: 'bg-fuchsia-500',
-      keywords: ['image', 'resize', 'compress', 'optimize', 'photo', 'picture']
-    },
-    {
-      icon: Crop,
-      title: 'Image Cropper',
-      description: 'Select and crop portions of images with adjustable aspect ratios.',
-      path: '/image-cropper',
-      color: 'bg-blue-500',
-      keywords: ['image', 'crop', 'cut', 'select', 'aspect', 'ratio']
-    },
-    {
-      icon: RotateCw,
-      title: 'Image Rotator & Flipper',
-      description: 'Rotate images by any angle and flip them horizontally or vertically.',
-      path: '/image-rotator-flipper',
-      color: 'bg-purple-500',
-      keywords: ['image', 'rotate', 'flip', 'transform', 'angle', 'mirror']
-    },
-    {
-      icon: Palette,
-      title: 'Image Filters & Effects',
-      description: 'Apply filters like grayscale, sepia, blur, and brightness adjustments.',
-      path: '/image-filters-effects',
-      color: 'bg-pink-500',
-      keywords: ['image', 'filter', 'effect', 'grayscale', 'sepia', 'blur']
-    },
-    {
-      icon: Move,
-      title: 'Watermark Overlay',
-      description: 'Add text or image watermarks for branding and copyright protection.',
-      path: '/watermark-overlay',
-      color: 'bg-cyan-500',
-      keywords: ['image', 'watermark', 'overlay', 'brand', 'copyright', 'protect']
-    },
-    {
-      icon: Camera,
-      title: 'Image Metadata Editor',
-      description: 'View and edit EXIF data like camera info, GPS tags, and timestamps.',
-      path: '/image-metadata-editor',
-      color: 'bg-indigo-500',
-      keywords: ['image', 'metadata', 'exif', 'camera', 'gps', 'timestamp']
-    },
-    {
-      icon: Palette,
-      title: 'Image Color Adjustments',
-      description: 'Fine-tune saturation, hue, exposure, and color balance professionally.',
-      path: '/image-color-adjustments',
-      color: 'bg-rose-500',
-      keywords: ['image', 'color', 'adjust', 'saturation', 'hue', 'exposure']
     },
     {
       icon: Globe,
@@ -332,6 +243,30 @@ const Home: React.FC = () => {
       path: '/http-status-reference',
       color: 'bg-blue-700',
       keywords: ['http', 'status', 'code', 'error', 'response', 'reference']
+    },
+    {
+      icon: Image,
+      title: 'Image Resizer',
+      description: 'Upload and resize images to reduce file size while maintaining quality.',
+      path: '/image-resizer',
+      color: 'bg-fuchsia-500',
+      keywords: ['image', 'resize', 'compress', 'optimize', 'photo', 'picture']
+    },
+    {
+      icon: Shield,
+      title: 'Hash Generator',
+      description: 'Generate cryptographic hashes using MD5, SHA1, SHA256, and SHA512 algorithms.',
+      path: '/hash-generator',
+      color: 'bg-emerald-600',
+      keywords: ['hash', 'md5', 'sha1', 'sha256', 'sha512', 'crypto', 'checksum']
+    },
+    {
+      icon: Calculator,
+      title: 'Number Base Converter',
+      description: 'Convert numbers between Binary, Decimal, Hexadecimal, and Octal systems.',
+      path: '/number-base-converter',
+      color: 'bg-indigo-700',
+      keywords: ['number', 'base', 'binary', 'decimal', 'hex', 'octal', 'convert']
     }
   ];
 
@@ -354,7 +289,7 @@ const Home: React.FC = () => {
             Welcome to Helpful
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            A comprehensive collection of professional developer utilities. Format code, decode tokens, convert files, manipulate images, and streamline your development workflow.
+            A comprehensive collection of professional developer utilities. Format code, decode tokens, convert files, and streamline your development workflow.
           </p>
         </div>
 
@@ -366,7 +301,7 @@ const Home: React.FC = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search tools... (e.g., json, yaml, convert, password, xlsx, pdf, image, schema)"
+              placeholder="Search tools... (e.g., json, yaml, convert, password)"
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
             />
           </div>
@@ -453,7 +388,7 @@ const Home: React.FC = () => {
                 <span className="text-orange-600 font-bold text-xl">🔧</span>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Comprehensive</h4>
-              <p className="text-gray-600 text-sm">40+ essential tools for modern development</p>
+              <p className="text-gray-600 text-sm">29+ essential tools for modern development</p>
             </div>
           </div>
         </div>
