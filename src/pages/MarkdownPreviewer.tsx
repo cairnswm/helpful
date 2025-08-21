@@ -139,7 +139,7 @@ function hello() {
           </p>
         </div>
 
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between  h-[calc(100vh-280px)]">
           <div className="flex items-center space-x-2">
             <div className="flex bg-gray-100 rounded-lg p-1">
               <button
