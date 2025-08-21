@@ -139,7 +139,7 @@ function hello() {
           </p>
         </div>
 
-        <div className="mb-6 flex items-center justify-between  h-[calc(100vh-280px)]">
+        <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="flex bg-gray-100 rounded-lg p-1">
               <button
@@ -199,7 +199,7 @@ function hello() {
         }`}>
           {/* Editor */}
           {(view === 'edit' || view === 'split') && (
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+            <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col   h-[calc(100vh-280px)]">
               <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
                   <Edit className="h-5 w-5 text-blue-600" />
