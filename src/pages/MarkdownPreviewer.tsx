@@ -236,7 +236,7 @@ function hello() {
 
           {/* Preview */}
           {(view === 'preview' || view === 'split') && (
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+            <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col   h-[calc(100vh-280px)]">
               <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
                   <Eye className="h-5 w-5 text-green-600" />
