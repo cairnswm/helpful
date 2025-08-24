@@ -4,39 +4,40 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
-import FormatJson from './pages/FormatJson';
-import StringToJson from './pages/StringToJson';
-import JwtDecoder from './pages/JwtDecoder';
-import Base64Tool from './pages/Base64Tool';
-import UrlEncoder from './pages/UrlEncoder';
-import RegexTester from './pages/RegexTester';
-import DiffChecker from './pages/DiffChecker';
-import UuidGenerator from './pages/UuidGenerator';
-import TimestampConverter from './pages/TimestampConverter';
-import CssFormatter from './pages/CssFormatter';
-import SqlFormatter from './pages/SqlFormatter';
-import HexConverter from './pages/HexConverter';
-import ColorPicker from './pages/ColorPicker';
-import JsonSchemaValidator from './pages/JsonSchemaValidator';
-import ApiRequestBuilder from './pages/ApiRequestBuilder';
-import JwtGenerator from './pages/JwtGenerator';
-import CommandBuilder from './pages/CommandBuilder';
-import MarkdownPreviewer from './pages/MarkdownPreviewer';
-import ImageResizer from './pages/ImageResizer';
-import JsonCsvConverter from './pages/JsonCsvConverter';
-import UuidValidator from './pages/UuidValidator';
-import HttpStatusReference from './pages/HttpStatusReference';
-import TextCaseConverter from './pages/TextCaseConverter';
-import SqlQueryAnalyzer from './pages/SqlQueryAnalyzer';
-import XmlFormatter from './pages/XmlFormatter';
-import PasswordChecker from './pages/PasswordChecker';
-import YamlJsonConverter from './pages/YamlJsonConverter';
-import MarkdownHtmlConverter from './pages/MarkdownHtmlConverter';
-import XmlJsonConverter from './pages/XmlJsonConverter';
-import ColorConverter from './pages/ColorConverter';
-import TimezoneConverter from './pages/TimezoneConverter';
-import HashGenerator from './pages/HashGenerator';
-import NumberBaseConverter from './pages/NumberBaseConverter';
+const FormatJson = React.lazy(() => import('./pages/FormatJson'));
+const StringToJson = React.lazy(() => import('./pages/StringToJson'));
+const JwtDecoder = React.lazy(() => import('./pages/JwtDecoder'));
+const Base64Tool = React.lazy(() => import('./pages/Base64Tool'));
+const UrlEncoder = React.lazy(() => import('./pages/UrlEncoder'));
+const RegexTester = React.lazy(() => import('./pages/RegexTester'));
+const DiffChecker = React.lazy(() => import('./pages/DiffChecker'));
+const UuidGenerator = React.lazy(() => import('./pages/UuidGenerator'));
+const TimestampConverter = React.lazy(() => import('./pages/TimestampConverter'));
+const CssFormatter = React.lazy(() => import('./pages/CssFormatter'));
+const SqlFormatter = React.lazy(() => import('./pages/SqlFormatter'));
+const HexConverter = React.lazy(() => import('./pages/HexConverter'));
+const ColorPicker = React.lazy(() => import('./pages/ColorPicker'));
+const JsonSchemaValidator = React.lazy(() => import('./pages/JsonSchemaValidator'));
+const ApiRequestBuilder = React.lazy(() => import('./pages/ApiRequestBuilder'));
+const JwtGenerator = React.lazy(() => import('./pages/JwtGenerator'));
+const CommandBuilder = React.lazy(() => import('./pages/CommandBuilder'));
+const MarkdownPreviewer = React.lazy(() => import('./pages/MarkdownPreviewer'));
+const ImageResizer = React.lazy(() => import('./pages/ImageResizer'));
+const JsonCsvConverter = React.lazy(() => import('./pages/JsonCsvConverter'));
+const UuidValidator = React.lazy(() => import('./pages/UuidValidator'));
+const HttpStatusReference = React.lazy(() => import('./pages/HttpStatusReference'));
+const TextCaseConverter = React.lazy(() => import('./pages/TextCaseConverter'));
+const SqlQueryAnalyzer = React.lazy(() => import('./pages/SqlQueryAnalyzer'));
+const XmlFormatter = React.lazy(() => import('./pages/XmlFormatter'));
+const PasswordChecker = React.lazy(() => import('./pages/PasswordChecker'));
+const YamlJsonConverter = React.lazy(() => import('./pages/YamlJsonConverter'));
+const MarkdownHtmlConverter = React.lazy(() => import('./pages/MarkdownHtmlConverter'));
+const XmlJsonConverter = React.lazy(() => import('./pages/XmlJsonConverter'));
+const ColorConverter = React.lazy(() => import('./pages/ColorConverter'));
+const TimezoneConverter = React.lazy(() => import('./pages/TimezoneConverter'));
+const HashGenerator = React.lazy(() => import('./pages/HashGenerator'));
+const NumberBaseConverter = React.lazy(() => import('./pages/NumberBaseConverter'));
+
 
 function App() {
   return (
@@ -49,39 +50,39 @@ function App() {
           <main className="flex-1 overflow-auto">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/format-json" element={<FormatJson />} />
-              <Route path="/string-to-json" element={<StringToJson />} />
-              <Route path="/jwt-decoder" element={<JwtDecoder />} />
-              <Route path="/base64" element={<Base64Tool />} />
-              <Route path="/url-encoder" element={<UrlEncoder />} />
-              <Route path="/regex-tester" element={<RegexTester />} />
-              <Route path="/diff-checker" element={<DiffChecker />} />
-              <Route path="/uuid-generator" element={<UuidGenerator />} />
-              <Route path="/timestamp-converter" element={<TimestampConverter />} />
-              <Route path="/css-formatter" element={<CssFormatter />} />
-              <Route path="/sql-formatter" element={<SqlFormatter />} />
-              <Route path="/hex-converter" element={<HexConverter />} />
-              <Route path="/color-picker" element={<ColorPicker />} />
-              <Route path="/json-schema-validator" element={<JsonSchemaValidator />} />
-              <Route path="/api-request-builder" element={<ApiRequestBuilder />} />
-              <Route path="/jwt-generator" element={<JwtGenerator />} />
-              <Route path="/command-builder" element={<CommandBuilder />} />
-              <Route path="/markdown-previewer" element={<MarkdownPreviewer />} />
-              <Route path="/image-resizer" element={<ImageResizer />} />
-              <Route path="/json-csv-converter" element={<JsonCsvConverter />} />
-              <Route path="/uuid-validator" element={<UuidValidator />} />
-              <Route path="/http-status-reference" element={<HttpStatusReference />} />
-              <Route path="/text-case-converter" element={<TextCaseConverter />} />
-              <Route path="/sql-query-analyzer" element={<SqlQueryAnalyzer />} />
-              <Route path="/xml-formatter" element={<XmlFormatter />} />
-              <Route path="/password-checker" element={<PasswordChecker />} />
-              <Route path="/yaml-json-converter" element={<YamlJsonConverter />} />
-              <Route path="/markdown-html-converter" element={<MarkdownHtmlConverter />} />
-              <Route path="/xml-json-converter" element={<XmlJsonConverter />} />
-              <Route path="/color-converter" element={<ColorConverter />} />
-              <Route path="/timezone-converter" element={<TimezoneConverter />} />
-              <Route path="/hash-generator" element={<HashGenerator />} />
-              <Route path="/number-base-converter" element={<NumberBaseConverter />} />
+              <Route path="/format-json" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><FormatJson /></React.Suspense>} />
+              <Route path="/string-to-json" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><StringToJson /></React.Suspense>} />
+              <Route path="/jwt-decoder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JwtDecoder /></React.Suspense>} />
+              <Route path="/base64" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><Base64Tool /></React.Suspense>} />
+              <Route path="/url-encoder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><UrlEncoder /></React.Suspense>} />
+              <Route path="/regex-tester" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><RegexTester /></React.Suspense>} />
+              <Route path="/diff-checker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><DiffChecker /></React.Suspense>} />
+              <Route path="/uuid-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><UuidGenerator /></React.Suspense>} />
+              <Route path="/timestamp-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><TimestampConverter /></React.Suspense>} />
+              <Route path="/css-formatter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CssFormatter /></React.Suspense>} />
+              <Route path="/sql-formatter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SqlFormatter /></React.Suspense>} />
+              <Route path="/hex-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HexConverter /></React.Suspense>} />
+              <Route path="/color-picker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ColorPicker /></React.Suspense>} />
+              <Route path="/json-schema-validator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonSchemaValidator /></React.Suspense>} />
+              <Route path="/api-request-builder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ApiRequestBuilder /></React.Suspense>} />
+              <Route path="/jwt-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JwtGenerator /></React.Suspense>} />
+              <Route path="/command-builder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CommandBuilder /></React.Suspense>} />
+              <Route path="/markdown-previewer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><MarkdownPreviewer /></React.Suspense>} />
+              <Route path="/image-resizer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageResizer /></React.Suspense>} />
+              <Route path="/json-csv-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonCsvConverter /></React.Suspense>} />
+              <Route path="/uuid-validator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><UuidValidator /></React.Suspense>} />
+              <Route path="/http-status-reference" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HttpStatusReference /></React.Suspense>} />
+              <Route path="/text-case-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><TextCaseConverter /></React.Suspense>} />
+              <Route path="/sql-query-analyzer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SqlQueryAnalyzer /></React.Suspense>} />
+              <Route path="/xml-formatter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><XmlFormatter /></React.Suspense>} />
+              <Route path="/password-checker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><PasswordChecker /></React.Suspense>} />
+              <Route path="/yaml-json-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><YamlJsonConverter /></React.Suspense>} />
+              <Route path="/markdown-html-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><MarkdownHtmlConverter /></React.Suspense>} />
+              <Route path="/xml-json-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><XmlJsonConverter /></React.Suspense>} />
+              <Route path="/color-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ColorConverter /></React.Suspense>} />
+              <Route path="/timezone-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><TimezoneConverter /></React.Suspense>} />
+              <Route path="/hash-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HashGenerator /></React.Suspense>} />
+              <Route path="/number-base-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><NumberBaseConverter /></React.Suspense>} />
             </Routes>
           </main>
         </div>
