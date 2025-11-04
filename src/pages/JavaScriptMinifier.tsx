@@ -26,7 +26,7 @@ const JavaScriptMinifier: React.FC = () => {
         .replace(/\b(return|var|let|const|if|else|for|while|do|switch|case|break|continue|function|class|new|typeof|instanceof|in|of|throw|try|catch|finally|import|export|from|default|async|await)\s+/g, '$1 ')
         // Clean up
         .trim();
-    } catch (error) {
+    } catch {
       return 'Error minifying JavaScript';
     }
   };
@@ -35,7 +35,7 @@ const JavaScriptMinifier: React.FC = () => {
     if (!code.trim()) return '';
     
     try {
-      let formatted = code;
+      const formatted = code;
       let indentLevel = 0;
       const indentStr = '  ';
       let result = '';

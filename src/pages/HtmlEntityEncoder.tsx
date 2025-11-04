@@ -95,7 +95,7 @@ const HtmlEntityEncoder: React.FC = () => {
         ? encodeHtmlEntities(value)
         : decodeHtmlEntities(value);
       setOutput(result);
-    } catch (error) {
+    } catch {
       setOutput('Error processing input');
     }
   }, []);

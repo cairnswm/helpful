@@ -52,7 +52,7 @@ const SvgOptimizer: React.FC = () => {
       optimized = optimized.trim();
 
       return optimized;
-    } catch (err) {
+    } catch {
       throw new Error('Error optimizing SVG');
     }
   }, [removeComments, removeMetadata, removeHiddenElements, minifyColors]);
@@ -65,7 +65,7 @@ const SvgOptimizer: React.FC = () => {
 
       // Extract SVG attributes
       const svgMatch = reactSvg.match(/<svg[^>]*>/);
-      let svgTag = svgMatch ? svgMatch[0] : '<svg>';
+      const svgTag = svgMatch ? svgMatch[0] : '<svg>';
       
       // Get viewBox for default dimensions
       const viewBoxMatch = svgTag.match(/viewBox=["']([^"']+)["']/);
@@ -132,7 +132,7 @@ const ${componentName}: React.FC<${componentName}Props> = ({ ${defaultProps} }) 
 };
 
 export default ${componentName};`;
-    } catch (err) {
+    } catch {
       throw new Error('Error converting to React component');
     }
   }, [usePlaceholders]);
