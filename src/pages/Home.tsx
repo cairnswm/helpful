@@ -1,285 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Braces, FileText, Shield, Binary, Link2, Search, 
-  GitCompare, Hash, Clock, Palette, Database, Code, 
-  Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
-  ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-  FileX, Lock, RefreshCw, Calculator
-} from 'lucide-react';
+import { Search, ArrowRight } from 'lucide-react';
+import { useToolsFilter } from '../contexts/ToolsFilterContext';
+import CategoryFilterPanel from '../components/CategoryFilterPanel';
 
 const Home: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const tools = [
-    {
-      icon: Braces,
-      title: 'Format JSON',
-      description: 'Validate and format JSON data with syntax highlighting and error detection.',
-      path: '/format-json',
-      color: 'bg-blue-500',
-      keywords: ['json', 'format', 'validate', 'syntax', 'pretty']
-    },
-    {
-      icon: FileText,
-      title: 'String to JSON',
-      description: 'Convert escaped JSON strings to properly formatted JSON objects.',
-      path: '/string-to-json',
-      color: 'bg-purple-500',
-      keywords: ['json', 'string', 'escape', 'convert', 'parse']
-    },
-    {
-      icon: Shield,
-      title: 'JWT Decoder',
-      description: 'Decode and inspect JWT tokens. View header, payload, and expiration information.',
-      path: '/jwt-decoder',
-      color: 'bg-green-500',
-      keywords: ['jwt', 'token', 'decode', 'auth', 'security', 'bearer']
-    },
-    {
-      icon: Binary,
-      title: 'Base64 Encoder/Decoder',
-      description: 'Convert strings or binary data to and from Base64 encoding.',
-      path: '/base64',
-      color: 'bg-indigo-500',
-      keywords: ['base64', 'encode', 'decode', 'binary', 'string']
-    },
-    {
-      icon: Link2,
-      title: 'URL Encoder/Decoder',
-      description: 'Encode or decode URL components for safe transmission in web requests.',
-      path: '/url-encoder',
-      color: 'bg-cyan-500',
-      keywords: ['url', 'encode', 'decode', 'uri', 'percent', 'escape']
-    },
-    {
-      icon: Search,
-      title: 'Regex Tester',
-      description: 'Build and test regular expressions interactively against sample text.',
-      path: '/regex-tester',
-      color: 'bg-orange-500',
-      keywords: ['regex', 'regexp', 'pattern', 'match', 'test', 'expression']
-    },
-    {
-      icon: GitCompare,
-      title: 'Diff Checker',
-      description: 'Compare two text snippets or JSON objects to quickly see differences.',
-      path: '/diff-checker',
-      color: 'bg-red-500',
-      keywords: ['diff', 'compare', 'difference', 'text', 'merge']
-    },
-    {
-      icon: Hash,
-      title: 'UUID Generator',
-      description: 'Generate universally unique identifiers (UUIDs) for your applications.',
-      path: '/uuid-generator',
-      color: 'bg-pink-500',
-      keywords: ['uuid', 'guid', 'generate', 'unique', 'identifier']
-    },
-    {
-      icon: CheckCircle,
-      title: 'UUID Validator',
-      description: 'Check if a given string is a valid UUID and identify its version.',
-      path: '/uuid-validator',
-      color: 'bg-emerald-500',
-      keywords: ['uuid', 'validate', 'check', 'verify', 'version']
-    },
-    {
-      icon: Clock,
-      title: 'Timestamp Converter',
-      description: 'Convert Unix timestamps to human-readable dates and vice versa.',
-      path: '/timestamp-converter',
-      color: 'bg-yellow-500',
-      keywords: ['timestamp', 'unix', 'date', 'time', 'convert', 'epoch']
-    },
-    {
-      icon: Code,
-      title: 'CSS Formatter',
-      description: 'Format or minify CSS code for better readability or smaller file sizes.',
-      path: '/css-formatter',
-      color: 'bg-teal-500',
-      keywords: ['css', 'format', 'minify', 'style', 'beautify']
-    },
-    {
-      icon: Database,
-      title: 'SQL Formatter',
-      description: 'Format messy SQL queries for better readability and maintainability.',
-      path: '/sql-formatter',
-      color: 'bg-emerald-500',
-      keywords: ['sql', 'format', 'query', 'database', 'beautify']
-    },
-    {
-      icon: BarChart3,
-      title: 'SQL Query Analyzer',
-      description: 'Analyze SQL queries for performance optimization and best practices.',
-      path: '/sql-query-analyzer',
-      color: 'bg-blue-600',
-      keywords: ['sql', 'analyze', 'performance', 'optimize', 'query']
-    },
-    {
-      icon: Binary,
-      title: 'Hex Converter',
-      description: 'Convert between text strings and hexadecimal representation.',
-      path: '/hex-converter',
-      color: 'bg-violet-500',
-      keywords: ['hex', 'hexadecimal', 'convert', 'binary', 'ascii']
-    },
-    {
-      icon: Palette,
-      title: 'Color Picker',
-      description: 'Pick colors and convert between formats with Tailwind CSS shades.',
-      path: '/color-picker',
-      color: 'bg-rose-500',
-      keywords: ['color', 'picker', 'hex', 'rgb', 'hsl', 'tailwind', 'palette']
-    },
-    {
-      icon: Palette,
-      title: 'Color Converter',
-      description: 'Convert between color formats: HEX, RGB, HSL, HSV, CMYK, LAB, and XYZ.',
-      path: '/color-converter',
-      color: 'bg-pink-500',
-      keywords: ['color', 'convert', 'hex', 'rgb', 'hsl', 'hsv', 'cmyk', 'lab', 'xyz']
-    },
-    {
-      icon: Zap,
-      title: 'JSON Schema Validator',
-      description: 'Validate JSON data against a schema to ensure structure and constraints.',
-      path: '/json-schema-validator',
-      color: 'bg-amber-500',
-      keywords: ['json', 'schema', 'validate', 'structure', 'constraint']
-    },
-    {
-      icon: ArrowRightLeft,
-      title: 'JSON/CSV Converter',
-      description: 'Transform JSON data to CSV format and vice versa for data processing.',
-      path: '/json-csv-converter',
-      color: 'bg-green-600',
-      keywords: ['json', 'csv', 'convert', 'transform', 'data', 'export']
-    },
-    {
-      icon: RefreshCw,
-      title: 'YAML/JSON Converter',
-      description: 'Convert between YAML and JSON formats with syntax validation.',
-      path: '/yaml-json-converter',
-      color: 'bg-purple-600',
-      keywords: ['yaml', 'json', 'convert', 'config', 'data', 'format']
-    },
-    {
-      icon: RefreshCw,
-      title: 'XML/JSON Converter',
-      description: 'Transform XML documents to JSON and vice versa with structure preservation.',
-      path: '/xml-json-converter',
-      color: 'bg-orange-600',
-      keywords: ['xml', 'json', 'convert', 'transform', 'data', 'structure']
-    },
-    {
-      icon: RefreshCw,
-      title: 'Markdown/HTML Converter',
-      description: 'Convert Markdown to HTML and HTML back to Markdown format.',
-      path: '/markdown-html-converter',
-      color: 'bg-indigo-600',
-      keywords: ['markdown', 'html', 'convert', 'md', 'markup', 'format']
-    },
-    {
-      icon: Globe,
-      title: 'API Request Builder',
-      description: 'Build and test HTTP requests with custom headers, body, and methods.',
-      path: '/api-request-builder',
-      color: 'bg-lime-500',
-      keywords: ['api', 'http', 'request', 'rest', 'curl', 'test']
-    },
-    {
-      icon: Plus,
-      title: 'JWT Generator',
-      description: 'Generate JSON Web Tokens with custom payloads and signing keys.',
-      path: '/jwt-generator',
-      color: 'bg-sky-500',
-      keywords: ['jwt', 'generate', 'token', 'auth', 'sign', 'payload']
-    },
-    {
-      icon: Terminal,
-      title: 'Command Builder',
-      description: 'Build common command line commands (curl, docker) interactively.',
-      path: '/command-builder',
-      color: 'bg-slate-500',
-      keywords: ['command', 'cli', 'curl', 'docker', 'terminal', 'shell']
-    },
-    {
-      icon: Eye,
-      title: 'Markdown Previewer',
-      description: 'Write markdown and see the live preview with syntax highlighting.',
-      path: '/markdown-previewer',
-      color: 'bg-neutral-500',
-      keywords: ['markdown', 'preview', 'md', 'render', 'html']
-    },
-    {
-      icon: FileX,
-      title: 'XML Formatter',
-      description: 'Format, validate, and convert XML documents with syntax highlighting.',
-      path: '/xml-formatter',
-      color: 'bg-orange-600',
-      keywords: ['xml', 'format', 'validate', 'parse', 'beautify']
-    },
-    {
-      icon: Type,
-      title: 'Text Case Converter',
-      description: 'Convert text between camelCase, snake_case, kebab-case, PascalCase, etc.',
-      path: '/text-case-converter',
-      color: 'bg-purple-600',
-      keywords: ['text', 'case', 'camel', 'snake', 'kebab', 'pascal', 'convert']
-    },
-    {
-      icon: Lock,
-      title: 'Password Checker',
-      description: 'Evaluate the strength and entropy of passwords with detailed analysis.',
-      path: '/password-checker',
-      color: 'bg-red-600',
-      keywords: ['password', 'strength', 'security', 'entropy', 'check']
-    },
-    {
-      icon: Info,
-      title: 'HTTP Status Reference',
-      description: 'Lookup meaning and explanation of HTTP status codes.',
-      path: '/http-status-reference',
-      color: 'bg-blue-700',
-      keywords: ['http', 'status', 'code', 'error', 'response', 'reference']
-    },
-    {
-      icon: Image,
-      title: 'Image Resizer',
-      description: 'Upload and resize images to reduce file size while maintaining quality.',
-      path: '/image-resizer',
-      color: 'bg-fuchsia-500',
-      keywords: ['image', 'resize', 'compress', 'optimize', 'photo', 'picture']
-    },
-    {
-      icon: Shield,
-      title: 'Hash Generator',
-      description: 'Generate cryptographic hashes using MD5, SHA1, SHA256, and SHA512 algorithms.',
-      path: '/hash-generator',
-      color: 'bg-emerald-600',
-      keywords: ['hash', 'md5', 'sha1', 'sha256', 'sha512', 'crypto', 'checksum']
-    },
-    {
-      icon: Calculator,
-      title: 'Number Base Converter',
-      description: 'Convert numbers between Binary, Decimal, Hexadecimal, and Octal systems.',
-      path: '/number-base-converter',
-      color: 'bg-indigo-700',
-      keywords: ['number', 'base', 'binary', 'decimal', 'hex', 'octal', 'convert']
-    }
-  ];
-
-  const filteredTools = useMemo(() => {
-    if (!searchTerm.trim()) return tools;
-    
-    const searchLower = searchTerm.toLowerCase();
-    return tools.filter(tool => 
-      tool.title.toLowerCase().includes(searchLower) ||
-      tool.description.toLowerCase().includes(searchLower) ||
-      tool.keywords.some(keyword => keyword.includes(searchLower))
-    );
-  }, [searchTerm]);
+  const { searchTerm, setSearchTerm, selectedCategory, filteredTools, tools } = useToolsFilter();
 
   return (
     <div className="p-8">
@@ -305,12 +31,17 @@ const Home: React.FC = () => {
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
             />
           </div>
-          {searchTerm && (
+          {(searchTerm || selectedCategory !== 'All') && (
             <p className="text-sm text-gray-600 mt-2 text-center">
-              Found {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''} matching "{searchTerm}"
+              Found {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}
+              {searchTerm && ` matching "${searchTerm}"`}
+              {selectedCategory !== 'All' && ` in ${selectedCategory}`}
             </p>
           )}
         </div>
+
+        {/* Category Filter Panel */}
+        <CategoryFilterPanel />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {filteredTools.map((tool) => {
@@ -388,7 +119,7 @@ const Home: React.FC = () => {
                 <span className="text-orange-600 font-bold text-xl">🔧</span>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Comprehensive</h4>
-              <p className="text-gray-600 text-sm">29+ essential tools for modern development</p>
+              <p className="text-gray-600 text-sm">{tools.length}+ essential tools for modern development</p>
             </div>
           </div>
         </div>

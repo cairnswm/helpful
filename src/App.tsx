@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToolsFilterProvider } from './contexts/ToolsFilterContext';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import ScrollToTop from './components/ScrollToTop';
@@ -66,13 +67,14 @@ const MarkdownPdfConverter = React.lazy(() => import('./pages/MarkdownPdfConvert
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <ScrollToTop />
-        <Header />
-        <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-          <main className="flex-1 overflow-auto">
-            <Routes>
+      <ToolsFilterProvider>
+        <div className="min-h-screen bg-gray-50 flex flex-col">
+          <ScrollToTop />
+          <Header />
+          <div className="flex flex-1 overflow-hidden">
+            <Sidebar />
+            <main className="flex-1 overflow-auto">
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/format-json" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><FormatJson /></React.Suspense>} />
               <Route path="/string-to-json" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><StringToJson /></React.Suspense>} />
@@ -131,10 +133,11 @@ function App() {
               <Route path="/watermark-overlay" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><WatermarkOverlay /></React.Suspense>} />
               <Route path="/html-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HtmlPdfConverter /></React.Suspense>} />
               <Route path="/markdown-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><MarkdownPdfConverter /></React.Suspense>} />
-            </Routes>
-          </main>
+              </Routes>
+            </main>
+          </div>
         </div>
-      </div>
+      </ToolsFilterProvider>
     </Router>
   );
 }

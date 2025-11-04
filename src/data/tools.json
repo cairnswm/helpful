@@ -1,0 +1,574 @@
+{
+  "tools": [
+    {
+      "id": "format-json",
+      "title": "Format JSON",
+      "description": "Validate and format JSON data with syntax highlighting and error detection.",
+      "path": "/format-json",
+      "icon": "Braces",
+      "color": "bg-blue-500",
+      "keywords": ["json", "format", "validate", "syntax", "pretty"],
+      "categories": ["JSON Tools", "Formatters"]
+    },
+    {
+      "id": "string-to-json",
+      "title": "String to JSON",
+      "description": "Convert escaped JSON strings to properly formatted JSON objects.",
+      "path": "/string-to-json",
+      "icon": "FileText",
+      "color": "bg-purple-500",
+      "keywords": ["json", "string", "escape", "convert", "parse"],
+      "categories": ["JSON Tools", "Converters"]
+    },
+    {
+      "id": "jwt-decoder",
+      "title": "JWT Decoder",
+      "description": "Decode and inspect JWT tokens. View header, payload, and expiration information.",
+      "path": "/jwt-decoder",
+      "icon": "Shield",
+      "color": "bg-green-500",
+      "keywords": ["jwt", "token", "decode", "auth", "security", "bearer"],
+      "categories": ["Security & Auth", "Decoders"]
+    },
+    {
+      "id": "base64",
+      "title": "Base64 Encoder/Decoder",
+      "description": "Convert strings or binary data to and from Base64 encoding.",
+      "path": "/base64",
+      "icon": "Binary",
+      "color": "bg-indigo-500",
+      "keywords": ["base64", "encode", "decode", "binary", "string"],
+      "categories": ["Security & Auth", "Encoders", "Decoders"]
+    },
+    {
+      "id": "url-encoder",
+      "title": "URL Encoder/Decoder",
+      "description": "Encode or decode URL components for safe transmission in web requests.",
+      "path": "/url-encoder",
+      "icon": "Link2",
+      "color": "bg-cyan-500",
+      "keywords": ["url", "encode", "decode", "uri", "percent", "escape"],
+      "categories": ["Text & Data", "Encoders", "Decoders"]
+    },
+    {
+      "id": "regex-tester",
+      "title": "Regex Tester",
+      "description": "Build and test regular expressions interactively against sample text.",
+      "path": "/regex-tester",
+      "icon": "Search",
+      "color": "bg-orange-500",
+      "keywords": ["regex", "regexp", "pattern", "match", "test", "expression"],
+      "categories": ["Text & Data", "Development Tools"]
+    },
+    {
+      "id": "diff-checker",
+      "title": "Diff Checker",
+      "description": "Compare two text snippets or JSON objects to quickly see differences.",
+      "path": "/diff-checker",
+      "icon": "GitCompare",
+      "color": "bg-red-500",
+      "keywords": ["diff", "compare", "difference", "text", "merge"],
+      "categories": ["Text & Data", "Development Tools"]
+    },
+    {
+      "id": "uuid-generator",
+      "title": "UUID Generator",
+      "description": "Generate universally unique identifiers (UUIDs) for your applications.",
+      "path": "/uuid-generator",
+      "icon": "Hash",
+      "color": "bg-pink-500",
+      "keywords": ["uuid", "guid", "generate", "unique", "identifier"],
+      "categories": ["UUID Tools", "Generators"]
+    },
+    {
+      "id": "uuid-validator",
+      "title": "UUID Validator",
+      "description": "Check if a given string is a valid UUID and identify its version.",
+      "path": "/uuid-validator",
+      "icon": "CheckCircle",
+      "color": "bg-emerald-500",
+      "keywords": ["uuid", "validate", "check", "verify", "version"],
+      "categories": ["UUID Tools", "Validators"]
+    },
+    {
+      "id": "timestamp-converter",
+      "title": "Timestamp Converter",
+      "description": "Convert Unix timestamps to human-readable dates and vice versa.",
+      "path": "/timestamp-converter",
+      "icon": "Clock",
+      "color": "bg-yellow-500",
+      "keywords": ["timestamp", "unix", "date", "time", "convert", "epoch"],
+      "categories": ["Time Tools", "Converters"]
+    },
+    {
+      "id": "css-formatter",
+      "title": "CSS Formatter",
+      "description": "Format or minify CSS code for better readability or smaller file sizes.",
+      "path": "/css-formatter",
+      "icon": "Code",
+      "color": "bg-teal-500",
+      "keywords": ["css", "format", "minify", "style", "beautify"],
+      "categories": ["Code Formatting", "Formatters"]
+    },
+    {
+      "id": "sql-formatter",
+      "title": "SQL Formatter",
+      "description": "Format messy SQL queries for better readability and maintainability.",
+      "path": "/sql-formatter",
+      "icon": "Database",
+      "color": "bg-emerald-500",
+      "keywords": ["sql", "format", "query", "database", "beautify"],
+      "categories": ["Database & SQL", "Formatters"]
+    },
+    {
+      "id": "sql-query-analyzer",
+      "title": "SQL Query Analyzer",
+      "description": "Analyze SQL queries for performance optimization and best practices.",
+      "path": "/sql-query-analyzer",
+      "icon": "BarChart3",
+      "color": "bg-blue-600",
+      "keywords": ["sql", "analyze", "performance", "optimize", "query"],
+      "categories": ["Database & SQL", "Development Tools"]
+    },
+    {
+      "id": "hex-converter",
+      "title": "Hex Converter",
+      "description": "Convert between text strings and hexadecimal representation.",
+      "path": "/hex-converter",
+      "icon": "Binary",
+      "color": "bg-violet-500",
+      "keywords": ["hex", "hexadecimal", "convert", "binary", "ascii"],
+      "categories": ["Text & Data", "Converters"]
+    },
+    {
+      "id": "color-picker",
+      "title": "Color Picker",
+      "description": "Pick colors and convert between formats with Tailwind CSS shades.",
+      "path": "/color-picker",
+      "icon": "Palette",
+      "color": "bg-rose-500",
+      "keywords": ["color", "picker", "hex", "rgb", "hsl", "tailwind", "palette"],
+      "categories": ["Color Tools", "Generators"]
+    },
+    {
+      "id": "color-converter",
+      "title": "Color Converter",
+      "description": "Convert between color formats: HEX, RGB, HSL, HSV, CMYK, LAB, and XYZ.",
+      "path": "/color-converter",
+      "icon": "Palette",
+      "color": "bg-pink-500",
+      "keywords": ["color", "convert", "hex", "rgb", "hsl", "hsv", "cmyk", "lab", "xyz"],
+      "categories": ["Color Tools", "Converters"]
+    },
+    {
+      "id": "json-schema-validator",
+      "title": "JSON Schema Validator",
+      "description": "Validate JSON data against a schema to ensure structure and constraints.",
+      "path": "/json-schema-validator",
+      "icon": "Zap",
+      "color": "bg-amber-500",
+      "keywords": ["json", "schema", "validate", "structure", "constraint"],
+      "categories": ["JSON Tools", "Validators"]
+    },
+    {
+      "id": "json-csv-converter",
+      "title": "JSON/CSV Converter",
+      "description": "Transform JSON data to CSV format and vice versa for data processing.",
+      "path": "/json-csv-converter",
+      "icon": "ArrowRightLeft",
+      "color": "bg-green-600",
+      "keywords": ["json", "csv", "convert", "transform", "data", "export"],
+      "categories": ["JSON Tools", "Converters"]
+    },
+    {
+      "id": "yaml-json-converter",
+      "title": "YAML/JSON Converter",
+      "description": "Convert between YAML and JSON formats with syntax validation.",
+      "path": "/yaml-json-converter",
+      "icon": "RefreshCw",
+      "color": "bg-purple-600",
+      "keywords": ["yaml", "json", "convert", "config", "data", "format"],
+      "categories": ["Converters", "JSON Tools"]
+    },
+    {
+      "id": "xml-json-converter",
+      "title": "XML/JSON Converter",
+      "description": "Transform XML documents to JSON and vice versa with structure preservation.",
+      "path": "/xml-json-converter",
+      "icon": "RefreshCw",
+      "color": "bg-orange-600",
+      "keywords": ["xml", "json", "convert", "transform", "data", "structure"],
+      "categories": ["Converters", "JSON Tools"]
+    },
+    {
+      "id": "markdown-html-converter",
+      "title": "Markdown/HTML Converter",
+      "description": "Convert Markdown to HTML and HTML back to Markdown format.",
+      "path": "/markdown-html-converter",
+      "icon": "RefreshCw",
+      "color": "bg-indigo-600",
+      "keywords": ["markdown", "html", "convert", "md", "markup", "format"],
+      "categories": ["Converters", "Text & Data"]
+    },
+    {
+      "id": "api-request-builder",
+      "title": "API Request Builder",
+      "description": "Build and test HTTP requests with custom headers, body, and methods.",
+      "path": "/api-request-builder",
+      "icon": "Globe",
+      "color": "bg-lime-500",
+      "keywords": ["api", "http", "request", "rest", "curl", "test"],
+      "categories": ["Development Tools", "API Tools"]
+    },
+    {
+      "id": "jwt-generator",
+      "title": "JWT Generator",
+      "description": "Generate JSON Web Tokens with custom payloads and signing keys.",
+      "path": "/jwt-generator",
+      "icon": "Plus",
+      "color": "bg-sky-500",
+      "keywords": ["jwt", "generate", "token", "auth", "sign", "payload"],
+      "categories": ["Security & Auth", "Generators"]
+    },
+    {
+      "id": "command-builder",
+      "title": "Command Builder",
+      "description": "Build common command line commands (curl, docker) interactively.",
+      "path": "/command-builder",
+      "icon": "Terminal",
+      "color": "bg-slate-500",
+      "keywords": ["command", "cli", "curl", "docker", "terminal", "shell"],
+      "categories": ["Development Tools"]
+    },
+    {
+      "id": "markdown-previewer",
+      "title": "Markdown Previewer",
+      "description": "Write markdown and see the live preview with syntax highlighting.",
+      "path": "/markdown-previewer",
+      "icon": "Eye",
+      "color": "bg-neutral-500",
+      "keywords": ["markdown", "preview", "md", "render", "html"],
+      "categories": ["Text & Data", "Development Tools"]
+    },
+    {
+      "id": "xml-formatter",
+      "title": "XML Formatter",
+      "description": "Format, validate, and convert XML documents with syntax highlighting.",
+      "path": "/xml-formatter",
+      "icon": "FileX",
+      "color": "bg-orange-600",
+      "keywords": ["xml", "format", "validate", "parse", "beautify"],
+      "categories": ["Formatters"]
+    },
+    {
+      "id": "text-case-converter",
+      "title": "Text Case Converter",
+      "description": "Convert text between camelCase, snake_case, kebab-case, PascalCase, etc.",
+      "path": "/text-case-converter",
+      "icon": "Type",
+      "color": "bg-purple-600",
+      "keywords": ["text", "case", "camel", "snake", "kebab", "pascal", "convert"],
+      "categories": ["Text & Data", "Converters"]
+    },
+    {
+      "id": "password-checker",
+      "title": "Password Checker",
+      "description": "Evaluate the strength and entropy of passwords with detailed analysis.",
+      "path": "/password-checker",
+      "icon": "Lock",
+      "color": "bg-red-600",
+      "keywords": ["password", "strength", "security", "entropy", "check"],
+      "categories": ["Security & Auth", "Validators"]
+    },
+    {
+      "id": "http-status-reference",
+      "title": "HTTP Status Reference",
+      "description": "Lookup meaning and explanation of HTTP status codes.",
+      "path": "/http-status-reference",
+      "icon": "Info",
+      "color": "bg-blue-700",
+      "keywords": ["http", "status", "code", "error", "response", "reference"],
+      "categories": ["Development Tools", "Reference"]
+    },
+    {
+      "id": "image-resizer",
+      "title": "Image Resizer",
+      "description": "Upload and resize images to reduce file size while maintaining quality.",
+      "path": "/image-resizer",
+      "icon": "Image",
+      "color": "bg-fuchsia-500",
+      "keywords": ["image", "resize", "compress", "optimize", "photo", "picture"],
+      "categories": ["Image Tools"]
+    },
+    {
+      "id": "hash-generator",
+      "title": "Hash Generator",
+      "description": "Generate cryptographic hashes using MD5, SHA1, SHA256, and SHA512 algorithms.",
+      "path": "/hash-generator",
+      "icon": "Shield",
+      "color": "bg-emerald-600",
+      "keywords": ["hash", "md5", "sha1", "sha256", "sha512", "crypto", "checksum"],
+      "categories": ["Security & Auth", "Generators"]
+    },
+    {
+      "id": "number-base-converter",
+      "title": "Number Base Converter",
+      "description": "Convert numbers between Binary, Decimal, Hexadecimal, and Octal systems.",
+      "path": "/number-base-converter",
+      "icon": "Calculator",
+      "color": "bg-indigo-700",
+      "keywords": ["number", "base", "binary", "decimal", "hex", "octal", "convert"],
+      "categories": ["Converters"]
+    },
+    {
+      "id": "lorem-ipsum-generator",
+      "title": "Lorem Ipsum Generator",
+      "description": "Generate placeholder text for your designs and mockups.",
+      "path": "/lorem-ipsum-generator",
+      "icon": "FileText",
+      "color": "bg-gray-500",
+      "keywords": ["lorem", "ipsum", "text", "placeholder", "dummy", "generate"],
+      "categories": ["Generators", "Text & Data"]
+    },
+    {
+      "id": "qr-code-generator",
+      "title": "QR Code Generator",
+      "description": "Create QR codes from text, URLs, or other data.",
+      "path": "/qr-code-generator",
+      "icon": "QrCode",
+      "color": "bg-blue-500",
+      "keywords": ["qr", "code", "barcode", "generate", "scan"],
+      "categories": ["Generators", "Image Tools"]
+    },
+    {
+      "id": "image-base64-converter",
+      "title": "Image Base64 Converter",
+      "description": "Convert images to Base64 strings and vice versa.",
+      "path": "/image-base64-converter",
+      "icon": "ImageIcon",
+      "color": "bg-purple-500",
+      "keywords": ["image", "base64", "convert", "encode", "decode", "data-uri"],
+      "categories": ["Image Tools", "Converters"]
+    },
+    {
+      "id": "cron-expression-builder",
+      "title": "Cron Expression Builder",
+      "description": "Build and validate cron expressions for scheduled tasks.",
+      "path": "/cron-expression-builder",
+      "icon": "Clock",
+      "color": "bg-orange-500",
+      "keywords": ["cron", "schedule", "expression", "task", "job"],
+      "categories": ["Development Tools"]
+    },
+    {
+      "id": "env-variable-manager",
+      "title": "Environment Variables Manager",
+      "description": "Manage and convert environment variables between different formats.",
+      "path": "/env-variable-manager",
+      "icon": "Settings",
+      "color": "bg-green-500",
+      "keywords": ["env", "environment", "variables", "config", "settings"],
+      "categories": ["Development Tools"]
+    },
+    {
+      "id": "html-entity-encoder",
+      "title": "HTML Entity Encoder",
+      "description": "Encode and decode HTML entities for safe display in web pages.",
+      "path": "/html-entity-encoder",
+      "icon": "Code",
+      "color": "bg-red-500",
+      "keywords": ["html", "entity", "encode", "decode", "escape"],
+      "categories": ["Text & Data", "Encoders", "Decoders"]
+    },
+    {
+      "id": "javascript-minifier",
+      "title": "JavaScript Minifier",
+      "description": "Minify JavaScript code to reduce file size and improve load times.",
+      "path": "/javascript-minifier",
+      "icon": "Minimize2",
+      "color": "bg-yellow-500",
+      "keywords": ["javascript", "js", "minify", "compress", "optimize"],
+      "categories": ["Code Formatting", "Formatters"]
+    },
+    {
+      "id": "svg-optimizer",
+      "title": "SVG Optimizer",
+      "description": "Optimize SVG files by removing unnecessary metadata and code.",
+      "path": "/svg-optimizer",
+      "icon": "Image",
+      "color": "bg-pink-500",
+      "keywords": ["svg", "optimize", "compress", "vector", "image"],
+      "categories": ["Image Tools", "Formatters"]
+    },
+    {
+      "id": "certificate-inspector",
+      "title": "Certificate Inspector",
+      "description": "Inspect and analyze SSL/TLS certificates for security information.",
+      "path": "/certificate-inspector",
+      "icon": "FileCheck",
+      "color": "bg-cyan-500",
+      "keywords": ["certificate", "ssl", "tls", "security", "inspect", "x509"],
+      "categories": ["Security & Auth", "Development Tools"]
+    },
+    {
+      "id": "security-headers-checker",
+      "title": "Security Headers Checker",
+      "description": "Check and analyze HTTP security headers for your website.",
+      "path": "/security-headers-checker",
+      "icon": "Shield",
+      "color": "bg-blue-600",
+      "keywords": ["security", "headers", "http", "check", "analyze", "csp"],
+      "categories": ["Security & Auth", "Development Tools"]
+    },
+    {
+      "id": "encryption-tool",
+      "title": "Encryption/Decryption Tool",
+      "description": "Encrypt and decrypt text using various algorithms like AES.",
+      "path": "/encryption-tool",
+      "icon": "Key",
+      "color": "bg-indigo-600",
+      "keywords": ["encrypt", "decrypt", "aes", "security", "cipher"],
+      "categories": ["Security & Auth"]
+    },
+    {
+      "id": "json-merger",
+      "title": "JSON Merger",
+      "description": "Merge multiple JSON objects or arrays into a single structure.",
+      "path": "/json-merger",
+      "icon": "GitCompare",
+      "color": "bg-green-600",
+      "keywords": ["json", "merge", "combine", "join", "union"],
+      "categories": ["JSON Tools"]
+    },
+    {
+      "id": "json-diff",
+      "title": "JSON Diff",
+      "description": "Compare two JSON objects and highlight the differences.",
+      "path": "/json-diff",
+      "icon": "GitCompare",
+      "color": "bg-red-600",
+      "keywords": ["json", "diff", "compare", "difference", "changes"],
+      "categories": ["JSON Tools", "Development Tools"]
+    },
+    {
+      "id": "json-schema-creator",
+      "title": "JSON Schema Creator",
+      "description": "Generate JSON Schema from sample JSON data automatically.",
+      "path": "/json-schema-creator",
+      "icon": "Plus",
+      "color": "bg-purple-500",
+      "keywords": ["json", "schema", "create", "generate", "definition"],
+      "categories": ["JSON Tools", "Generators"]
+    },
+    {
+      "id": "json-xlsx-converter",
+      "title": "JSON/XLSX Converter",
+      "description": "Convert between JSON and Excel (XLSX) formats for data exchange.",
+      "path": "/json-xlsx-converter",
+      "icon": "FileSpreadsheet",
+      "color": "bg-green-700",
+      "keywords": ["json", "xlsx", "excel", "convert", "spreadsheet"],
+      "categories": ["JSON Tools", "Converters"]
+    },
+    {
+      "id": "csv-xlsx-converter",
+      "title": "CSV/XLSX Converter",
+      "description": "Convert between CSV and Excel (XLSX) file formats.",
+      "path": "/csv-xlsx-converter",
+      "icon": "FileSpreadsheet",
+      "color": "bg-blue-600",
+      "keywords": ["csv", "xlsx", "excel", "convert", "spreadsheet"],
+      "categories": ["Converters"]
+    },
+    {
+      "id": "image-cropper",
+      "title": "Image Cropper",
+      "description": "Crop images to specific dimensions or aspect ratios.",
+      "path": "/image-cropper",
+      "icon": "Crop",
+      "color": "bg-orange-500",
+      "keywords": ["image", "crop", "cut", "trim", "resize"],
+      "categories": ["Image Tools"]
+    },
+    {
+      "id": "image-rotator-flipper",
+      "title": "Image Rotator & Flipper",
+      "description": "Rotate and flip images in various orientations.",
+      "path": "/image-rotator-flipper",
+      "icon": "RotateCw",
+      "color": "bg-teal-500",
+      "keywords": ["image", "rotate", "flip", "mirror", "transform"],
+      "categories": ["Image Tools"]
+    },
+    {
+      "id": "image-color-adjustments",
+      "title": "Image Color Adjustments",
+      "description": "Adjust brightness, contrast, saturation, and other color properties.",
+      "path": "/image-color-adjustments",
+      "icon": "Droplet",
+      "color": "bg-purple-600",
+      "keywords": ["image", "color", "brightness", "contrast", "saturation", "adjust"],
+      "categories": ["Image Tools"]
+    },
+    {
+      "id": "image-filters-effects",
+      "title": "Image Filters & Effects",
+      "description": "Apply filters and effects like blur, sharpen, and sepia to images.",
+      "path": "/image-filters-effects",
+      "icon": "Filter",
+      "color": "bg-pink-600",
+      "keywords": ["image", "filter", "effect", "blur", "sharpen", "sepia"],
+      "categories": ["Image Tools"]
+    },
+    {
+      "id": "image-metadata-editor",
+      "title": "Image Metadata Editor",
+      "description": "View and edit EXIF metadata of image files.",
+      "path": "/image-metadata-editor",
+      "icon": "FileText",
+      "color": "bg-cyan-600",
+      "keywords": ["image", "metadata", "exif", "edit", "properties"],
+      "categories": ["Image Tools"]
+    },
+    {
+      "id": "watermark-overlay",
+      "title": "Watermark Overlay",
+      "description": "Add text or image watermarks to protect your images.",
+      "path": "/watermark-overlay",
+      "icon": "FileImage",
+      "color": "bg-indigo-500",
+      "keywords": ["image", "watermark", "overlay", "protect", "copyright"],
+      "categories": ["Image Tools"]
+    },
+    {
+      "id": "html-pdf-converter",
+      "title": "HTML to PDF Converter",
+      "description": "Convert HTML content to PDF documents.",
+      "path": "/html-pdf-converter",
+      "icon": "FileText",
+      "color": "bg-red-500",
+      "keywords": ["html", "pdf", "convert", "export", "document"],
+      "categories": ["Converters"]
+    },
+    {
+      "id": "markdown-pdf-converter",
+      "title": "Markdown to PDF Converter",
+      "description": "Convert Markdown documents to PDF format.",
+      "path": "/markdown-pdf-converter",
+      "icon": "FileText",
+      "color": "bg-blue-500",
+      "keywords": ["markdown", "pdf", "convert", "export", "document"],
+      "categories": ["Converters", "Text & Data"]
+    },
+    {
+      "id": "timezone-converter",
+      "title": "Timezone Converter",
+      "description": "Convert times between different timezones around the world.",
+      "path": "/timezone-converter",
+      "icon": "Globe",
+      "color": "bg-green-500",
+      "keywords": ["timezone", "time", "convert", "zone", "utc", "gmt"],
+      "categories": ["Time Tools", "Converters"]
+    }
+  ]
+}
