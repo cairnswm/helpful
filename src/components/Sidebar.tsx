@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, Braces, FileText, Shield, 
@@ -16,29 +16,29 @@ import {
 interface NavItem {
   path: string;
   label: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 interface NavGroup {
   title: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   items: NavItem[];
 }
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const [expandedGroup, setExpandedGroup] = useState<string>('general');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const toggleGroup = (groupTitle: string) => {
     setExpandedGroup(expandedGroup === groupTitle ? '' : groupTitle);
   };
 
-  const navGroups: NavGroup[] = [
+  const navGroups = useMemo<NavGroup[]>(() => [
     {
       title: 'General',
       icon: Home,
       items: [
-        { path: '/', label: 'Home', icon: Home },
         { path: '/diff-checker', label: 'Diff Checker', icon: GitCompare },
         { path: '/regex-tester', label: 'Regex Tester', icon: Search },
         { path: '/lorem-ipsum-generator', label: 'Lorem Ipsum Generator', icon: FileText },
@@ -171,15 +171,55 @@ const Sidebar: React.FC = () => {
         { path: '/env-variable-manager', label: 'Environment Variables', icon: Settings }
       ]
     }
-  ];
+  ], []);
+
+  // Filter navigation based on search term
+  const filteredNavGroups = useMemo(() => {
+    if (!searchTerm.trim()) return navGroups;
+    
+    const searchLower = searchTerm.toLowerCase();
+    return navGroups.map(group => ({
+      ...group,
+      items: group.items.filter(item => 
+        item.label.toLowerCase().includes(searchLower) ||
+        item.path.toLowerCase().includes(searchLower)
+      )
+    })).filter(group => group.items.length > 0);
+  }, [searchTerm, navGroups]);
 
   return (
     <aside className="w-64 bg-white shadow-lg border-r border-gray-200 h-full flex flex-col">
       <div className="flex-1 overflow-y-auto">
         <div className="p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Tools</h2>
+          
+          {/* Home Link - Standalone */}
+          <Link
+            to="/"
+            className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 mb-4 ${
+              location.pathname === '/'
+                ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-sm'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+            }`}
+          >
+            <Home className={`h-4 w-4 ${location.pathname === '/' ? 'text-blue-600' : 'text-gray-400'}`} />
+            <span className="font-medium">Home</span>
+          </Link>
+
+          {/* Search Bar */}
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search tools..."
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
           <nav className="space-y-2">
-            {navGroups.map((group) => {
+            {filteredNavGroups.map((group) => {
               const GroupIcon = group.icon;
               const isExpanded = expandedGroup === group.title.toLowerCase();
               
