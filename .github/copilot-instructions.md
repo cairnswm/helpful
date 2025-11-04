@@ -21,6 +21,8 @@ helpful/
 │   ├── components/         # Reusable UI components
 │   │   ├── Header.tsx      # Main application header
 │   │   ├── Sidebar.tsx     # Navigation sidebar
+│   │   ├── PageHeader.tsx  # Page header component for tool pages
+│   │   ├── InfoSection.tsx # Information section component for tool pages
 │   │   ├── JsonDisplay.tsx # JSON display component
 │   │   └── ScrollToTop.tsx # Scroll to top component
 │   ├── pages/              # Individual tool pages (each is a separate route)
@@ -51,20 +53,75 @@ helpful/
 Each tool page should follow this structure:
 ```typescript
 import React, { useState } from 'react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 const ToolName = () => {
   const [state, setState] = useState('');
 
   return (
-    <div className="max-w-7xl mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6">Tool Name</h1>
-      {/* Tool content */}
+    <div className="p-8">
+      <div className="max-w-7xl mx-auto">
+        <PageHeader 
+          title="Tool Name"
+          description="Brief description of what the tool does."
+        />
+        
+        {/* Tool content */}
+        
+        <InfoSection 
+          title="About This Tool"
+          items={[
+            {
+              label: "Feature 1",
+              description: "Description of feature 1"
+            },
+            {
+              label: "Feature 2",
+              description: "Description of feature 2"
+            }
+          ]}
+          useCases="Common use cases for this tool"
+        />
+      </div>
     </div>
   );
 };
 
 export default ToolName;
 ```
+
+### Required Components
+
+#### PageHeader
+Every tool page must include a `PageHeader` component at the top:
+```typescript
+<PageHeader 
+  title="Tool Name"
+  description="Brief description of what the tool does and its purpose."
+/>
+```
+- **title**: The name of the tool (e.g., "JSON Formatter", "Password Strength Checker")
+- **description**: A one-sentence description of the tool's functionality
+
+#### InfoSection
+Every tool page must include an `InfoSection` component at the bottom:
+```typescript
+<InfoSection 
+  title="About This Tool"
+  items={[
+    {
+      label: "Feature Name",
+      description: "Description of what this feature does"
+    },
+    // Add more features...
+  ]}
+  useCases="Common use cases: data analysis, API testing, debugging, etc."
+/>
+```
+- **title**: Section heading (usually "About This Tool" or tool-specific title)
+- **items**: Array of features with labels and descriptions
+- **useCases** (optional): Comma-separated string of common use cases
 
 ### Styling
 
@@ -116,9 +173,14 @@ When adding a new tool:
 
 1. Create a new file in `src/pages/ToolName.tsx`
 2. Implement the tool following the component structure above
-3. Add lazy import in `App.tsx`: `const ToolName = React.lazy(() => import('./pages/ToolName'));`
-4. Add route in `App.tsx`: `<Route path="/tool-name" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ToolName /></React.Suspense>} />`
-5. The tool will automatically appear in the sidebar and home page via the routing structure
+3. **IMPORTANT**: Always use `PageHeader` and `InfoSection` components:
+   - Import: `import PageHeader from '../components/PageHeader';`
+   - Import: `import InfoSection from '../components/InfoSection';`
+   - `PageHeader` should be at the top of the page with a title and description
+   - `InfoSection` should be at the bottom of the page with details about features and use cases
+4. Add lazy import in `App.tsx`: `const ToolName = React.lazy(() => import('./pages/ToolName'));`
+5. Add route in `App.tsx`: `<Route path="/tool-name" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ToolName /></React.Suspense>} />`
+6. The tool will automatically appear in the sidebar and home page via the routing structure
 
 ## Code Quality
 
