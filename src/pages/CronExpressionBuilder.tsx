@@ -104,23 +104,58 @@ const CronExpressionBuilder: React.FC = () => {
     const parts = expression.trim().split(/\s+/);
     if (parts.length < 5) return ['Invalid cron expression'];
 
-    const [min, hr] = parts;
+    const [minPart, hrPart, domPart, monPart, dowPart] = parts;
     const now = new Date();
     const times: string[] = [];
     
-    const minuteVal = min === '*' ? 0 : parseInt(min);
-    const hourVal = hr === '*' ? 0 : parseInt(hr);
-
-    for (let i = 0; i < count; i++) {
-      const next = new Date(now);
-      next.setDate(now.getDate() + i);
-      next.setHours(hourVal, minuteVal, 0, 0);
-      
-      if (next <= now) {
-        next.setDate(next.getDate() + 1);
+    const parseField = (field: string, max: number): number[] => {
+      if (field === '*') {
+        return Array.from({ length: max + 1 }, (_, i) => i);
       }
+      if (field.includes('/')) {
+        const [, step] = field.split('/');
+        const stepNum = parseInt(step);
+        const result = [];
+        for (let i = 0; i <= max; i += stepNum) {
+          result.push(i);
+        }
+        return result;
+      }
+      if (field.includes(',')) {
+        return field.split(',').map(v => parseInt(v));
+      }
+      if (field.includes('-')) {
+        const [start, end] = field.split('-').map(v => parseInt(v));
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+      }
+      return [parseInt(field)];
+    };
+
+    const validMinutes = parseField(minPart, 59);
+    const validHours = parseField(hrPart, 23);
+    const validDaysOfMonth = domPart === '*' ? null : parseField(domPart, 31);
+    const validMonths = monPart === '*' ? null : parseField(monPart, 12).map(m => m - 1); // JS months are 0-indexed
+    const validDaysOfWeek = dowPart === '*' ? null : parseField(dowPart, 6);
+
+    const current = new Date(now);
+    current.setSeconds(0, 0);
+    
+    while (times.length < count) {
+      current.setMinutes(current.getMinutes() + 1);
       
-      times.push(next.toLocaleString());
+      const minute = current.getMinutes();
+      const hour = current.getHours();
+      const dayOfMonth = current.getDate();
+      const month = current.getMonth();
+      const dayOfWeek = current.getDay();
+      
+      if (!validMinutes.includes(minute)) continue;
+      if (!validHours.includes(hour)) continue;
+      if (validDaysOfMonth && !validDaysOfMonth.includes(dayOfMonth)) continue;
+      if (validMonths && !validMonths.includes(month)) continue;
+      if (validDaysOfWeek && !validDaysOfWeek.includes(dayOfWeek)) continue;
+      
+      times.push(current.toLocaleString());
     }
 
     return times;

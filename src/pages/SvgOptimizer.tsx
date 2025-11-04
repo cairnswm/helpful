@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import InfoSection from '../components/InfoSection';
 import { Copy, Check, RotateCcw, Eye, Code } from 'lucide-react';
@@ -6,12 +6,15 @@ import { Copy, Check, RotateCcw, Eye, Code } from 'lucide-react';
 const SvgOptimizer: React.FC = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [reactMode, setReactMode] = useState(false);
   const [removeComments, setRemoveComments] = useState(true);
   const [removeMetadata, setRemoveMetadata] = useState(true);
   const [removeHiddenElements, setRemoveHiddenElements] = useState(true);
   const [minifyColors, setMinifyColors] = useState(true);
-  const [usePlaceholders, setUsePlaceholders] = useState(false);
+  const [replaceColors, setReplaceColors] = useState(false);
+  const [colorValue, setColorValue] = useState('currentColor');
+  const [setDimensions, setSetDimensions] = useState(false);
+  const [widthValue, setWidthValue] = useState('24');
+  const [heightValue, setHeightValue] = useState('24');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
 
@@ -47,6 +50,18 @@ const SvgOptimizer: React.FC = () => {
         optimized = optimized.replace(/#([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3/gi, '#$1$2$3');
       }
 
+      // Replace colors with custom value
+      if (replaceColors && colorValue) {
+        optimized = optimized.replace(/fill=["'](?!none)([^"']*)["']/g, `fill="${colorValue}"`);
+        optimized = optimized.replace(/stroke=["'](?!none)([^"']*)["']/g, `stroke="${colorValue}"`);
+      }
+
+      // Set custom dimensions
+      if (setDimensions) {
+        optimized = optimized.replace(/width=["']([^"']*)["']/g, `width="${widthValue}"`);
+        optimized = optimized.replace(/height=["']([^"']*)["']/g, `height="${heightValue}"`);
+      }
+
       // Remove unnecessary whitespace
       optimized = optimized.replace(/>\s+</g, '><');
       optimized = optimized.trim();
@@ -55,87 +70,7 @@ const SvgOptimizer: React.FC = () => {
     } catch {
       throw new Error('Error optimizing SVG');
     }
-  }, [removeComments, removeMetadata, removeHiddenElements, minifyColors]);
-
-  const convertToReactComponent = useCallback((svg: string): string => {
-    if (!svg.trim()) return '';
-
-    try {
-      let reactSvg = svg;
-
-      // Extract SVG attributes
-      const svgMatch = reactSvg.match(/<svg[^>]*>/);
-      const svgTag = svgMatch ? svgMatch[0] : '<svg>';
-      
-      // Get viewBox for default dimensions
-      const viewBoxMatch = svgTag.match(/viewBox=["']([^"']+)["']/);
-      const viewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 24 24';
-      const viewBoxParts = viewBox.split(' ');
-      const defaultWidth = viewBoxParts[2] || '24';
-      const defaultHeight = viewBoxParts[3] || '24';
-
-      // Replace attributes for React
-      reactSvg = reactSvg.replace(/class=/g, 'className=');
-      reactSvg = reactSvg.replace(/stroke-width=/g, 'strokeWidth=');
-      reactSvg = reactSvg.replace(/stroke-linecap=/g, 'strokeLinecap=');
-      reactSvg = reactSvg.replace(/stroke-linejoin=/g, 'strokeLinejoin=');
-      reactSvg = reactSvg.replace(/fill-rule=/g, 'fillRule=');
-      reactSvg = reactSvg.replace(/clip-rule=/g, 'clipRule=');
-      reactSvg = reactSvg.replace(/fill-opacity=/g, 'fillOpacity=');
-      reactSvg = reactSvg.replace(/stroke-opacity=/g, 'strokeOpacity=');
-
-      if (usePlaceholders) {
-        // Replace colors with currentColor or props
-        reactSvg = reactSvg.replace(/fill=["'](?!none)([^"']*)["']/g, 'fill={color || "currentColor"}');
-        reactSvg = reactSvg.replace(/stroke=["'](?!none)([^"']*)["']/g, 'stroke={color || "currentColor"}');
-        
-        // Replace fixed dimensions
-        reactSvg = reactSvg.replace(/width=["']([^"']*)["']/g, 'width={width}');
-        reactSvg = reactSvg.replace(/height=["']([^"']*)["']/g, 'height={height}');
-      }
-
-      // Extract SVG content (remove outer svg tag)
-      const svgContent = reactSvg.replace(/<svg[^>]*>/, '').replace(/<\/svg>/, '');
-
-      // Build React component
-      const componentName = 'SvgIcon';
-      const propsInterface = usePlaceholders
-        ? `interface ${componentName}Props {
-  width?: number | string;
-  height?: number | string;
-  color?: string;
-  className?: string;
-}`
-        : `interface ${componentName}Props {
-  className?: string;
-}`;
-
-      const defaultProps = usePlaceholders
-        ? `width = ${defaultWidth}, height = ${defaultHeight}, color = "currentColor", className = ""`
-        : `className = ""`;
-
-      return `${propsInterface}
-
-const ${componentName}: React.FC<${componentName}Props> = ({ ${defaultProps} }) => {
-  return (
-    <svg
-      width={${usePlaceholders ? 'width' : `"${defaultWidth}"`}}
-      height={${usePlaceholders ? 'height' : `"${defaultHeight}"`}}
-      viewBox="${viewBox}"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      ${svgContent}
-    </svg>
-  );
-};
-
-export default ${componentName};`;
-    } catch {
-      throw new Error('Error converting to React component');
-    }
-  }, [usePlaceholders]);
+  }, [removeComments, removeMetadata, removeHiddenElements, minifyColors, replaceColors, colorValue, setDimensions, widthValue, heightValue]);
 
   const processInput = useCallback((value: string) => {
     if (!value.trim()) {
@@ -145,28 +80,25 @@ export default ${componentName};`;
     }
 
     try {
-      let result = optimizeSvg(value);
-      
-      if (reactMode) {
-        result = convertToReactComponent(result);
-      }
-
+      const result = optimizeSvg(value);
       setOutput(result);
       setError('');
     } catch (err) {
       setError((err as Error).message || 'Error processing SVG');
       setOutput('');
     }
-  }, [optimizeSvg, convertToReactComponent, reactMode]);
+  }, [optimizeSvg]);
 
   const handleInputChange = (value: string) => {
     setInput(value);
     processInput(value);
   };
 
-  const handleOptionChange = () => {
-    processInput(input);
-  };
+  useEffect(() => {
+    if (input) {
+      processInput(input);
+    }
+  }, [removeComments, removeMetadata, removeHiddenElements, minifyColors, replaceColors, colorValue, setDimensions, widthValue, heightValue, input, processInput]);
 
   const handleCopy = async () => {
     if (!output) return;
@@ -218,86 +150,109 @@ export default ${componentName};`;
             </button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={removeComments}
-                onChange={(e) => {
-                  setRemoveComments(e.target.checked);
-                  handleOptionChange();
-                }}
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="text-sm text-gray-700">Remove Comments</span>
-            </label>
-
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={removeMetadata}
-                onChange={(e) => {
-                  setRemoveMetadata(e.target.checked);
-                  handleOptionChange();
-                }}
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="text-sm text-gray-700">Remove Metadata</span>
-            </label>
-
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={removeHiddenElements}
-                onChange={(e) => {
-                  setRemoveHiddenElements(e.target.checked);
-                  handleOptionChange();
-                }}
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="text-sm text-gray-700">Remove Hidden Elements</span>
-            </label>
-
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={minifyColors}
-                onChange={(e) => {
-                  setMinifyColors(e.target.checked);
-                  handleOptionChange();
-                }}
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="text-sm text-gray-700">Minify Colors</span>
-            </label>
-
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={reactMode}
-                onChange={(e) => {
-                  setReactMode(e.target.checked);
-                  handleOptionChange();
-                }}
-                className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-              />
-              <span className="text-sm text-gray-700">React Component</span>
-            </label>
-
-            {reactMode && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <label className="flex items-center space-x-2 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={usePlaceholders}
-                  onChange={(e) => {
-                    setUsePlaceholders(e.target.checked);
-                    handleOptionChange();
-                  }}
+                  checked={removeComments}
+                  onChange={(e) => setRemoveComments(e.target.checked)}
                   className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                 />
-                <span className="text-sm text-gray-700">Use Props for Size/Color</span>
+                <span className="text-sm text-gray-700">Remove Comments</span>
               </label>
-            )}
+
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={removeMetadata}
+                  onChange={(e) => setRemoveMetadata(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-700">Remove Metadata</span>
+              </label>
+
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={removeHiddenElements}
+                  onChange={(e) => setRemoveHiddenElements(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-700">Remove Hidden Elements</span>
+              </label>
+
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={minifyColors}
+                  onChange={(e) => setMinifyColors(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-700">Minify Colors</span>
+              </label>
+            </div>
+
+            <div className="border-t pt-4">
+              <label className="flex items-center space-x-2 cursor-pointer mb-3">
+                <input
+                  type="checkbox"
+                  checked={replaceColors}
+                  onChange={(e) => setReplaceColors(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">Replace Colors</span>
+              </label>
+              {replaceColors && (
+                <div className="ml-6">
+                  <label className="block text-sm text-gray-700 mb-1">Color Value</label>
+                  <input
+                    type="text"
+                    value={colorValue}
+                    onChange={(e) => setColorValue(e.target.value)}
+                    placeholder="currentColor or #000000"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Use "currentColor" or any valid color value</p>
+                </div>
+              )}
+            </div>
+
+            <div className="border-t pt-4">
+              <label className="flex items-center space-x-2 cursor-pointer mb-3">
+                <input
+                  type="checkbox"
+                  checked={setDimensions}
+                  onChange={(e) => setSetDimensions(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">Set Dimensions</span>
+              </label>
+              {setDimensions && (
+                <div className="ml-6 grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm text-gray-700 mb-1">Width</label>
+                    <input
+                      type="text"
+                      value={widthValue}
+                      onChange={(e) => setWidthValue(e.target.value)}
+                      placeholder="24"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-700 mb-1">Height</label>
+                    <input
+                      type="text"
+                      value={heightValue}
+                      onChange={(e) => setHeightValue(e.target.value)}
+                      placeholder="24"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -333,7 +288,7 @@ export default ${componentName};`;
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[500px]">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
               <h3 className="text-lg font-semibold text-gray-800">
-                {reactMode ? 'React Component' : 'Optimized SVG'}
+                Optimized SVG
               </h3>
               <button
                 onClick={handleCopy}
@@ -365,7 +320,7 @@ export default ${componentName};`;
         </div>
 
         {/* Preview Panel */}
-        {!reactMode && input && !error && (
+        {input && !error && (
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <Eye className="h-5 w-5 mr-2" />
@@ -385,19 +340,19 @@ export default ${componentName};`;
               description: "Removes comments, metadata, hidden elements, and minifies colors to reduce file size"
             },
             {
-              label: "React Component",
-              description: "Convert SVG to a React component with TypeScript interface"
+              label: "Color Replacement",
+              description: "Replace all fill and stroke colors with a custom value like 'currentColor' for dynamic theming"
             },
             {
-              label: "Props Support",
-              description: "Add props for width, height, and color when React mode is enabled"
+              label: "Dimension Control",
+              description: "Set custom width and height values for all SVG elements"
             },
             {
               label: "Preview",
               description: "Live preview of the SVG graphic inline"
             }
           ]}
-          useCases="web development, React applications, icon libraries, performance optimization, file size reduction"
+          useCases="web development, icon libraries, performance optimization, file size reduction, theming support"
         />
       </div>
     </div>
