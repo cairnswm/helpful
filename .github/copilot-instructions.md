@@ -171,15 +171,21 @@ const handleCopy = async () => {
 };
 ```
 
-## Known Issues
+## Code Quality Standards
 
-- There are existing linting warnings/errors in some files (see `npm run lint` output)
+- Run `npm run lint` to check for issues before committing
+- Address any new linting errors or warnings you introduce
 - Do not modify working code unless necessary
-- Focus on minimal, surgical changes
+- Focus on minimal, surgical changes to avoid introducing bugs
 
 ## Testing
 
-- Currently no automated tests
-- Manual testing is required for new features
-- Test on multiple browsers (Chrome, Firefox, Safari)
-- Test responsive layouts on different screen sizes
+Currently, the project does not have automated tests. When adding new features or modifying existing ones, perform thorough manual testing:
+
+### Manual Testing Checklist
+- **Functional Testing**: Verify the tool works as expected with valid inputs
+- **Error Handling**: Test with invalid inputs to ensure proper error messages
+- **Edge Cases**: Test boundary conditions (empty strings, very large inputs, special characters)
+- **Browser Compatibility**: Test on Chrome, Firefox, and Safari
+- **Responsive Design**: Test on desktop (1920x1080), tablet (768px), and mobile (375px) viewports
+- **User Experience**: Verify loading states, button feedback, and copy-to-clipboard functionality
