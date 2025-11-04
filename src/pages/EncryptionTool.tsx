@@ -179,9 +179,17 @@ const EncryptionTool: React.FC = () => {
     const length = 16;
     const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
     let password = '';
-    const randomValues = crypto.getRandomValues(new Uint8Array(length));
+    const charsetLength = charset.length;
+    const randomValues = new Uint8Array(length);
+    
+    // Generate random values without modulo bias
     for (let i = 0; i < length; i++) {
-      password += charset[randomValues[i] % charset.length];
+      let randomValue;
+      do {
+        crypto.getRandomValues(randomValues.subarray(i, i + 1));
+        randomValue = randomValues[i];
+      } while (randomValue >= 256 - (256 % charsetLength));
+      password += charset[randomValue % charsetLength];
     }
     setPassword(password);
   };
