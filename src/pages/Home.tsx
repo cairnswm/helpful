@@ -1,72 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Braces, FileText, Shield, Binary, Link2, Search, 
-  GitCompare, Hash, Clock, Palette, Database, Code, 
-  Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
-  ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-  FileX, Lock, RefreshCw, Calculator, QrCode, ImageIcon,
-  Settings, Minimize2, FileCheck, Key, FileSpreadsheet,
-  Crop, RotateCw, Droplet, Filter, FileImage
-} from 'lucide-react';
-import toolsData from '../data/tools.json';
-
-// Icon mapping - defined outside component to avoid recreation
-const iconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
-  Braces, FileText, Shield, Binary, Link2, Search,
-  GitCompare, Hash, Clock, Palette, Database, Code,
-  Globe, Plus, Terminal, Eye, Zap, ArrowRight, Image,
-  ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
-  FileX, Lock, RefreshCw, Calculator, QrCode, ImageIcon,
-  Settings, Minimize2, FileCheck, Key, FileSpreadsheet,
-  Crop, RotateCw, Droplet, Filter, FileImage
-};
+import { Search, ArrowRight } from 'lucide-react';
+import { useToolsFilter } from '../contexts/ToolsFilterContext';
+import CategoryFilterPanel from '../components/CategoryFilterPanel';
 
 const Home: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [showCategoryPanel, setShowCategoryPanel] = useState(false);
-
-  // Transform tools data with icon components
-  const tools = useMemo(() => 
-    toolsData.tools.map(tool => ({
-      ...tool,
-      icon: iconMap[tool.icon] || Braces
-    })),
-    []
-  );
-
-  // Get all unique categories
-  const categories = useMemo(() => {
-    const allCategories = new Set<string>();
-    tools.forEach(tool => {
-      tool.categories.forEach(cat => allCategories.add(cat));
-    });
-    return ['All', ...Array.from(allCategories).sort()];
-  }, [tools]);
-
-  const filteredTools = useMemo(() => {
-    let filtered = tools;
-    
-    // Filter by category
-    if (selectedCategory !== 'All') {
-      filtered = filtered.filter(tool => 
-        tool.categories.includes(selectedCategory)
-      );
-    }
-    
-    // Filter by search term
-    if (searchTerm.trim()) {
-      const searchLower = searchTerm.toLowerCase();
-      filtered = filtered.filter(tool => 
-        tool.title.toLowerCase().includes(searchLower) ||
-        tool.description.toLowerCase().includes(searchLower) ||
-        tool.keywords.some(keyword => keyword.includes(searchLower))
-      );
-    }
-    
-    return filtered;
-  }, [searchTerm, selectedCategory, tools]);
+  const { searchTerm, setSearchTerm, selectedCategory, filteredTools, tools } = useToolsFilter();
 
   return (
     <div className="p-8">
@@ -101,58 +40,8 @@ const Home: React.FC = () => {
           )}
         </div>
 
-        {/* Category Filter Button */}
-        <div className="mb-8 flex justify-center">
-          <div className="relative">
-            <button
-              onClick={() => setShowCategoryPanel(!showCategoryPanel)}
-              className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 shadow-sm transition-all duration-200"
-            >
-              <Filter className="h-5 w-5" />
-              <span className="font-medium">
-                {selectedCategory === 'All' ? 'Filter by Category' : selectedCategory}
-              </span>
-              {selectedCategory !== 'All' && (
-                <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">
-                  {filteredTools.length}
-                </span>
-              )}
-            </button>
-
-            {/* Category Panel */}
-            {showCategoryPanel && (
-              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white border border-gray-200 rounded-lg shadow-xl p-4 z-10 w-[600px] max-h-96 overflow-y-auto">
-                <div className="flex items-center justify-between mb-3 pb-3 border-b">
-                  <span className="text-sm font-semibold text-gray-900">Filter by Category</span>
-                  <button
-                    onClick={() => setShowCategoryPanel(false)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    ✕
-                  </button>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => {
-                        setSelectedCategory(category);
-                        setShowCategoryPanel(false);
-                      }}
-                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-left ${
-                        selectedCategory === category
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        {/* Category Filter Panel */}
+        <CategoryFilterPanel />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {filteredTools.map((tool) => {
