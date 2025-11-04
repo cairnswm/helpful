@@ -48,6 +48,8 @@ const SvgOptimizer = React.lazy(() => import('./pages/SvgOptimizer'));
 const CertificateInspector = React.lazy(() => import('./pages/CertificateInspector'));
 const SecurityHeadersChecker = React.lazy(() => import('./pages/SecurityHeadersChecker'));
 const EncryptionTool = React.lazy(() => import('./pages/EncryptionTool'));
+const JsonMerger = React.lazy(() => import('./pages/JsonMerger'));
+const JsonDiff = React.lazy(() => import('./pages/JsonDiff'));
 
 
 function App() {
@@ -105,6 +107,8 @@ function App() {
               <Route path="/certificate-inspector" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CertificateInspector /></React.Suspense>} />
               <Route path="/security-headers-checker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SecurityHeadersChecker /></React.Suspense>} />
               <Route path="/encryption-tool" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><EncryptionTool /></React.Suspense>} />
+              <Route path="/json-merger" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonMerger /></React.Suspense>} />
+              <Route path="/json-diff" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonDiff /></React.Suspense>} />
             </Routes>
           </main>
         </div>
