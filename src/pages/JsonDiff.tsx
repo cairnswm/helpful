@@ -96,37 +96,39 @@ const JsonDiff: React.FC = () => {
     }
 
     // Handle objects
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
+    const obj1Record = obj1 as Record<string, unknown>;
+    const obj2Record = obj2 as Record<string, unknown>;
+    const keys1 = Object.keys(obj1Record);
+    const keys2 = Object.keys(obj2Record);
     const allKeys = new Set([...keys1, ...keys2]);
 
     for (const key of allKeys) {
       const newPath = path ? `${path}.${key}` : key;
       
-      if (!(key in obj1)) {
+      if (!(key in obj1Record)) {
         differences.push({
           path: newPath,
           type: 'added',
-          newValue: obj2[key]
+          newValue: obj2Record[key]
         });
-      } else if (!(key in obj2)) {
+      } else if (!(key in obj2Record)) {
         differences.push({
           path: newPath,
           type: 'removed',
-          oldValue: obj1[key]
+          oldValue: obj1Record[key]
         });
-      } else if (JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])) {
+      } else if (JSON.stringify(obj1Record[key]) !== JSON.stringify(obj2Record[key])) {
         // Check if both are objects for recursive diff
-        if (typeof obj1[key] === 'object' && obj1[key] !== null &&
-            typeof obj2[key] === 'object' && obj2[key] !== null) {
-          const nested = generateDiff(obj1[key], obj2[key], newPath);
+        if (typeof obj1Record[key] === 'object' && obj1Record[key] !== null &&
+            typeof obj2Record[key] === 'object' && obj2Record[key] !== null) {
+          const nested = generateDiff(obj1Record[key], obj2Record[key], newPath);
           differences.push(...nested);
         } else {
           differences.push({
             path: newPath,
             type: 'changed',
-            oldValue: obj1[key],
-            newValue: obj2[key]
+            oldValue: obj1Record[key],
+            newValue: obj2Record[key]
           });
         }
       }

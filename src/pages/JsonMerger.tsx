@@ -94,8 +94,13 @@ const JsonMerger: React.FC = () => {
 
       for (let i = 1; i < parsedObjects.length; i++) {
         if (mergeStrategy === 'shallow') {
-          // Shallow merge
-          result = { ...result, ...parsedObjects[i] };
+          // Shallow merge - ensure both are objects
+          if (typeof result === 'object' && result !== null && !Array.isArray(result) &&
+              typeof parsedObjects[i] === 'object' && parsedObjects[i] !== null && !Array.isArray(parsedObjects[i])) {
+            result = { ...result as Record<string, unknown>, ...parsedObjects[i] as Record<string, unknown> };
+          } else {
+            result = parsedObjects[i];
+          }
         } else {
           // Deep merge
           result = deepMerge(result, parsedObjects[i]);
