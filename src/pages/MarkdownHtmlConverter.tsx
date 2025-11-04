@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download, Eye, Edit } from 'lucide-react';
 import { marked } from 'marked';
 
@@ -250,12 +252,10 @@ It can span multiple lines</p>
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Markdown ↔ HTML Converter</h1>
-          <p className="text-gray-600">
-            Convert between Markdown and HTML formats with live preview and syntax support.
-          </p>
-        </div>
+        <PageHeader 
+          title="Markdown ↔ HTML Converter"
+          description="Convert between Markdown and HTML formats with live preview and syntax support."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -430,16 +430,28 @@ It can span multiple lines</p>
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-indigo-50 rounded-lg p-4">
-          <h4 className="font-semibold text-indigo-900 mb-2">Markdown ↔ HTML Conversion</h4>
-          <div className="text-sm text-indigo-800 space-y-1">
-            <p><strong>Markdown:</strong> Lightweight markup language for creating formatted text using plain text syntax</p>
-            <p><strong>HTML:</strong> Standard markup language for creating web pages and web applications</p>
-            <p><strong>Features:</strong> Supports headers, lists, links, images, code blocks, and more</p>
-            <p><strong>Use cases:</strong> Documentation, README files, blog posts, static site generation</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="Markdown ↔ HTML Conversion"
+          items={[
+            {
+              label: "Markdown",
+              description: "Lightweight markup language for creating formatted text using plain text syntax"
+            },
+            {
+              label: "HTML",
+              description: "Standard markup language for creating web pages and web applications"
+            },
+            {
+              label: "Features",
+              description: "Supports headers, lists, links, images, code blocks, and more"
+            },
+            {
+              label: "Bidirectional",
+              description: "Convert Markdown to HTML and HTML back to Markdown with formatting preservation"
+            }
+          ]}
+          useCases="Documentation, README files, blog posts, static site generation"
+        />
       </div>
     </div>
   );

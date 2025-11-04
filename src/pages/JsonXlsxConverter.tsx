@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Download, FileSpreadsheet, Upload } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 import * as XLSX from 'xlsx';
 
 const JsonXlsxConverter: React.FC = () => {
@@ -218,12 +220,10 @@ const JsonXlsxConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">JSON to XLSX Converter</h1>
-          <p className="text-gray-600">
-            Convert JSON data to Excel XLSX format with support for nested objects and arrays.
-          </p>
-        </div>
+        <PageHeader 
+          title="JSON to XLSX Converter"
+          description="Convert JSON data to Excel XLSX format with support for nested objects and arrays."
+        />
 
         {/* Settings Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -354,18 +354,35 @@ const JsonXlsxConverter: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <h4 className="font-semibold text-blue-900 mb-2">JSON to XLSX Conversion Features</h4>
-          <div className="text-sm text-blue-800 space-y-1">
-            <p><strong>Nested object handling:</strong> Option to flatten nested objects or convert to JSON strings</p>
-            <p><strong>Array support:</strong> Arrays are converted to JSON strings for Excel compatibility</p>
-            <p><strong>Auto-sizing:</strong> Columns are automatically sized based on content</p>
-            <p><strong>Custom naming:</strong> Set custom file and sheet names</p>
-            <p><strong>File upload:</strong> Upload JSON files directly or paste data</p>
-            <p><strong>Excel compatibility:</strong> Generated files work with Microsoft Excel and other spreadsheet applications</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="JSON to XLSX Conversion Features"
+          items={[
+            {
+              label: "Nested object handling",
+              description: "Option to flatten nested objects or convert to JSON strings"
+            },
+            {
+              label: "Array support", 
+              description: "Arrays are converted to JSON strings for Excel compatibility"
+            },
+            {
+              label: "Auto-sizing",
+              description: "Columns are automatically sized based on content"
+            },
+            {
+              label: "Custom naming",
+              description: "Set custom file and sheet names"
+            },
+            {
+              label: "File upload",
+              description: "Upload JSON files directly or paste data"
+            },
+            {
+              label: "Excel compatibility",
+              description: "Generated files work with Microsoft Excel and other spreadsheet applications"
+            }
+          ]}
+        />
       </div>
     </div>
   );

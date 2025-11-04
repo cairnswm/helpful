@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, Download, RotateCcw, Info, Camera, MapPin, Calendar } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface ExifData {
   [key: string]: any;
@@ -170,12 +172,10 @@ const ImageMetadataEditor: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Image Metadata Editor</h1>
-          <p className="text-gray-600">
-            View and edit EXIF data including camera settings, GPS coordinates, and custom metadata fields.
-          </p>
-        </div>
+        <PageHeader 
+          title="Image Metadata Editor"
+          description="View and edit EXIF data including camera settings, GPS coordinates, and custom metadata fields."
+        />
 
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -339,17 +339,31 @@ const ImageMetadataEditor: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <h4 className="font-semibold text-blue-900 mb-2">Metadata Editor Features</h4>
-          <div className="text-sm text-blue-800 space-y-1">
-            <p><strong>EXIF Data:</strong> View camera settings, lens information, and shooting parameters</p>
-            <p><strong>GPS Information:</strong> Edit location coordinates and altitude data</p>
-            <p><strong>Custom Fields:</strong> Add your own metadata fields for organization</p>
-            <p><strong>Bulk Export:</strong> Download both the image and metadata as separate files</p>
-            <p><strong>Note:</strong> This is a demo implementation. Real metadata embedding requires specialized libraries</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="Metadata Editor Features"
+          items={[
+            {
+              label: "EXIF Data",
+              description: "View camera settings, lens information, and shooting parameters"
+            },
+            {
+              label: "GPS Information",
+              description: "Edit location coordinates and altitude data"
+            },
+            {
+              label: "Custom Fields",
+              description: "Add your own metadata fields for organization"
+            },
+            {
+              label: "Bulk Export",
+              description: "Download both the image and metadata as separate files"
+            },
+            {
+              label: "Note",
+              description: "This is a demo implementation. Real metadata embedding requires specialized libraries"
+            }
+          ]}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 const XmlJsonConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -298,12 +300,10 @@ const XmlJsonConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">XML ↔ JSON Converter</h1>
-          <p className="text-gray-600">
-            Transform XML documents to JSON and vice versa with structure and attribute preservation.
-          </p>
-        </div>
+        <PageHeader 
+          title="XML ↔ JSON Converter"
+          description="Transform XML documents to JSON and vice versa with structure and attribute preservation."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -441,16 +441,31 @@ const XmlJsonConverter: React.FC = () => {
         </div>
 
         {/* Info */}
-        <div className="mt-6 bg-orange-50 rounded-lg p-4">
-          <h4 className="font-semibold text-orange-900 mb-2">XML ↔ JSON Conversion</h4>
-          <div className="text-sm text-orange-800 space-y-1">
-            <p><strong>XML:</strong> Extensible Markup Language for structured data with attributes and namespaces</p>
-            <p><strong>JSON:</strong> JavaScript Object Notation, lightweight data interchange format</p>
-            <p><strong>Attributes:</strong> XML attributes are preserved as @attributes objects in JSON</p>
-            <p><strong>Text content:</strong> Mixed content is preserved as #text properties</p>
-            <p><strong>Use cases:</strong> API data transformation, configuration conversion, data migration</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="XML ↔ JSON Conversion"
+          items={[
+            {
+              label: "XML",
+              description: "Extensible Markup Language for structured data with attributes and namespaces"
+            },
+            {
+              label: "JSON",
+              description: "JavaScript Object Notation, lightweight data interchange format"
+            },
+            {
+              label: "Attributes",
+              description: "XML attributes are preserved as @attributes objects in JSON"
+            },
+            {
+              label: "Text content",
+              description: "Mixed content is preserved as #text properties"
+            },
+            {
+              label: "Use cases",
+              description: "API data transformation, configuration conversion, data migration"
+            }
+          ]}
+        />
       </div>
     </div>
   );

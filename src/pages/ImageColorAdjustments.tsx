@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, Download, RotateCcw, Palette, Sliders, Sun, Contrast, Droplets } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface ColorSettings {
   saturation: number;
@@ -372,12 +374,10 @@ const ImageColorAdjustments: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Image Color Adjustments</h1>
-          <p className="text-gray-600">
-            Fine-tune image colors with professional-grade adjustments for saturation, hue, exposure, and color balance.
-          </p>
-        </div>
+        <PageHeader 
+          title="Image Color Adjustments"
+          description="Fine-tune image colors with professional-grade adjustments for saturation, hue, exposure, and color balance."
+        />
 
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -553,6 +553,33 @@ const ImageColorAdjustments: React.FC = () => {
 
         {/* Hidden canvas for processing */}
         <canvas ref={canvasRef} className="hidden" />
+
+        <InfoSection 
+          title="Image Color Adjustment Features"
+          items={[
+            {
+              label: "Professional Controls",
+              description: "Saturation, hue, exposure, brightness, contrast, highlights, shadows"
+            },
+            {
+              label: "Color Temperature",
+              description: "Adjust warmth/coolness and tint for perfect white balance"
+            },
+            {
+              label: "Vibrance Control",
+              description: "Enhanced saturation that protects skin tones"
+            },
+            {
+              label: "Real-time Preview",
+              description: "See changes instantly as you adjust settings"
+            },
+            {
+              label: "Reset Options",
+              description: "Easily restore original image or reset individual settings"
+            }
+          ]}
+          useCases="Photo editing, color correction, social media content, professional photography"
+        />
       </div>
     </div>
   );

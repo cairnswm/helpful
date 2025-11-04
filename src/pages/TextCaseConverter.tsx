@@ -1,4 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, Type } from 'lucide-react';
 
 interface CaseConversion {
@@ -164,12 +166,10 @@ const TextCaseConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Text Case Converter</h1>
-          <p className="text-gray-600">
-            Convert text between different case formats: camelCase, snake_case, kebab-case, PascalCase, and more.
-          </p>
-        </div>
+        <PageHeader 
+          title="Text Case Converter"
+          description="Convert text between different case formats: camelCase, snake_case, kebab-case, PascalCase, and more."
+        />
 
         {/* Input Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -288,6 +288,33 @@ const TextCaseConverter: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="Text Case Conversion"
+          items={[
+            {
+              label: "camelCase",
+              description: "First word lowercase, subsequent words capitalized, no spaces"
+            },
+            {
+              label: "PascalCase", 
+              description: "All words capitalized, no spaces"
+            },
+            {
+              label: "snake_case",
+              description: "All lowercase words separated by underscores"
+            },
+            {
+              label: "kebab-case",
+              description: "All lowercase words separated by hyphens"
+            },
+            {
+              label: "Title Case",
+              description: "Each word capitalized with spaces preserved"
+            }
+          ]}
+          useCases="Programming conventions, API naming, variable naming, documentation formatting"
+        />
       </div>
     </div>
   );

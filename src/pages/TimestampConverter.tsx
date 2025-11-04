@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, Clock, Calendar } from 'lucide-react';
 
 const TimestampConverter: React.FC = () => {
@@ -97,12 +99,10 @@ const TimestampConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Timestamp Converter</h1>
-          <p className="text-gray-600">
-            Convert between Unix timestamps and human-readable dates.
-          </p>
-        </div>
+        <PageHeader 
+          title="Timestamp Converter"
+          description="Convert between Unix timestamps and human-readable dates."
+        />
 
         {/* Current Time */}
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 mb-6">
@@ -258,15 +258,28 @@ const TimestampConverter: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-yellow-50 rounded-lg p-4">
-          <h4 className="font-semibold text-yellow-900 mb-2">Timestamp Information</h4>
-          <div className="text-sm text-yellow-800 space-y-1">
-            <p><strong>Unix Timestamp:</strong> Number of seconds since January 1, 1970 UTC</p>
-            <p><strong>Milliseconds:</strong> Some systems use milliseconds instead of seconds</p>
-            <p><strong>Supported formats:</strong> ISO 8601, RFC 2822, and most common date formats</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="Timestamp Conversion"
+          items={[
+            {
+              label: "Unix Timestamp",
+              description: "Number of seconds since January 1, 1970 UTC"
+            },
+            {
+              label: "Milliseconds",
+              description: "Some systems use milliseconds instead of seconds"
+            },
+            {
+              label: "Supported formats",
+              description: "ISO 8601, RFC 2822, and most common date formats"
+            },
+            {
+              label: "Real-time",
+              description: "Live current timestamp updates every second"
+            }
+          ]}
+          useCases="API development, log analysis, database queries, system administration"
+        />
       </div>
     </div>
   );

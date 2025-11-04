@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Info, AlertCircle, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface StatusCode {
   code: number;
@@ -101,12 +103,10 @@ const HttpStatusReference: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">HTTP Status Code Reference</h1>
-          <p className="text-gray-600">
-            Comprehensive reference for HTTP status codes with descriptions and usage examples.
-          </p>
-        </div>
+        <PageHeader 
+          title="HTTP Status Code Reference"
+          description="Comprehensive reference for HTTP status codes with descriptions and usage examples."
+        />
 
         {/* Search and Filter */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -238,6 +238,33 @@ const HttpStatusReference: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="HTTP Status Code Categories"
+          items={[
+            {
+              label: "1xx Informational",
+              description: "Request received, continuing process"
+            },
+            {
+              label: "2xx Success",
+              description: "Request successfully received, understood, and accepted"
+            },
+            {
+              label: "3xx Redirection",
+              description: "Further action needs to be taken to complete the request"
+            },
+            {
+              label: "4xx Client Error",
+              description: "Request contains bad syntax or cannot be fulfilled"
+            },
+            {
+              label: "5xx Server Error",
+              description: "Server failed to fulfill an apparently valid request"
+            }
+          ]}
+          useCases="API debugging, web development, HTTP troubleshooting, status code lookup"
+        />
       </div>
     </div>
   );

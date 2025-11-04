@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, Database } from 'lucide-react';
 
 const SqlFormatter: React.FC = () => {
@@ -110,12 +112,10 @@ const SqlFormatter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">SQL Formatter</h1>
-          <p className="text-gray-600">
-            Format messy SQL queries for better readability and maintainability.
-          </p>
-        </div>
+        <PageHeader 
+          title="SQL Formatter"
+          description="Format messy SQL queries for better readability and maintainability."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -185,16 +185,28 @@ const SqlFormatter: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-green-50 rounded-lg p-4">
-          <h4 className="font-semibold text-green-900 mb-2">SQL Formatting Features</h4>
-          <div className="text-sm text-green-800 space-y-1">
-            <p><strong>Keyword formatting:</strong> Proper capitalization and line breaks for SQL keywords</p>
-            <p><strong>Indentation:</strong> Consistent indentation for nested queries and clauses</p>
-            <p><strong>Column alignment:</strong> Proper spacing for SELECT column lists</p>
-            <p><strong>Note:</strong> This is a basic formatter. For complex queries, consider specialized SQL formatting tools</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="SQL Formatting"
+          items={[
+            {
+              label: "Keyword formatting",
+              description: "Proper capitalization and line breaks for SQL keywords"
+            },
+            {
+              label: "Indentation",
+              description: "Consistent indentation for nested queries and clauses"
+            },
+            {
+              label: "Column alignment",
+              description: "Proper spacing for SELECT column lists"
+            },
+            {
+              label: "Basic formatter",
+              description: "This is a basic formatter. For complex queries, consider specialized SQL formatting tools"
+            }
+          ]}
+          useCases="Database development, query optimization, code review, documentation"
+        />
       </div>
     </div>
   );

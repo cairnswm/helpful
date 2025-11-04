@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, CheckCircle, XCircle, Info } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface ValidationResult {
   isValid: boolean;
@@ -185,12 +187,10 @@ const UuidValidator: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">UUID Validator</h1>
-          <p className="text-gray-600">
-            Check if given strings are valid UUIDs and identify their version and properties.
-          </p>
-        </div>
+        <PageHeader 
+          title="UUID Validator"
+          description="Check if given strings are valid UUIDs and identify their version and properties."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Panel */}
@@ -308,23 +308,36 @@ const UuidValidator: React.FC = () => {
           </div>
         </div>
 
-        {/* UUID Information */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <div className="flex items-start space-x-2">
-            <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-semibold text-blue-900 mb-2">UUID Information</h4>
-              <div className="text-sm text-blue-800 space-y-1">
-                <p><strong>Format:</strong> 8-4-4-4-12 hexadecimal digits (36 characters total including hyphens)</p>
-                <p><strong>Version 1:</strong> Time-based UUIDs with timestamp and node information</p>
-                <p><strong>Version 3:</strong> Name-based UUIDs using MD5 hash</p>
-                <p><strong>Version 4:</strong> Random or pseudo-random UUIDs (most common)</p>
-                <p><strong>Version 5:</strong> Name-based UUIDs using SHA-1 hash</p>
-                <p><strong>Variant:</strong> Indicates the layout of the UUID (RFC 4122, Microsoft GUID, etc.)</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <InfoSection 
+          title="UUID Information"
+          items={[
+            {
+              label: "Format",
+              description: "8-4-4-4-12 hexadecimal digits (36 characters total including hyphens)"
+            },
+            {
+              label: "Version 1",
+              description: "Time-based UUIDs with timestamp and node information"
+            },
+            {
+              label: "Version 3",
+              description: "Name-based UUIDs using MD5 hash"
+            },
+            {
+              label: "Version 4",
+              description: "Random or pseudo-random UUIDs (most common)"
+            },
+            {
+              label: "Version 5",
+              description: "Name-based UUIDs using SHA-1 hash"
+            },
+            {
+              label: "Variant",
+              description: "Indicates the layout of the UUID (RFC 4122, Microsoft GUID, etc.)"
+            }
+          ]}
+          useCases="Data validation, API development, database records, unique identifiers"
+        />
       </div>
     </div>
   );

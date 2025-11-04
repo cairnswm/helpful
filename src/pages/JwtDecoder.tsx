@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, AlertCircle, Clock, User, Key, Shield, CheckCircle, XCircle } from 'lucide-react';
 
 interface JwtPayload {
@@ -389,12 +391,10 @@ const JwtDecoder: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">JWT Decoder</h1>
-          <p className="text-gray-600">
-            Decode and inspect JWT tokens. View header, payload, expiration information, and common claims.
-          </p>
-        </div>
+        <PageHeader 
+          title="JWT Decoder"
+          description="Decode and inspect JWT tokens. View header, payload, expiration information, and common claims."
+        />
 
         {/* Input Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -542,6 +542,29 @@ const JwtDecoder: React.FC = () => {
             </div>
           </div>
         )}
+
+        <InfoSection 
+          title="JWT Token Decoding"
+          items={[
+            {
+              label: "Decode Header",
+              description: "Extract and display JWT header information including algorithm"
+            },
+            {
+              label: "Decode Payload",
+              description: "View claims and user data stored in the JWT payload"
+            },
+            {
+              label: "Verify Structure",
+              description: "Validate JWT format and structure without signature verification"
+            },
+            {
+              label: "Expiration Check",
+              description: "Check token expiration and validity timestamps"
+            }
+          ]}
+          useCases="API debugging, token inspection, authentication troubleshooting, security analysis"
+        />
       </div>
     </div>
   );

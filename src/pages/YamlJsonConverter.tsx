@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download } from 'lucide-react';
 import * as yaml from 'js-yaml';
 
@@ -161,12 +163,10 @@ settings:
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">YAML ↔ JSON Converter</h1>
-          <p className="text-gray-600">
-            Convert between YAML and JSON formats with syntax validation and error detection.
-          </p>
-        </div>
+        <PageHeader 
+          title="YAML ↔ JSON Converter"
+          description="Convert between YAML and JSON formats with syntax validation and error detection."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -303,16 +303,28 @@ settings:
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-purple-50 rounded-lg p-4">
-          <h4 className="font-semibold text-purple-900 mb-2">YAML ↔ JSON Conversion</h4>
-          <div className="text-sm text-purple-800 space-y-1">
-            <p><strong>YAML:</strong> Human-readable data serialization standard, commonly used for configuration files</p>
-            <p><strong>JSON:</strong> Lightweight data interchange format, widely used in APIs and web applications</p>
-            <p><strong>Use cases:</strong> Configuration management, API data transformation, documentation</p>
-            <p><strong>Features:</strong> Preserves data types, handles nested structures, validates syntax</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="YAML ↔ JSON Conversion"
+          items={[
+            {
+              label: "YAML",
+              description: "Human-readable data serialization standard, commonly used for configuration files"
+            },
+            {
+              label: "JSON",
+              description: "Lightweight data interchange format, widely used in APIs and web applications"
+            },
+            {
+              label: "Features",
+              description: "Preserves data types, handles nested structures, validates syntax"
+            },
+            {
+              label: "Bidirectional",
+              description: "Convert YAML to JSON and JSON to YAML with proper formatting"
+            }
+          ]}
+          useCases="Configuration management, API data transformation, documentation, DevOps"
+        />
       </div>
     </div>
   );

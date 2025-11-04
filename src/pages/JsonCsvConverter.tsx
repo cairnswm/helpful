@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download } from 'lucide-react';
 
 const JsonCsvConverter: React.FC = () => {
@@ -223,12 +225,10 @@ const JsonCsvConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">JSON/CSV Converter</h1>
-          <p className="text-gray-600">
-            Transform JSON data to CSV format and vice versa for data processing or reporting.
-          </p>
-        </div>
+        <PageHeader 
+          title="JSON/CSV Converter"
+          description="Transform JSON data to CSV format and vice versa for data processing or reporting."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -410,17 +410,32 @@ const JsonCsvConverter: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-green-50 rounded-lg p-4">
-          <h4 className="font-semibold text-green-900 mb-2">Conversion Features</h4>
-          <div className="text-sm text-green-800 space-y-1">
-            <p><strong>JSON to CSV:</strong> Converts JSON arrays to CSV format with customizable delimiters</p>
-            <p><strong>CSV to JSON:</strong> Parses CSV data and converts to structured JSON arrays</p>
-            <p><strong>Data types:</strong> Automatically detects and converts numbers, booleans, and null values</p>
-            <p><strong>Headers:</strong> Option to include/exclude headers in CSV output</p>
-            <p><strong>Download:</strong> Save converted data directly as CSV or JSON files</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="JSON ↔ CSV Conversion"
+          items={[
+            {
+              label: "JSON to CSV",
+              description: "Converts JSON arrays to CSV format with customizable delimiters"
+            },
+            {
+              label: "CSV to JSON",
+              description: "Parses CSV data and converts to structured JSON arrays"
+            },
+            {
+              label: "Data types",
+              description: "Automatically detects and converts numbers, booleans, and null values"
+            },
+            {
+              label: "Headers",
+              description: "Option to include/exclude headers in CSV output"
+            },
+            {
+              label: "Download",
+              description: "Save converted data directly as CSV or JSON files"
+            }
+          ]}
+          useCases="Data analysis, spreadsheet import/export, API integration, data migration"
+        />
       </div>
     </div>
   );

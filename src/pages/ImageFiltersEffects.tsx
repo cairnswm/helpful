@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, Download, RotateCcw, Palette, Sliders } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface FilterSettings {
   brightness: number;
@@ -203,12 +205,10 @@ const ImageFiltersEffects: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Image Filters & Effects</h1>
-          <p className="text-gray-600">
-            Apply various filters and effects to images including brightness, contrast, blur, and color adjustments.
-          </p>
-        </div>
+        <PageHeader 
+          title="Image Filters & Effects"
+          description="Apply various filters and effects to images including brightness, contrast, blur, and color adjustments."
+        />
 
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -380,6 +380,29 @@ const ImageFiltersEffects: React.FC = () => {
 
         {/* Hidden canvas for processing */}
         <canvas ref={canvasRef} className="hidden" />
+
+        <InfoSection 
+          title="Image Filter Features"
+          items={[
+            {
+              label: "Color Adjustments",
+              description: "Brightness, contrast, saturation, and hue controls"
+            },
+            {
+              label: "Visual Effects",
+              description: "Blur, grayscale, sepia, and invert filters"
+            },
+            {
+              label: "Real-time Preview",
+              description: "See filter effects applied instantly as you adjust settings"
+            },
+            {
+              label: "Export Options",
+              description: "Download filtered images in multiple formats"
+            }
+          ]}
+          useCases="Photo enhancement, artistic effects, social media content, image processing"
+        />
       </div>
     </div>
   );

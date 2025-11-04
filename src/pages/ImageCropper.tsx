@@ -1,5 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Upload, Download, RotateCcw, Crop, Square, Maximize } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface CropArea {
   x: number;
@@ -199,12 +201,10 @@ const ImageCropper: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Image Cropper</h1>
-          <p className="text-gray-600">
-            Select and crop portions of images with adjustable aspect ratios and precise controls.
-          </p>
-        </div>
+        <PageHeader 
+          title="Image Cropper"
+          description="Select and crop portions of images with adjustable aspect ratios and precise controls."
+        />
 
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -393,6 +393,29 @@ const ImageCropper: React.FC = () => {
 
         {/* Hidden canvas for cropping */}
         <canvas ref={canvasRef} className="hidden" />
+
+        <InfoSection 
+          title="Image Cropping Features"
+          items={[
+            {
+              label: "Interactive Selection",
+              description: "Click and drag to select crop area with visual feedback"
+            },
+            {
+              label: "Aspect Ratio Control",
+              description: "Free form, square, 4:3, 16:9, and other preset ratios"
+            },
+            {
+              label: "Precise Positioning",
+              description: "Drag crop area to exact position on image"
+            },
+            {
+              label: "Multiple Formats",
+              description: "Export cropped images in PNG, JPEG, or WebP formats"
+            }
+          ]}
+          useCases="Profile pictures, thumbnails, social media content, image optimization"
+        />
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import JsonDisplay from '../components/JsonDisplay';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw } from 'lucide-react';
 
 // Function to clean common JSON formatting issues
@@ -106,10 +108,10 @@ const FormatJson: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Format JSON</h1>
-          <p className="text-gray-600">Paste your JSON data below to format and validate it.</p>
-        </div>
+        <PageHeader 
+          title="Format JSON"
+          description="Paste your JSON data below to format and validate it."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-280px)]">
           {/* Input Panel */}
@@ -162,6 +164,29 @@ const FormatJson: React.FC = () => {
             />
           </div>
         </div>
+
+        <InfoSection 
+          title="JSON Formatting & Validation"
+          items={[
+            {
+              label: "Format & Validate",
+              description: "Automatically formats and validates JSON with proper indentation"
+            },
+            {
+              label: "Error Detection",
+              description: "Identifies and highlights JSON syntax errors with helpful messages"
+            },
+            {
+              label: "Auto-clean",
+              description: "Fixes common issues like trailing commas, unquoted keys, and mixed quotes"
+            },
+            {
+              label: "Copy formatted",
+              description: "Easily copy the properly formatted JSON to clipboard"
+            }
+          ]}
+          useCases="API testing, configuration files, debugging, code review, data analysis"
+        />
       </div>
     </div>
   );

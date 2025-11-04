@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, Calculator, AlertCircle } from 'lucide-react';
 
 interface ConversionResult {
@@ -150,12 +152,10 @@ const NumberBaseConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Number Base Converter</h1>
-          <p className="text-gray-600">
-            Convert numbers between Binary, Decimal, Hexadecimal, and Octal number systems.
-          </p>
-        </div>
+        <PageHeader 
+          title="Number Base Converter"
+          description="Convert numbers between Binary, Decimal, Hexadecimal, and Octal number systems."
+        />
 
         {/* Input Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -342,17 +342,32 @@ const NumberBaseConverter: React.FC = () => {
           </div>
         </div>
 
-        {/* Number System Information */}
-        <div className="mt-6 bg-green-50 rounded-lg p-4">
-          <h4 className="font-semibold text-green-900 mb-2">Number System Information</h4>
-          <div className="text-sm text-green-800 space-y-1">
-            <p><strong>Binary (Base 2):</strong> Used in computer systems, only digits 0 and 1</p>
-            <p><strong>Octal (Base 8):</strong> Uses digits 0-7, common in Unix file permissions</p>
-            <p><strong>Decimal (Base 10):</strong> Standard human counting system, digits 0-9</p>
-            <p><strong>Hexadecimal (Base 16):</strong> Uses 0-9 and A-F, common in programming and color codes</p>
-            <p><strong>Prefixes:</strong> 0b for binary, 0o for octal, 0x for hexadecimal</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="Number Base Conversion"
+          items={[
+            {
+              label: "Binary (Base 2)",
+              description: "Used in computer systems, only digits 0 and 1"
+            },
+            {
+              label: "Octal (Base 8)",
+              description: "Uses digits 0-7, common in Unix file permissions"
+            },
+            {
+              label: "Decimal (Base 10)",
+              description: "Standard human counting system, digits 0-9"
+            },
+            {
+              label: "Hexadecimal (Base 16)",
+              description: "Uses 0-9 and A-F, common in programming and color codes"
+            },
+            {
+              label: "Prefixes",
+              description: "0b for binary, 0o for octal, 0x for hexadecimal"
+            }
+          ]}
+          useCases="Programming, computer science education, digital electronics, color codes"
+        />
       </div>
     </div>
   );

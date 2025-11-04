@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, Palette, Eye } from 'lucide-react';
 
 interface ColorFormats {
@@ -336,12 +338,10 @@ const ColorConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Color Converter</h1>
-          <p className="text-gray-600">
-            Convert between different color formats: HEX, RGB, HSL, HSV, CMYK, LAB, and XYZ.
-          </p>
-        </div>
+        <PageHeader 
+          title="Color Converter"
+          description="Convert between different color formats: HEX, RGB, HSL, HSV, CMYK, LAB, and XYZ."
+        />
 
         {/* Input Section */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -638,6 +638,29 @@ const ColorConverter: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="Color Space Conversion"
+          items={[
+            {
+              label: "RGB & HEX",
+              description: "Red, Green, Blue (0-255) and hexadecimal notation - most common for web/digital"
+            },
+            {
+              label: "HSL & HSV",
+              description: "Hue, Saturation, Lightness/Value - intuitive for color selection"
+            },
+            {
+              label: "CMYK",
+              description: "Cyan, Magenta, Yellow, Key (black) - used for print design"
+            },
+            {
+              label: "LAB & XYZ",
+              description: "Lightness, A, B channels and CIE color space - device-independent"
+            }
+          ]}
+          useCases="Web design, graphic design, print production, color matching, accessibility"
+        />
       </div>
     </div>
   );

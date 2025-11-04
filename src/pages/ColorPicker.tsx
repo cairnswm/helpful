@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, Palette, Eye } from 'lucide-react';
 
 interface ColorFormats {
@@ -223,12 +225,10 @@ const ColorPicker: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Color Picker & Converter</h1>
-          <p className="text-gray-600">
-            Pick colors and convert between different color formats with Tailwind CSS shade variations.
-          </p>
-        </div>
+        <PageHeader 
+          title="Color Picker & Converter"
+          description="Pick colors and convert between different color formats with Tailwind CSS shade variations."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Color Picker */}
@@ -389,6 +389,29 @@ const ColorPicker: React.FC = () => {
             <p><strong>Tailwind Shades:</strong> Color variations from 50 (lightest) to 950 (darkest)</p>
           </div>
         </div>
+
+        <InfoSection 
+          title="Color Picking & Conversion"
+          items={[
+            {
+              label: "Visual Picker",
+              description: "Interactive color picker with preview and live updates"
+            },
+            {
+              label: "Format Support",
+              description: "Convert between HEX, RGB, HSL, HSV, and CMYK formats"
+            },
+            {
+              label: "Tailwind Shades",
+              description: "Generate Tailwind CSS color palette with 50-950 shade variations"
+            },
+            {
+              label: "Copy to Clipboard",
+              description: "Easily copy color values in your preferred format"
+            }
+          ]}
+          useCases="UI design, branding, web development, CSS styling, design systems"
+        />
       </div>
     </div>
   );

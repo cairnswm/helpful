@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, Plus, Key, User } from 'lucide-react';
 
 interface JwtHeader {
@@ -111,12 +113,10 @@ const JwtGenerator: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">JWT Generator</h1>
-          <p className="text-gray-600">
-            Generate JSON Web Tokens with custom headers, payloads, and secrets.
-          </p>
-        </div>
+        <PageHeader 
+          title="JWT Generator"
+          description="Generate JSON Web Tokens with custom headers, payloads, and secrets."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* JWT Configuration */}
@@ -340,6 +340,29 @@ const JwtGenerator: React.FC = () => {
             <p><strong>Note:</strong> This generator is for demo purposes only</p>
           </div>
         </div>
+
+        <InfoSection 
+          title="JWT Token Generation"
+          items={[
+            {
+              label: "Header",
+              description: "Specify algorithm (HS256, RS256) and token type"
+            },
+            {
+              label: "Payload",
+              description: "Add custom claims like user info, permissions, and expiration"
+            },
+            {
+              label: "Secret Key",
+              description: "Provide signing key for token verification and security"
+            },
+            {
+              label: "Demo Purpose",
+              description: "This generator is for development and testing purposes only"
+            }
+          ]}
+          useCases="Authentication, API tokens, session management, microservices security"
+        />
       </div>
     </div>
   );

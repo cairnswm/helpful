@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowUpDown } from 'lucide-react';
 
 const HexConverter: React.FC = () => {
@@ -115,12 +117,10 @@ const HexConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Hex Converter</h1>
-          <p className="text-gray-600">
-            Convert between text strings and hexadecimal representation.
-          </p>
-        </div>
+        <PageHeader 
+          title="Hex Converter"
+          description="Convert between text strings and hexadecimal representation."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -242,16 +242,28 @@ const HexConverter: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-purple-50 rounded-lg p-4">
-          <h4 className="font-semibold text-purple-900 mb-2">Hex Conversion Information</h4>
-          <div className="text-sm text-purple-800 space-y-1">
-            <p><strong>Hexadecimal:</strong> Base-16 number system using digits 0-9 and letters A-F</p>
-            <p><strong>Character encoding:</strong> Each character is converted to its ASCII/Unicode code point</p>
-            <p><strong>Format support:</strong> Accepts hex with or without spaces, with or without 0x prefix</p>
-            <p><strong>Use cases:</strong> Binary data representation, debugging, encoding issues, color codes</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="Hexadecimal Conversion"
+          items={[
+            {
+              label: "Hexadecimal",
+              description: "Base-16 number system using digits 0-9 and letters A-F"
+            },
+            {
+              label: "Character encoding",
+              description: "Each character is converted to its ASCII/Unicode code point"
+            },
+            {
+              label: "Format support",
+              description: "Accepts hex with or without spaces, with or without 0x prefix"
+            },
+            {
+              label: "Bidirectional",
+              description: "Convert text to hex and hex back to readable text"
+            }
+          ]}
+          useCases="Binary data representation, debugging, encoding issues, color codes"
+        />
       </div>
     </div>
   );

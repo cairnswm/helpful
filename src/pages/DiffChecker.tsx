@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface DiffLine {
   type: 'added' | 'removed' | 'unchanged';
@@ -107,12 +109,10 @@ const DiffChecker: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Diff Checker</h1>
-          <p className="text-gray-600">
-            Compare two text snippets to quickly see differences line by line.
-          </p>
-        </div>
+        <PageHeader 
+          title="Diff Checker"
+          description="Compare two text snippets to quickly see differences line by line."
+        />
 
         {/* Stats */}
         {diff.length > 0 && (
@@ -235,6 +235,29 @@ const DiffChecker: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="Diff Checker Features"
+          items={[
+            {
+              label: "Line-by-line comparison",
+              description: "Visual diff showing additions, deletions, and unchanged lines"
+            },
+            {
+              label: "Color coding",
+              description: "Green for additions, red for deletions, clear visual indicators"
+            },
+            {
+              label: "Real-time updates",
+              description: "Differences update as you type in either text area"
+            },
+            {
+              label: "Statistics",
+              description: "Shows count of added, removed, and unchanged lines"
+            }
+          ]}
+          useCases="Code review, document comparison, configuration file changes, text analysis"
+        />
       </div>
     </div>
   );

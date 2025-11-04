@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Lock, Eye, EyeOff, Shield, AlertTriangle } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface PasswordAnalysis {
   score: number;
@@ -220,12 +222,10 @@ const PasswordChecker: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Password Strength Checker</h1>
-          <p className="text-gray-600">
-            Evaluate the strength and entropy of passwords with detailed security analysis.
-          </p>
-        </div>
+        <PageHeader 
+          title="Password Strength Checker"
+          description="Evaluate the strength and entropy of passwords with detailed security analysis."
+        />
 
         {/* Password Input */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -412,6 +412,33 @@ const PasswordChecker: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="Password Security Tips"
+          items={[
+            {
+              label: "Length matters",
+              description: "Longer passwords are exponentially harder to crack"
+            },
+            {
+              label: "Character variety",
+              description: "Use uppercase, lowercase, numbers, and special characters"
+            },
+            {
+              label: "Avoid patterns",
+              description: "Don't use common words, dates, or keyboard patterns"
+            },
+            {
+              label: "Unique passwords",
+              description: "Use different passwords for each account"
+            },
+            {
+              label: "Two-factor auth",
+              description: "Enable 2FA whenever possible for extra security"
+            }
+          ]}
+          useCases="Account security, password management, security audits, compliance checks"
+        />
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Globe, Clock, MapPin } from 'lucide-react';
 import cityTimezones from 'city-timezones';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 // Extend window interface for AccessElf
 declare global {
@@ -210,12 +212,10 @@ const TimezoneConverter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Timezone Converter</h1>
-          <p className="text-gray-600">
-            Convert time between different timezones and find timezone information for cities worldwide.
-          </p>
-        </div>
+        <PageHeader 
+          title="Timezone Converter"
+          description="Convert time between different timezones and find timezone information for cities worldwide."
+        />
 
         {/* Time Input */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -444,17 +444,32 @@ const TimezoneConverter: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-green-50 rounded-lg p-4">
-          <h4 className="font-semibold text-green-900 mb-2">Timezone Conversion Features</h4>
-          <div className="text-sm text-green-800 space-y-1">
-            <p><strong>City Search:</strong> Find timezones by searching for city names worldwide</p>
-            <p><strong>DST Detection:</strong> Automatically detects daylight saving time status</p>
-            <p><strong>UTC Offsets:</strong> Shows current UTC offset for each timezone</p>
-            <p><strong>Real-time:</strong> Conversions update automatically as you change the time</p>
-            <p><strong>Copy Options:</strong> Copy individual times or all results at once</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="Timezone Conversion Features"
+          items={[
+            {
+              label: "City Search",
+              description: "Find timezones by searching for city names worldwide"
+            },
+            {
+              label: "DST Detection",
+              description: "Automatically detects daylight saving time status"
+            },
+            {
+              label: "UTC Offsets",
+              description: "Shows current UTC offset for each timezone"
+            },
+            {
+              label: "Real-time",
+              description: "Conversions update automatically as you change the time"
+            },
+            {
+              label: "Copy Options",
+              description: "Copy individual times or all results at once"
+            }
+          ]}
+          useCases="International meetings, travel planning, global team coordination, scheduling"
+        />
       </div>
     </div>
   );

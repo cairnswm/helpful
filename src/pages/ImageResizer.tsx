@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { Upload, Download, RotateCcw, Image as ImageIcon, Settings, Info } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface ResizeSettings {
   targetSizeKB: number;
@@ -164,12 +166,10 @@ const ImageResizer: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Image Resizer</h1>
-          <p className="text-gray-600">
-            Upload and resize images to reduce file size while maintaining quality. Perfect for web optimization.
-          </p>
-        </div>
+        <PageHeader 
+          title="Image Resizer"
+          description="Upload and resize images to reduce file size while maintaining quality. Perfect for web optimization."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Settings Panel */}
@@ -382,22 +382,31 @@ const ImageResizer: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <div className="flex items-start space-x-2">
-            <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-semibold text-blue-900 mb-2">Image Resizing Tips</h4>
-              <div className="text-sm text-blue-800 space-y-1">
-                <p><strong>Target Size:</strong> The tool will automatically adjust quality to reach your target file size</p>
-                <p><strong>Quality:</strong> Higher quality preserves more detail but results in larger files</p>
-                <p><strong>Format:</strong> JPEG is best for photos, PNG for graphics with transparency, WebP for modern browsers</p>
-                <p><strong>Dimensions:</strong> Images will be resized proportionally to fit within your max width/height</p>
-                <p><strong>Settings:</strong> Your preferences are automatically saved for next time</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <InfoSection 
+          title="Image Resizing Tips"
+          items={[
+            {
+              label: "Target Size",
+              description: "The tool will automatically adjust quality to reach your target file size"
+            },
+            {
+              label: "Quality",
+              description: "Higher quality preserves more detail but results in larger files"
+            },
+            {
+              label: "Format",
+              description: "JPEG is best for photos, PNG for graphics with transparency, WebP for modern browsers"
+            },
+            {
+              label: "Dimensions",
+              description: "Images will be resized proportionally to fit within your max width/height"
+            },
+            {
+              label: "Settings",
+              description: "Your preferences are automatically saved for next time"
+            }
+          ]}
+        />
 
         {/* Hidden canvas for image processing */}
         <canvas ref={canvasRef} className="hidden" />

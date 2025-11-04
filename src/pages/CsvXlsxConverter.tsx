@@ -2,6 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Download, FileSpreadsheet, Upload } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import Papa from 'papaparse';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 const CsvXlsxConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -134,12 +136,10 @@ Charlie Wilson,charlie@example.com,29,Marketing,62000`;
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">CSV to XLSX Converter</h1>
-          <p className="text-gray-600">
-            Convert CSV files to Excel XLSX format with customizable formatting and auto-sized columns.
-          </p>
-        </div>
+        <PageHeader 
+          title="CSV to XLSX Converter"
+          description="Convert CSV files to Excel XLSX format with customizable formatting and auto-sized columns."
+        />
 
         {/* Settings Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -273,17 +273,31 @@ Charlie Wilson,charlie@example.com,29,Marketing,62000`;
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-green-50 rounded-lg p-4">
-          <h4 className="font-semibold text-green-900 mb-2">CSV to XLSX Conversion Features</h4>
-          <div className="text-sm text-green-800 space-y-1">
-            <p><strong>Auto-sizing:</strong> Columns are automatically sized based on content</p>
-            <p><strong>Header support:</strong> Option to treat first row as headers</p>
-            <p><strong>Custom delimiters:</strong> Support for comma, semicolon, tab, and pipe delimiters</p>
-            <p><strong>File upload:</strong> Upload CSV files directly or paste data</p>
-            <p><strong>Excel compatibility:</strong> Generated files work with Microsoft Excel and other spreadsheet applications</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="CSV to XLSX Conversion Features"
+          items={[
+            {
+              label: "Auto-sizing",
+              description: "Columns are automatically sized based on content"
+            },
+            {
+              label: "Header support",
+              description: "Option to treat first row as headers"
+            },
+            {
+              label: "Custom delimiters",
+              description: "Support for comma, semicolon, tab, and pipe delimiters"
+            },
+            {
+              label: "File upload",
+              description: "Upload CSV files directly or paste data"
+            },
+            {
+              label: "Excel compatibility",
+              description: "Generated files work with Microsoft Excel and other spreadsheet applications"
+            }
+          ]}
+        />
       </div>
     </div>
   );

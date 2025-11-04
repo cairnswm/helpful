@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Eye, Edit } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 const MarkdownPreviewer: React.FC = () => {
   const [markdown, setMarkdown] = useState('');
@@ -132,12 +134,10 @@ function hello() {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Markdown Previewer</h1>
-          <p className="text-gray-600">
-            Write markdown and see the live preview with syntax highlighting.
-          </p>
-        </div>
+        <PageHeader 
+          title="Markdown Previewer"
+          description="Write markdown and see the live preview with syntax highlighting."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -299,6 +299,33 @@ function hello() {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="Markdown Syntax Support"
+          items={[
+            {
+              label: "Headers",
+              description: "# H1, ## H2, ### H3, etc."
+            },
+            {
+              label: "Text formatting",
+              description: "**bold**, *italic*, `code`, ~~strikethrough~~"
+            },
+            {
+              label: "Links & Images",
+              description: "[link](url) and ![image](url)"
+            },
+            {
+              label: "Lists",
+              description: "- bullet lists and 1. numbered lists"
+            },
+            {
+              label: "Code blocks",
+              description: "```language for syntax highlighted code blocks"
+            }
+          ]}
+          useCases="Documentation writing, README files, blog posts, technical notes"
+        />
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowUpDown } from 'lucide-react';
 
 const UrlEncoder: React.FC = () => {
@@ -56,12 +58,10 @@ const UrlEncoder: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">URL Encoder/Decoder</h1>
-          <p className="text-gray-600">
-            Encode or decode URL components for safe transmission in web requests.
-          </p>
-        </div>
+        <PageHeader 
+          title="URL Encoder/Decoder"
+          description="Encode or decode URL components for safe transmission in web requests."
+        />
 
         <div className="mb-6 flex items-center space-x-4">
           <div className="flex bg-gray-100 rounded-lg p-1">
@@ -163,6 +163,29 @@ const UrlEncoder: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="URL Encoding & Decoding"
+          items={[
+            {
+              label: "URL Encode",
+              description: "Convert special characters to percent-encoded format for URLs"
+            },
+            {
+              label: "URL Decode",
+              description: "Convert percent-encoded strings back to readable text"
+            },
+            {
+              label: "Component Safe",
+              description: "Properly encode query parameters and path components"
+            },
+            {
+              label: "International Support",
+              description: "Handle Unicode and international characters correctly"
+            }
+          ]}
+          useCases="Web development, API requests, form data, SEO, internationalization"
+        />
       </div>
     </div>
   );

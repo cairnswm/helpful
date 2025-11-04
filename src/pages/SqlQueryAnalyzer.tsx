@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, BarChart3, AlertTriangle, CheckCircle, Info } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface AnalysisResult {
   type: 'info' | 'warning' | 'error' | 'suggestion';
@@ -253,12 +255,10 @@ ORDER BY o.created_at DESC`;
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">SQL Query Analyzer</h1>
-          <p className="text-gray-600">
-            Analyze SQL queries for performance optimization, best practices, and potential issues.
-          </p>
-        </div>
+        <PageHeader 
+          title="SQL Query Analyzer"
+          description="Analyze SQL queries for performance optimization, best practices, and potential issues."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Panel */}
@@ -376,38 +376,24 @@ ORDER BY o.created_at DESC`;
         </div>
 
         {/* Best Practices Guide */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-900 mb-4">SQL Performance Best Practices</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-            <div>
-              <div className="font-medium text-blue-800 mb-2">Query Structure</div>
-              <ul className="text-blue-700 space-y-1">
-                <li>• Use explicit column names instead of SELECT *</li>
-                <li>• Add WHERE clauses to filter data</li>
-                <li>• Use LIMIT for large result sets</li>
-                <li>• Prefer explicit JOINs over comma syntax</li>
-              </ul>
-            </div>
-            <div>
-              <div className="font-medium text-blue-800 mb-2">Performance</div>
-              <ul className="text-blue-700 space-y-1">
-                <li>• Avoid functions in WHERE clauses</li>
-                <li>• Use indexes effectively</li>
-                <li>• Consider UNION ALL over UNION</li>
-                <li>• Use EXISTS instead of IN for subqueries</li>
-              </ul>
-            </div>
-            <div>
-              <div className="font-medium text-blue-800 mb-2">Security</div>
-              <ul className="text-blue-700 space-y-1">
-                <li>• Always use parameterized queries</li>
-                <li>• Validate input data</li>
-                <li>• Use appropriate user permissions</li>
-                <li>• Avoid dynamic SQL when possible</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <InfoSection 
+          title="SQL Performance Best Practices"
+          items={[
+            {
+              label: "Query Structure",
+              description: "Use explicit column names, WHERE clauses, LIMIT, and explicit JOINs"
+            },
+            {
+              label: "Performance",
+              description: "Avoid functions in WHERE clauses, use indexes effectively, prefer UNION ALL"
+            },
+            {
+              label: "Security",
+              description: "Use parameterized queries, validate input, and appropriate permissions"
+            }
+          ]}
+          useCases="Database optimization, query tuning, performance analysis, code review"
+        />
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, Download, RotateCcw, RotateCw, FlipHorizontal, FlipVertical, RotateCcw as Reset } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface Transform {
   rotation: number;
@@ -145,12 +147,10 @@ const ImageRotatorFlipper: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Image Rotator & Flipper</h1>
-          <p className="text-gray-600">
-            Rotate images by any angle and flip them horizontally or vertically with real-time preview.
-          </p>
-        </div>
+        <PageHeader 
+          title="Image Rotator & Flipper"
+          description="Rotate images by any angle and flip them horizontally or vertically with real-time preview."
+        />
 
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -376,6 +376,29 @@ const ImageRotatorFlipper: React.FC = () => {
 
         {/* Hidden canvas for processing */}
         <canvas ref={canvasRef} className="hidden" />
+
+        <InfoSection 
+          title="Image Rotation & Flipping Features"
+          items={[
+            {
+              label: "Custom Rotation",
+              description: "Rotate images to any angle with precision control"
+            },
+            {
+              label: "Quick Actions",
+              description: "90° clockwise/counterclockwise rotation with one click"
+            },
+            {
+              label: "Flip Operations",
+              description: "Horizontal and vertical flipping with instant preview"
+            },
+            {
+              label: "Real-time Preview",
+              description: "See transformations applied immediately as you adjust"
+            }
+          ]}
+          useCases="Photo correction, artistic effects, image orientation fixes, social media content"
+        />
       </div>
     </div>
   );

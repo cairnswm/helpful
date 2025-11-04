@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, AlertCircle, CheckCircle } from 'lucide-react';
 
 interface Match {
@@ -109,12 +111,10 @@ const RegexTester: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Regex Tester</h1>
-          <p className="text-gray-600">
-            Build and test regular expressions interactively against sample text.
-          </p>
-        </div>
+        <PageHeader 
+          title="Regex Tester"
+          description="Build and test regular expressions interactively against sample text."
+        />
 
         {/* Regex Input */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -270,6 +270,29 @@ const RegexTester: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="Regular Expression Testing"
+          items={[
+            {
+              label: "Pattern Testing",
+              description: "Test regex patterns against sample text in real-time"
+            },
+            {
+              label: "Match Highlighting",
+              description: "Visual highlighting of matches and capture groups"
+            },
+            {
+              label: "Flag Support",
+              description: "Global (g), case-insensitive (i), multiline (m), and more"
+            },
+            {
+              label: "Group Capture",
+              description: "Display captured groups and their positions"
+            }
+          ]}
+          useCases="Data validation, text parsing, search and replace, input sanitization"
+        />
       </div>
     </div>
   );

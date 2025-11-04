@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, AlertCircle, CheckCircle, Zap } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface ValidationError {
   path: string;
@@ -205,12 +207,10 @@ const JsonSchemaValidator: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">JSON Schema Validator</h1>
-          <p className="text-gray-600">
-            Validate JSON data against a JSON Schema to ensure data structure and constraints.
-          </p>
-        </div>
+        <PageHeader 
+          title="JSON Schema Validator"
+          description="Validate JSON data against a JSON Schema to ensure data structure and constraints."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -327,15 +327,27 @@ const JsonSchemaValidator: React.FC = () => {
         )}
 
         {/* Info */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <h4 className="font-semibold text-blue-900 mb-2">JSON Schema Validation</h4>
-          <div className="text-sm text-blue-800 space-y-1">
-            <p><strong>JSON Schema:</strong> A vocabulary for validating JSON documents structure and constraints</p>
-            <p><strong>Supported validations:</strong> Type checking, required properties, string patterns, number ranges, array items</p>
-            <p><strong>Real-time:</strong> Validation happens automatically as you type (with a small delay)</p>
-            <p><strong>Note:</strong> This is a simplified validator. For production use, consider libraries like Ajv</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="JSON Schema Validation"
+          items={[
+            {
+              label: "JSON Schema",
+              description: "A vocabulary for validating JSON documents structure and constraints"
+            },
+            {
+              label: "Supported validations",
+              description: "Type checking, required properties, string patterns, number ranges, array items"
+            },
+            {
+              label: "Real-time",
+              description: "Validation happens automatically as you type (with a small delay)"
+            },
+            {
+              label: "Note",
+              description: "This is a simplified validator. For production use, consider libraries like Ajv"
+            }
+          ]}
+        />
       </div>
     </div>
   );

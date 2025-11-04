@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowUpDown } from 'lucide-react';
 
 const Base64Tool: React.FC = () => {
@@ -64,12 +66,10 @@ const Base64Tool: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Base64 Encoder/Decoder</h1>
-          <p className="text-gray-600">
-            Convert strings to Base64 encoding or decode Base64 strings back to text.
-          </p>
-        </div>
+        <PageHeader 
+          title="Base64 Encoder/Decoder"
+          description="Convert strings to Base64 encoding or decode Base64 strings back to text."
+        />
 
         <div className="mb-6 flex items-center space-x-4">
           <div className="flex bg-gray-100 rounded-lg p-1">
@@ -175,6 +175,29 @@ const Base64Tool: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="Base64 Encoding & Decoding"
+          items={[
+            {
+              label: "Encode",
+              description: "Convert text, URLs, or binary data to Base64 encoding"
+            },
+            {
+              label: "Decode",
+              description: "Convert Base64 encoded strings back to original format"
+            },
+            {
+              label: "URL Safe",
+              description: "Supports both standard and URL-safe Base64 variants"
+            },
+            {
+              label: "Unicode Support",
+              description: "Properly handles international characters and special symbols"
+            }
+          ]}
+          useCases="API authentication, data transmission, email attachments, web development"
+        />
       </div>
     </div>
   );

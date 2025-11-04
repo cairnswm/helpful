@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Minimize2, Maximize2 } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 const CssFormatter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -112,12 +114,10 @@ const CssFormatter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">CSS Formatter</h1>
-          <p className="text-gray-600">
-            Format or minify CSS code for better readability or smaller file sizes.
-          </p>
-        </div>
+        <PageHeader 
+          title="CSS Formatter"
+          description="Format or minify CSS code for better readability or smaller file sizes."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -211,15 +211,23 @@ const CssFormatter: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <h4 className="font-semibold text-blue-900 mb-2">CSS Processing</h4>
-          <div className="text-sm text-blue-800 space-y-1">
-            <p><strong>Format:</strong> Adds proper indentation, line breaks, and spacing for readability</p>
-            <p><strong>Minify:</strong> Removes unnecessary whitespace and comments to reduce file size</p>
-            <p><strong>Note:</strong> This is a basic formatter. For production use, consider tools like Prettier or cssnano</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="CSS Processing"
+          items={[
+            {
+              label: "Format",
+              description: "Adds proper indentation, line breaks, and spacing for readability"
+            },
+            {
+              label: "Minify",
+              description: "Removes unnecessary whitespace and comments to reduce file size"
+            },
+            {
+              label: "Note",
+              description: "This is a basic formatter. For production use, consider tools like Prettier or cssnano"
+            }
+          ]}
+        />
       </div>
     </div>
   );

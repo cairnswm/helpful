@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RefreshCw, Hash } from 'lucide-react';
 
 const UuidGenerator: React.FC = () => {
@@ -83,12 +85,10 @@ const UuidGenerator: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">UUID Generator</h1>
-          <p className="text-gray-600">
-            Generate universally unique identifiers (UUIDs) for your applications.
-          </p>
-        </div>
+        <PageHeader 
+          title="UUID Generator"
+          description="Generate universally unique identifiers (UUIDs) for your applications."
+        />
 
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -203,15 +203,28 @@ const UuidGenerator: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <h4 className="font-semibold text-blue-900 mb-2">UUID Information</h4>
-          <div className="text-sm text-blue-800 space-y-1">
-            <p><strong>Version 4:</strong> Random or pseudo-random UUIDs. Most commonly used.</p>
-            <p><strong>Version 1:</strong> Time-based UUIDs that include timestamp and node information.</p>
-            <p><strong>Format:</strong> 8-4-4-4-12 hexadecimal digits (36 characters total including hyphens)</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="UUID Generation"
+          items={[
+            {
+              label: "Version 4",
+              description: "Random or pseudo-random UUIDs. Most commonly used."
+            },
+            {
+              label: "Version 1",
+              description: "Time-based UUIDs that include timestamp and node information."
+            },
+            {
+              label: "Format",
+              description: "8-4-4-4-12 hexadecimal digits (36 characters total including hyphens)"
+            },
+            {
+              label: "Uniqueness",
+              description: "Globally unique identifiers with extremely low collision probability"
+            }
+          ]}
+          useCases="Database primary keys, API resources, session IDs, distributed systems"
+        />
       </div>
     </div>
   );

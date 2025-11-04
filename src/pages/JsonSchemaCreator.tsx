@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Settings, Zap, FileText } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 interface SchemaOptions {
   required: boolean;
@@ -342,12 +344,10 @@ const JsonSchemaCreator: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">JSON Schema Creator</h1>
-          <p className="text-gray-600">
-            Generate JSON Schema automatically from example JSON data with intelligent type inference and validation rules.
-          </p>
-        </div>
+        <PageHeader 
+          title="JSON Schema Creator"
+          description="Generate JSON Schema automatically from example JSON data with intelligent type inference and validation rules."
+        />
 
         {/* Options Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -489,18 +489,35 @@ const JsonSchemaCreator: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-indigo-50 rounded-lg p-4">
-          <h4 className="font-semibold text-indigo-900 mb-2">JSON Schema Creator Features</h4>
-          <div className="text-sm text-indigo-800 space-y-1">
-            <p><strong>Intelligent Type Inference:</strong> Automatically detects strings, numbers, booleans, arrays, and objects</p>
-            <p><strong>Format Detection:</strong> Recognizes common formats like dates, emails, and URLs</p>
-            <p><strong>Array Analysis:</strong> Handles both homogeneous and heterogeneous arrays with appropriate schemas</p>
-            <p><strong>Object Merging:</strong> Combines multiple object examples to create comprehensive schemas</p>
-            <p><strong>Validation Rules:</strong> Adds constraints like required fields, string lengths, and number ranges</p>
-            <p><strong>Draft 2020-12:</strong> Generates schemas compatible with the latest JSON Schema specification</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="JSON Schema Creator Features"
+          items={[
+            {
+              label: "Intelligent Type Inference",
+              description: "Automatically detects strings, numbers, booleans, arrays, and objects"
+            },
+            {
+              label: "Format Detection",
+              description: "Recognizes common formats like dates, emails, and URLs"
+            },
+            {
+              label: "Array Analysis",
+              description: "Handles both homogeneous and heterogeneous arrays with appropriate schemas"
+            },
+            {
+              label: "Object Merging",
+              description: "Combines multiple object examples to create comprehensive schemas"
+            },
+            {
+              label: "Validation Rules",
+              description: "Adds constraints like required fields, string lengths, and number ranges"
+            },
+            {
+              label: "Draft 2020-12",
+              description: "Generates schemas compatible with the latest JSON Schema specification"
+            }
+          ]}
+        />
       </div>
     </div>
   );

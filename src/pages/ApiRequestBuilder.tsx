@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, Send, Plus, Trash2, Globe } from 'lucide-react';
 
 interface Header {
@@ -148,12 +150,10 @@ const ApiRequestBuilder: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">API Request Builder</h1>
-          <p className="text-gray-600">
-            Build and test HTTP requests with custom headers, body, and methods.
-          </p>
-        </div>
+        <PageHeader 
+          title="API Request Builder"
+          description="Build and test HTTP requests with custom headers, body, and methods."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Request Builder */}
@@ -356,6 +356,29 @@ const ApiRequestBuilder: React.FC = () => {
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="API Request Building"
+          items={[
+            {
+              label: "HTTP Methods",
+              description: "Support for GET, POST, PUT, DELETE, and other HTTP methods"
+            },
+            {
+              label: "Custom Headers",
+              description: "Add authentication tokens, content types, and other headers"
+            },
+            {
+              label: "Request Body",
+              description: "Send JSON, form data, or raw text in request body"
+            },
+            {
+              label: "Response Analysis",
+              description: "View status codes, headers, and formatted response data"
+            }
+          ]}
+          useCases="API testing, development, debugging, integration testing, authentication verification"
+        />
       </div>
     </div>
   );

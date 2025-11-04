@@ -2,6 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Download, FileText, Upload, Eye, Code } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 import "./reset.css";
 
 const HtmlPdfConverter: React.FC = () => {
@@ -315,12 +317,10 @@ function generateReport(data) {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">HTML to PDF Converter</h1>
-          <p className="text-gray-600">
-            Convert HTML documents to PDF files with support for CSS styling and complex layouts.
-          </p>
-        </div>
+        <PageHeader 
+          title="HTML to PDF Converter"
+          description="Convert HTML documents to PDF files with support for CSS styling and complex layouts."
+        />
 
         {/* Settings Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -506,18 +506,35 @@ function generateReport(data) {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-orange-50 rounded-lg p-4">
-          <h4 className="font-semibold text-orange-900 mb-2">HTML to PDF Features</h4>
-          <div className="text-sm text-orange-800 space-y-1">
-            <p><strong>CSS Support:</strong> Inline styles, internal stylesheets, and most CSS properties</p>
-            <p><strong>HTML Method:</strong> Better for text-heavy documents with good typography</p>
-            <p><strong>Canvas Method:</strong> Better for complex layouts and visual elements</p>
-            <p><strong>File Upload:</strong> Upload HTML files directly or paste content</p>
-            <p><strong>Live Preview:</strong> See how your HTML will render before generating PDF</p>
-            <p><strong>Professional Output:</strong> A4 format with proper margins and page breaks</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="HTML to PDF Features"
+          items={[
+            {
+              label: "CSS Support",
+              description: "Inline styles, internal stylesheets, and most CSS properties"
+            },
+            {
+              label: "HTML Method",
+              description: "Better for text-heavy documents with good typography"
+            },
+            {
+              label: "Canvas Method",
+              description: "Better for complex layouts and visual elements"
+            },
+            {
+              label: "File Upload",
+              description: "Upload HTML files directly or paste content"
+            },
+            {
+              label: "Live Preview",
+              description: "See how your HTML will render before generating PDF"
+            },
+            {
+              label: "Professional Output",
+              description: "A4 format with proper margins and page breaks"
+            }
+          ]}
+        />
       </div>
     </div>
   );

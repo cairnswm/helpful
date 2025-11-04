@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, Terminal, Plus, Trash2 } from 'lucide-react';
 
 interface CurlOption {
@@ -187,12 +189,10 @@ const CommandBuilder: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Command Builder</h1>
-          <p className="text-gray-600">
-            Build common command line commands interactively with a visual interface.
-          </p>
-        </div>
+        <PageHeader 
+          title="Command Builder"
+          description="Build common command line commands interactively with a visual interface."
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Command Builder */}
@@ -442,16 +442,28 @@ const CommandBuilder: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-gray-50 rounded-lg p-4">
-          <h4 className="font-semibold text-gray-900 mb-2">Command Builder Features</h4>
-          <div className="text-sm text-gray-700 space-y-1">
-            <p><strong>cURL:</strong> Build HTTP requests with headers, data, and common options</p>
-            <p><strong>Docker:</strong> Generate Docker run commands with ports, volumes, and environment variables</p>
-            <p><strong>Interactive:</strong> Visual interface makes it easy to construct complex commands</p>
-            <p><strong>Copy & Paste:</strong> Generated commands are ready to use in your terminal</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="Command Builder Features"
+          items={[
+            {
+              label: "cURL",
+              description: "Build HTTP requests with headers, data, and common options"
+            },
+            {
+              label: "Docker",
+              description: "Generate Docker run commands with ports, volumes, and environment variables"
+            },
+            {
+              label: "Interactive",
+              description: "Visual interface makes it easy to construct complex commands"
+            },
+            {
+              label: "Copy & Paste",
+              description: "Generated commands are ready to use in your terminal"
+            }
+          ]}
+          useCases="API testing, containerization, DevOps automation, command line learning"
+        />
       </div>
     </div>
   );

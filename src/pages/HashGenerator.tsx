@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, Shield, Hash } from 'lucide-react';
 
 interface HashResult {
@@ -101,12 +103,10 @@ const HashGenerator: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Hash Generator</h1>
-          <p className="text-gray-600">
-            Generate cryptographic hashes using MD5, SHA1, SHA256, and SHA512 algorithms.
-          </p>
-        </div>
+        <PageHeader 
+          title="Hash Generator"
+          description="Generate cryptographic hashes using MD5, SHA1, SHA256, and SHA512 algorithms."
+        />
 
         {/* Input Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -206,11 +206,33 @@ const HashGenerator: React.FC = () => {
                 <p><strong>Demo Implementation:</strong> These hashes are generated using simplified algorithms for demonstration purposes</p>
                 <p><strong>Production Use:</strong> For real applications, use proper cryptographic libraries like Web Crypto API or Node.js crypto module</p>
                 <p><strong>Security Levels:</strong> SHA256/SHA512 are recommended for security-critical applications, MD5/SHA1 are deprecated</p>
-                <p><strong>Use Cases:</strong> File integrity checking, password hashing (with salt), digital signatures, data verification</p>
               </div>
             </div>
           </div>
         </div>
+
+        <InfoSection 
+          title="Hash Generation & Algorithms"
+          items={[
+            {
+              label: "MD5",
+              description: "128-bit hash (32 hex chars) - Not cryptographically secure"
+            },
+            {
+              label: "SHA1",
+              description: "160-bit hash (40 hex chars) - Deprecated for security"
+            },
+            {
+              label: "SHA256",
+              description: "256-bit hash (64 hex chars) - Recommended for security"
+            },
+            {
+              label: "SHA512",
+              description: "512-bit hash (128 hex chars) - High security applications"
+            }
+          ]}
+          useCases="File integrity checking, password hashing (with salt), digital signatures, data verification"
+        />
       </div>
     </div>
   );

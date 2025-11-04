@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import JsonDisplay from '../components/JsonDisplay';
+import InfoSection from '../components/InfoSection';
+import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowUpDown } from 'lucide-react';
 
 const StringToJson: React.FC = () => {
@@ -135,12 +137,10 @@ const StringToJson: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">String ↔ JSON Converter</h1>
-          <p className="text-gray-600">
-            Convert between escaped JSON strings and formatted JSON. Handles escape sequences like \n, \t, \", etc.
-          </p>
-        </div>
+        <PageHeader 
+          title="String ↔ JSON Converter"
+          description="Convert between escaped JSON strings and formatted JSON. Handles escape sequences and formatting."
+        />
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -293,16 +293,24 @@ const StringToJson: React.FC = () => {
           </div>
         </div>
 
-        {/* Info */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-4">
-          <h4 className="font-semibold text-blue-900 mb-2">String ↔ JSON Conversion</h4>
-          <div className="text-sm text-blue-800 space-y-1">
-            <p><strong>String to JSON:</strong> Converts escaped JSON strings to properly formatted JSON objects</p>
-            <p><strong>JSON to String:</strong> Converts JSON objects to escaped string format for embedding in code</p>
-            <p><strong>Escape sequences:</strong> Handles \\n (newline), \\t (tab), \\" (quote), \\\\ (backslash), etc.</p>
-            <p><strong>Use cases:</strong> API responses, configuration files, code generation, data serialization</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="String ↔ JSON Conversion"
+          items={[
+            {
+              label: "String to JSON",
+              description: "Converts escaped JSON strings to properly formatted JSON objects"
+            },
+            {
+              label: "JSON to String",
+              description: "Converts JSON objects to escaped string format for embedding in code"
+            },
+            {
+              label: "Escape sequences",
+              description: "Handles \\n (newline), \\t (tab), \\\" (quote), \\\\ (backslash), etc."
+            }
+          ]}
+          useCases="API responses, configuration files, code generation, data serialization"
+        />
       </div>
     </div>
   );

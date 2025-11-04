@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, FileX, AlertCircle, CheckCircle } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 const XmlFormatter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -157,12 +159,10 @@ const XmlFormatter: React.FC = () => {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">XML Formatter & Validator</h1>
-          <p className="text-gray-600">
-            Format, validate, and minify XML documents with syntax highlighting and error detection.
-          </p>
-        </div>
+        <PageHeader 
+          title="XML Formatter & Validator"
+          description="Format, validate, and minify XML documents with syntax highlighting and error detection."
+        />
 
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -296,16 +296,32 @@ const XmlFormatter: React.FC = () => {
         </div>
 
         {/* XML Information */}
-        <div className="mt-6 bg-orange-50 rounded-lg p-4">
-          <h4 className="font-semibold text-orange-900 mb-2">XML Processing Features</h4>
-          <div className="text-sm text-orange-800 space-y-1">
-            <p><strong>Validation:</strong> Checks XML syntax and structure for errors</p>
-            <p><strong>Formatting:</strong> Adds proper indentation and line breaks for readability</p>
-            <p><strong>Minification:</strong> Removes unnecessary whitespace to reduce file size</p>
-            <p><strong>Error Detection:</strong> Identifies and reports XML parsing errors</p>
-            <p><strong>Customization:</strong> Adjustable indentation size for formatting preferences</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="XML Processing Features"
+          items={[
+            {
+              label: "Validation",
+              description: "Checks XML syntax and structure for errors"
+            },
+            {
+              label: "Formatting",
+              description: "Adds proper indentation and line breaks for readability"
+            },
+            {
+              label: "Minification",
+              description: "Removes unnecessary whitespace to reduce file size"
+            },
+            {
+              label: "Error Detection",
+              description: "Identifies and reports XML parsing errors"
+            },
+            {
+              label: "Customization",
+              description: "Adjustable indentation size for formatting preferences"
+            }
+          ]}
+          useCases="XML validation, configuration files, data exchange, API responses"
+        />
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Download, FileText, Upload, Eye } from 'lucide-react';
 import { marked } from 'marked';
 import jsPDF from 'jspdf';
+import PageHeader from '../components/PageHeader';
+import InfoSection from '../components/InfoSection';
 
 const MarkdownPdfConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -241,12 +243,10 @@ This tool provides a simple way to convert Markdown documents to professional-lo
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Markdown to PDF Converter</h1>
-          <p className="text-gray-600">
-            Convert Markdown documents to professional PDF files with styled formatting.
-          </p>
-        </div>
+        <PageHeader 
+          title="Markdown to PDF Converter"
+          description="Convert Markdown documents to professional PDF files with styled formatting."
+        />
 
         {/* Settings Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
@@ -402,17 +402,35 @@ This tool provides a simple way to convert Markdown documents to professional-lo
         </div>
 
         {/* Info */}
-        <div className="mt-6 bg-red-50 rounded-lg p-4">
-          <h4 className="font-semibold text-red-900 mb-2">Markdown to PDF Features</h4>
-          <div className="text-sm text-red-800 space-y-1">
-            <p><strong>Styled output:</strong> Headers, paragraphs, and code blocks are professionally formatted</p>
-            <p><strong>Syntax support:</strong> Bold, italic, code, lists, blockquotes, and tables</p>
-            <p><strong>Custom styling:</strong> Headers are color-coded and properly spaced</p>
-            <p><strong>File upload:</strong> Upload Markdown files directly or paste content</p>
-            <p><strong>Live preview:</strong> See how your Markdown will look before generating PDF</p>
-            <p><strong>Professional output:</strong> A4 format with proper margins and typography</p>
-          </div>
-        </div>
+        <InfoSection 
+          title="Markdown to PDF Features"
+          items={[
+            {
+              label: "Styled output",
+              description: "Headers, paragraphs, and code blocks are professionally formatted"
+            },
+            {
+              label: "Syntax support",
+              description: "Bold, italic, code, lists, blockquotes, and tables"
+            },
+            {
+              label: "Custom styling",
+              description: "Headers are color-coded and properly spaced"
+            },
+            {
+              label: "File upload",
+              description: "Upload Markdown files directly or paste content"
+            },
+            {
+              label: "Live preview",
+              description: "See how your Markdown will look before generating PDF"
+            },
+            {
+              label: "Professional output",
+              description: "A4 format with proper margins and typography"
+            }
+          ]}
+        />
       </div>
     </div>
   );
