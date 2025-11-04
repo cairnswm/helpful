@@ -37,6 +37,14 @@ const ColorConverter = React.lazy(() => import('./pages/ColorConverter'));
 const TimezoneConverter = React.lazy(() => import('./pages/TimezoneConverter'));
 const HashGenerator = React.lazy(() => import('./pages/HashGenerator'));
 const NumberBaseConverter = React.lazy(() => import('./pages/NumberBaseConverter'));
+const LoremIpsumGenerator = React.lazy(() => import('./pages/LoremIpsumGenerator'));
+const QRCodeGenerator = React.lazy(() => import('./pages/QRCodeGenerator'));
+const ImageBase64Converter = React.lazy(() => import('./pages/ImageBase64Converter'));
+const CronExpressionBuilder = React.lazy(() => import('./pages/CronExpressionBuilder'));
+const EnvVariableManager = React.lazy(() => import('./pages/EnvVariableManager'));
+const HtmlEntityEncoder = React.lazy(() => import('./pages/HtmlEntityEncoder'));
+const JavaScriptMinifier = React.lazy(() => import('./pages/JavaScriptMinifier'));
+const SvgOptimizer = React.lazy(() => import('./pages/SvgOptimizer'));
 
 
 function App() {
@@ -83,6 +91,14 @@ function App() {
               <Route path="/timezone-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><TimezoneConverter /></React.Suspense>} />
               <Route path="/hash-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HashGenerator /></React.Suspense>} />
               <Route path="/number-base-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><NumberBaseConverter /></React.Suspense>} />
+              <Route path="/lorem-ipsum-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><LoremIpsumGenerator /></React.Suspense>} />
+              <Route path="/qr-code-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><QRCodeGenerator /></React.Suspense>} />
+              <Route path="/image-base64-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageBase64Converter /></React.Suspense>} />
+              <Route path="/cron-expression-builder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CronExpressionBuilder /></React.Suspense>} />
+              <Route path="/env-variable-manager" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><EnvVariableManager /></React.Suspense>} />
+              <Route path="/html-entity-encoder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HtmlEntityEncoder /></React.Suspense>} />
+              <Route path="/javascript-minifier" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JavaScriptMinifier /></React.Suspense>} />
+              <Route path="/svg-optimizer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SvgOptimizer /></React.Suspense>} />
             </Routes>
           </main>
         </div>

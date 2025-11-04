@@ -8,7 +8,8 @@ import {
   Eye, Zap, Image, ArrowRightLeft,
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
-  RefreshCw, Calculator
+  RefreshCw, Calculator, QrCode, ImageIcon,
+  Settings, Minimize2
 } from 'lucide-react';
 
 interface NavItem {
@@ -39,7 +40,9 @@ const Sidebar: React.FC = () => {
         { path: '/', label: 'Home', icon: Home },
         { path: '/image-resizer', label: 'Image Resizer', icon: Image },
         { path: '/diff-checker', label: 'Diff Checker', icon: GitCompare },
-        { path: '/regex-tester', label: 'Regex Tester', icon: Search }
+        { path: '/regex-tester', label: 'Regex Tester', icon: Search },
+        { path: '/lorem-ipsum-generator', label: 'Lorem Ipsum Generator', icon: FileText },
+        { path: '/qr-code-generator', label: 'QR Code Generator', icon: QrCode }
       ]
     },
     {
@@ -59,7 +62,8 @@ const Sidebar: React.FC = () => {
         { path: '/json-csv-converter', label: 'JSON ↔ CSV', icon: ArrowRightLeft },
         { path: '/yaml-json-converter', label: 'YAML ↔ JSON', icon: RefreshCw },
         { path: '/xml-json-converter', label: 'XML ↔ JSON', icon: RefreshCw },
-        { path: '/markdown-html-converter', label: 'Markdown ↔ HTML', icon: RefreshCw }
+        { path: '/markdown-html-converter', label: 'Markdown ↔ HTML', icon: RefreshCw },
+        { path: '/image-base64-converter', label: 'Image ↔ Base64', icon: ImageIcon }
       ]
     },
     {
@@ -79,16 +83,19 @@ const Sidebar: React.FC = () => {
         { path: '/text-case-converter', label: 'Text Case Converter', icon: Type },
         { path: '/url-encoder', label: 'URL Encoder/Decoder', icon: Link2 },
         { path: '/hex-converter', label: 'Hex Converter', icon: Binary },
-        { path: '/markdown-previewer', label: 'Markdown Previewer', icon: Eye }
+        { path: '/markdown-previewer', label: 'Markdown Previewer', icon: Eye },
+        { path: '/html-entity-encoder', label: 'HTML Entity Encoder', icon: Code }
       ]
     },
     {
       title: 'Code Formatting',
       icon: Code,
       items: [
-        { path: '/css-formatter', label: 'CSS Formatter', icon: Code },
+        { path: '/css-formatter', label: 'CSS Minifier/Beautifier', icon: Code },
+        { path: '/javascript-minifier', label: 'JavaScript Minifier', icon: Minimize2 },
         { path: '/sql-formatter', label: 'SQL Formatter', icon: Database },
-        { path: '/xml-formatter', label: 'XML Formatter', icon: FileX }
+        { path: '/xml-formatter', label: 'XML Formatter', icon: FileX },
+        { path: '/svg-optimizer', label: 'SVG Optimizer', icon: Image }
       ]
     },
     {
@@ -137,7 +144,9 @@ const Sidebar: React.FC = () => {
       items: [
         { path: '/api-request-builder', label: 'API Request Builder', icon: Globe },
         { path: '/command-builder', label: 'Command Builder', icon: Terminal },
-        { path: '/http-status-reference', label: 'HTTP Status Reference', icon: Info }
+        { path: '/http-status-reference', label: 'HTTP Status Reference', icon: Info },
+        { path: '/cron-expression-builder', label: 'Cron Expression Builder', icon: Clock },
+        { path: '/env-variable-manager', label: 'Environment Variables', icon: Settings }
       ]
     }
   ];
