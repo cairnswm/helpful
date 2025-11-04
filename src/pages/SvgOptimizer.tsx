@@ -94,7 +94,7 @@ const SvgOptimizer: React.FC = () => {
     processInput(value);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (input) {
       processInput(input);
     }
