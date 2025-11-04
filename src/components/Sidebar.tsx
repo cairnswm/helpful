@@ -9,7 +9,7 @@ import {
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
   RefreshCw, Calculator, QrCode, ImageIcon,
-  Settings, Minimize2
+  Settings, Minimize2, FileCheck, Key
 } from 'lucide-react';
 
 interface NavItem {
@@ -73,7 +73,10 @@ const Sidebar: React.FC = () => {
         { path: '/jwt-decoder', label: 'JWT Decoder', icon: Shield },
         { path: '/jwt-generator', label: 'JWT Generator', icon: Plus },
         { path: '/password-checker', label: 'Password Checker', icon: Lock },
-        { path: '/base64', label: 'Base64 Encoder/Decoder', icon: Binary }
+        { path: '/base64', label: 'Base64 Encoder/Decoder', icon: Binary },
+        { path: '/certificate-inspector', label: 'Certificate Inspector', icon: FileCheck },
+        { path: '/security-headers-checker', label: 'Security Headers Checker', icon: Shield },
+        { path: '/encryption-tool', label: 'Encryption/Decryption Tool', icon: Key }
       ]
     },
     {
