@@ -9,7 +9,8 @@ import {
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
   RefreshCw, Calculator, QrCode, ImageIcon,
-  Settings, Minimize2, FileCheck, Key
+  Settings, Minimize2, FileCheck, Key,
+  FileSpreadsheet, Crop, RotateCw, Droplet, Filter, FileImage
 } from 'lucide-react';
 
 interface NavItem {
@@ -38,11 +39,23 @@ const Sidebar: React.FC = () => {
       icon: Home,
       items: [
         { path: '/', label: 'Home', icon: Home },
-        { path: '/image-resizer', label: 'Image Resizer', icon: Image },
         { path: '/diff-checker', label: 'Diff Checker', icon: GitCompare },
         { path: '/regex-tester', label: 'Regex Tester', icon: Search },
         { path: '/lorem-ipsum-generator', label: 'Lorem Ipsum Generator', icon: FileText },
         { path: '/qr-code-generator', label: 'QR Code Generator', icon: QrCode }
+      ]
+    },
+    {
+      title: 'Image Tools',
+      icon: Image,
+      items: [
+        { path: '/image-resizer', label: 'Image Resizer', icon: Image },
+        { path: '/image-cropper', label: 'Image Cropper', icon: Crop },
+        { path: '/image-rotator-flipper', label: 'Rotate & Flip', icon: RotateCw },
+        { path: '/image-color-adjustments', label: 'Color Adjustments', icon: Droplet },
+        { path: '/image-filters-effects', label: 'Filters & Effects', icon: Filter },
+        { path: '/watermark-overlay', label: 'Watermark Overlay', icon: FileImage },
+        { path: '/image-metadata-editor', label: 'Metadata Editor', icon: FileText }
       ]
     },
     {
@@ -52,7 +65,9 @@ const Sidebar: React.FC = () => {
         { path: '/format-json', label: 'Format JSON', icon: Braces },
         { path: '/string-to-json', label: 'String to JSON', icon: FileText },
         { path: '/json-schema-validator', label: 'JSON Schema Validator', icon: Zap },
-        { path: '/json-csv-converter', label: 'JSON/CSV Converter', icon: ArrowRightLeft }
+        { path: '/json-schema-creator', label: 'JSON Schema Creator', icon: Plus },
+        { path: '/json-merger', label: 'JSON Merger', icon: GitCompare },
+        { path: '/json-diff', label: 'JSON Diff', icon: GitCompare }
       ]
     },
     {
@@ -60,9 +75,13 @@ const Sidebar: React.FC = () => {
       icon: RefreshCw,
       items: [
         { path: '/json-csv-converter', label: 'JSON ↔ CSV', icon: ArrowRightLeft },
+        { path: '/json-xlsx-converter', label: 'JSON ↔ XLSX', icon: FileSpreadsheet },
+        { path: '/csv-xlsx-converter', label: 'CSV ↔ XLSX', icon: FileSpreadsheet },
         { path: '/yaml-json-converter', label: 'YAML ↔ JSON', icon: RefreshCw },
         { path: '/xml-json-converter', label: 'XML ↔ JSON', icon: RefreshCw },
         { path: '/markdown-html-converter', label: 'Markdown ↔ HTML', icon: RefreshCw },
+        { path: '/html-pdf-converter', label: 'HTML → PDF', icon: FileText },
+        { path: '/markdown-pdf-converter', label: 'Markdown → PDF', icon: FileText },
         { path: '/image-base64-converter', label: 'Image ↔ Base64', icon: ImageIcon }
       ]
     },
