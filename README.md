@@ -110,7 +110,12 @@ npm run lint
 ```
 helpful/
 ├── src/
-│   ├── components/      # Reusable components (Header, Sidebar, etc.)
+│   ├── components/      # Reusable components
+│   │   ├── Header.tsx        # Main app header
+│   │   ├── Sidebar.tsx       # Navigation sidebar
+│   │   ├── PageHeader.tsx    # Page header for tool pages
+│   │   ├── InfoSection.tsx   # Information section for tool pages
+│   │   └── ...              # Other shared components
 │   ├── pages/          # Tool pages (each tool is a separate page)
 │   ├── App.tsx         # Main app component with routing
 │   ├── main.tsx        # Application entry point
@@ -132,9 +137,31 @@ helpful/
 ### Adding a New Tool
 
 1. Create a new component in `src/pages/YourTool.tsx`
-2. Add lazy import in `src/App.tsx`
-3. Add route in `src/App.tsx`
-4. Follow existing patterns and styling conventions
+2. **Import and use required components:**
+   ```typescript
+   import PageHeader from '../components/PageHeader';
+   import InfoSection from '../components/InfoSection';
+   ```
+3. **Structure your page with PageHeader at the top:**
+   ```typescript
+   <PageHeader 
+     title="Your Tool Name"
+     description="Brief description of what the tool does."
+   />
+   ```
+4. **Add InfoSection at the bottom with features and use cases:**
+   ```typescript
+   <InfoSection 
+     title="About This Tool"
+     items={[
+       { label: "Feature", description: "Description" }
+     ]}
+     useCases="Common use cases"
+   />
+   ```
+5. Add lazy import in `src/App.tsx`
+6. Add route in `src/App.tsx`
+7. Follow existing patterns and styling conventions
 
 See `.github/copilot-instructions.md` for detailed development guidelines.
 
