@@ -121,7 +121,7 @@ const Home: React.FC = () => {
 
             {/* Category Panel */}
             {showCategoryPanel && (
-              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white border border-gray-200 rounded-lg shadow-xl p-4 z-10 w-96 max-h-96 overflow-y-auto">
+              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-white border border-gray-200 rounded-lg shadow-xl p-4 z-10 w-[600px] max-h-96 overflow-y-auto">
                 <div className="flex items-center justify-between mb-3 pb-3 border-b">
                   <span className="text-sm font-semibold text-gray-900">Filter by Category</span>
                   <button
@@ -131,7 +131,7 @@ const Home: React.FC = () => {
                     ✕
                   </button>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {categories.map((category) => (
                     <button
                       key={category}
