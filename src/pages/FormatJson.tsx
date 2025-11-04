@@ -2,24 +2,85 @@ import React, { useState, useCallback } from 'react';
 import JsonDisplay from '../components/JsonDisplay';
 import { Copy, Check, RotateCcw } from 'lucide-react';
 
+// Function to clean common JSON formatting issues
+const cleanJson = (jsonString: string): string => {
+  let cleaned = jsonString.trim();
+  
+  // Remove leading/trailing quotes if the entire string is wrapped
+  if ((cleaned.startsWith('"') && cleaned.endsWith('"')) || 
+      (cleaned.startsWith("'") && cleaned.endsWith("'"))) {
+    cleaned = cleaned.slice(1, -1);
+  }
+  
+  // Fix escaped quotes that are common when copying from logs or code
+  cleaned = cleaned.replace(/\\"/g, '"');
+  cleaned = cleaned.replace(/\\'/g, "'");
+  
+  // Fix escaped backslashes
+  cleaned = cleaned.replace(/\\\\/g, '\\');
+  
+  // Remove trailing commas before closing brackets/braces
+  cleaned = cleaned.replace(/,(\s*[}\]])/g, '$1');
+  
+  // Fix single quotes to double quotes (JSON requires double quotes)
+  // But be careful not to replace quotes inside strings
+  cleaned = cleaned.replace(/(\s|^|[{[,:])\s*'([^']*?)'\s*(?=\s*[,}\]:])/, '$1"$2"');
+  
+  // Fix common property name issues (unquoted property names)
+  cleaned = cleaned.replace(/([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g, '$1"$2":');
+  
+  // Remove any BOM (Byte Order Mark) characters
+  cleaned = cleaned.replace(/^\uFEFF/, '');
+  
+  // Fix line breaks that might be escaped incorrectly
+  cleaned = cleaned.replace(/\\n/g, '\n').replace(/\\r/g, '\r').replace(/\\t/g, '\t');
+  
+  // Handle common JSON-like formats that aren't valid JSON
+  // Remove comments (// and /* */ style)
+  cleaned = cleaned.replace(/\/\/.*$/gm, '');
+  cleaned = cleaned.replace(/\/\*[\s\S]*?\*\//g, '');
+  
+  // Handle trailing commas in arrays and objects more thoroughly
+  cleaned = cleaned.replace(/,(\s*[}\]])/g, '$1');
+  
+  // Fix undefined/NaN values to null
+  cleaned = cleaned.replace(/\bundefined\b/g, 'null');
+  cleaned = cleaned.replace(/\bNaN\b/g, 'null');
+  
+  return cleaned;
+};
+
 const FormatJson: React.FC = () => {
   const [input, setInput] = useState('');
   const [copied, setCopied] = useState(false);
   const [isValid, setIsValid] = useState(false);
+  const [cleanedJson, setCleanedJson] = useState('');
 
   const handleInputChange = useCallback((value: string) => {
     setInput(value);
     
     if (!value.trim()) {
       setIsValid(false);
+      setCleanedJson('');
       return;
     }
     
     try {
+      // Try parsing original JSON first
       JSON.parse(value);
       setIsValid(true);
+      setCleanedJson(value);
     } catch {
-      setIsValid(false);
+      // If original fails, try cleaning the JSON
+      try {
+        const cleaned = cleanJson(value);
+        JSON.parse(cleaned);
+        setIsValid(true);
+        setCleanedJson(cleaned);
+      } catch {
+        setIsValid(false);
+        setCleanedJson(value);
+      }
     }
   }, []);
 
@@ -27,7 +88,7 @@ const FormatJson: React.FC = () => {
     if (!input.trim() || !isValid) return;
     
     try {
-      const formatted = JSON.stringify(JSON.parse(input), null, 2);
+      const formatted = JSON.stringify(JSON.parse(cleanedJson), null, 2);
       await navigator.clipboard.writeText(formatted);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -39,6 +100,7 @@ const FormatJson: React.FC = () => {
   const handleClear = () => {
     setInput('');
     setIsValid(false);
+    setCleanedJson('');
   };
 
   return (
@@ -93,7 +155,11 @@ const FormatJson: React.FC = () => {
 
           {/* Output Panel */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200">
-            <JsonDisplay json={input} isValid={isValid} />
+            <JsonDisplay 
+              json={cleanedJson} 
+              isValid={isValid} 
+              wasCleaned={cleanedJson !== input && isValid}
+            />
           </div>
         </div>
       </div>

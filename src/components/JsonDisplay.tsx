@@ -3,9 +3,10 @@ import React from 'react';
 interface JsonDisplayProps {
   json: string;
   isValid: boolean;
+  wasCleaned?: boolean;
 }
 
-const JsonDisplay: React.FC<JsonDisplayProps> = ({ json, isValid }) => {
+const JsonDisplay: React.FC<JsonDisplayProps> = ({ json, isValid, wasCleaned = false }) => {
   const formatJson = (jsonString: string): string => {
     if (!jsonString.trim()) return '';
     
@@ -47,12 +48,19 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({ json, isValid }) => {
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
         <h3 className="text-lg font-semibold text-gray-800">Formatted Output</h3>
-        <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-          isValid 
-            ? 'bg-green-100 text-green-800' 
-            : json.trim() ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-600'
-        }`}>
-          {!json.trim() ? 'No input' : isValid ? 'Valid JSON' : 'Invalid JSON'}
+        <div className="flex items-center space-x-2">
+          {wasCleaned && isValid && (
+            <div className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+              Auto-cleaned
+            </div>
+          )}
+          <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+            isValid 
+              ? 'bg-green-100 text-green-800' 
+              : json.trim() ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-600'
+          }`}>
+            {!json.trim() ? 'No input' : isValid ? 'Valid JSON' : 'Invalid JSON'}
+          </div>
         </div>
       </div>
       
