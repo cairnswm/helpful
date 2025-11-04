@@ -45,6 +45,9 @@ const EnvVariableManager = React.lazy(() => import('./pages/EnvVariableManager')
 const HtmlEntityEncoder = React.lazy(() => import('./pages/HtmlEntityEncoder'));
 const JavaScriptMinifier = React.lazy(() => import('./pages/JavaScriptMinifier'));
 const SvgOptimizer = React.lazy(() => import('./pages/SvgOptimizer'));
+const CertificateInspector = React.lazy(() => import('./pages/CertificateInspector'));
+const SecurityHeadersChecker = React.lazy(() => import('./pages/SecurityHeadersChecker'));
+const EncryptionTool = React.lazy(() => import('./pages/EncryptionTool'));
 
 
 function App() {
@@ -99,6 +102,9 @@ function App() {
               <Route path="/html-entity-encoder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HtmlEntityEncoder /></React.Suspense>} />
               <Route path="/javascript-minifier" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JavaScriptMinifier /></React.Suspense>} />
               <Route path="/svg-optimizer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SvgOptimizer /></React.Suspense>} />
+              <Route path="/certificate-inspector" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CertificateInspector /></React.Suspense>} />
+              <Route path="/security-headers-checker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SecurityHeadersChecker /></React.Suspense>} />
+              <Route path="/encryption-tool" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><EncryptionTool /></React.Suspense>} />
             </Routes>
           </main>
         </div>
