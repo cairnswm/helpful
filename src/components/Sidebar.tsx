@@ -66,7 +66,6 @@ const Sidebar: React.FC = () => {
         { path: '/string-to-json', label: 'String to JSON', icon: FileText },
         { path: '/json-schema-validator', label: 'JSON Schema Validator', icon: Zap },
         { path: '/json-schema-creator', label: 'JSON Schema Creator', icon: Plus },
-        { path: '/json-csv-converter', label: 'JSON ↔ CSV', icon: ArrowRightLeft },
         { path: '/json-merger', label: 'JSON Merger', icon: GitCompare },
         { path: '/json-diff', label: 'JSON Diff', icon: GitCompare }
       ]
