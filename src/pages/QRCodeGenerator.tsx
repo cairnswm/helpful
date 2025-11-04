@@ -24,6 +24,7 @@ const QRCodeGenerator: React.FC = () => {
   const [bgColor, setBgColor] = useState('#ffffff');
   const [logoImage, setLogoImage] = useState<string>('');
   const [logoSize, setLogoSize] = useState(50);
+  const [logoBorderRadius, setLogoBorderRadius] = useState(4);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const qrRef = useRef<HTMLDivElement>(null);
 
@@ -114,6 +115,13 @@ const QRCodeGenerator: React.FC = () => {
     }
   };
 
+  const handleResetLogo = () => {
+    setLogoImage('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleClear = () => {
     setText('');
     setUrl('');
@@ -123,10 +131,7 @@ const QRCodeGenerator: React.FC = () => {
     setSmsBody('');
     setWifiSsid('');
     setWifiPassword('');
-    setLogoImage('');
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    handleResetLogo();
   };
 
   const qrValue = getQRValue();
@@ -370,7 +375,7 @@ const QRCodeGenerator: React.FC = () => {
                     </button>
                     {logoImage && (
                       <button
-                        onClick={() => setLogoImage('')}
+                        onClick={handleResetLogo}
                         className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                       >
                         <RotateCcw className="h-4 w-4" />
@@ -387,20 +392,36 @@ const QRCodeGenerator: React.FC = () => {
                 </div>
 
                 {logoImage && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Logo Size: {logoSize}px
-                    </label>
-                    <input
-                      type="range"
-                      min="20"
-                      max="100"
-                      step="5"
-                      value={logoSize}
-                      onChange={(e) => setLogoSize(parseInt(e.target.value))}
-                      className="w-full"
-                    />
-                  </div>
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Logo Size: {logoSize}px
+                      </label>
+                      <input
+                        type="range"
+                        min="20"
+                        max="100"
+                        step="5"
+                        value={logoSize}
+                        onChange={(e) => setLogoSize(parseInt(e.target.value))}
+                        className="w-full"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Logo Border Radius: {logoBorderRadius}px
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="50"
+                        step="2"
+                        value={logoBorderRadius}
+                        onChange={(e) => setLogoBorderRadius(parseInt(e.target.value))}
+                        className="w-full"
+                      />
+                    </div>
+                  </>
                 )}
               </div>
             </div>
@@ -443,7 +464,7 @@ const QRCodeGenerator: React.FC = () => {
                           transform: 'translate(-50%, -50%)',
                           background: bgColor,
                           padding: '4px',
-                          borderRadius: '4px'
+                          borderRadius: `${logoBorderRadius}px`
                         }}
                       />
                     )}
