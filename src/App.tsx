@@ -50,6 +50,17 @@ const SecurityHeadersChecker = React.lazy(() => import('./pages/SecurityHeadersC
 const EncryptionTool = React.lazy(() => import('./pages/EncryptionTool'));
 const JsonMerger = React.lazy(() => import('./pages/JsonMerger'));
 const JsonDiff = React.lazy(() => import('./pages/JsonDiff'));
+const JsonSchemaCreator = React.lazy(() => import('./pages/JsonSchemaCreator'));
+const JsonXlsxConverter = React.lazy(() => import('./pages/JsonXlsxConverter'));
+const CsvXlsxConverter = React.lazy(() => import('./pages/CsvXlsxConverter'));
+const ImageCropper = React.lazy(() => import('./pages/ImageCropper'));
+const ImageRotatorFlipper = React.lazy(() => import('./pages/ImageRotatorFlipper'));
+const ImageColorAdjustments = React.lazy(() => import('./pages/ImageColorAdjustments'));
+const ImageFiltersEffects = React.lazy(() => import('./pages/ImageFiltersEffects'));
+const ImageMetadataEditor = React.lazy(() => import('./pages/ImageMetadataEditor'));
+const WatermarkOverlay = React.lazy(() => import('./pages/WatermarkOverlay'));
+const HtmlPdfConverter = React.lazy(() => import('./pages/HtmlPdfConverter'));
+const MarkdownPdfConverter = React.lazy(() => import('./pages/MarkdownPdfConverter'));
 
 
 function App() {
@@ -109,6 +120,17 @@ function App() {
               <Route path="/encryption-tool" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><EncryptionTool /></React.Suspense>} />
               <Route path="/json-merger" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonMerger /></React.Suspense>} />
               <Route path="/json-diff" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonDiff /></React.Suspense>} />
+              <Route path="/json-schema-creator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonSchemaCreator /></React.Suspense>} />
+              <Route path="/json-xlsx-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonXlsxConverter /></React.Suspense>} />
+              <Route path="/csv-xlsx-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CsvXlsxConverter /></React.Suspense>} />
+              <Route path="/image-cropper" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageCropper /></React.Suspense>} />
+              <Route path="/image-rotator-flipper" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageRotatorFlipper /></React.Suspense>} />
+              <Route path="/image-color-adjustments" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageColorAdjustments /></React.Suspense>} />
+              <Route path="/image-filters-effects" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageFiltersEffects /></React.Suspense>} />
+              <Route path="/image-metadata-editor" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageMetadataEditor /></React.Suspense>} />
+              <Route path="/watermark-overlay" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><WatermarkOverlay /></React.Suspense>} />
+              <Route path="/html-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HtmlPdfConverter /></React.Suspense>} />
+              <Route path="/markdown-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><MarkdownPdfConverter /></React.Suspense>} />
             </Routes>
           </main>
         </div>
