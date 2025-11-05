@@ -232,11 +232,11 @@ const ColorPicker: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Color Picker */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="color-picker-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
               <div className="flex items-center space-x-2">
-                <Palette className="h-5 w-5 text-blue-600" />
-                <h3 className="text-lg font-semibold text-gray-800">Color Picker</h3>
+                <Palette className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                <h2 id="color-picker-heading" className="text-lg font-semibold text-gray-800">Color Picker</h2>
               </div>
             </div>
             
@@ -246,6 +246,8 @@ const ColorPicker: React.FC = () => {
                 <div 
                   className="w-32 h-32 mx-auto rounded-lg border-4 border-gray-200 shadow-lg"
                   style={{ backgroundColor: color }}
+                  role="img"
+                  aria-label={`Current color: ${color}`}
                 ></div>
                 <p className="mt-2 text-sm text-gray-600">Current Color</p>
               </div>
