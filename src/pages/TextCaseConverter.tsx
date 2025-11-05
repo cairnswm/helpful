@@ -296,7 +296,7 @@ const TextCaseConverter: React.FC = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </section>
 
         <InfoSection 
           title="Text Case Conversion"
