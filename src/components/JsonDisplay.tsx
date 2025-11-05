@@ -50,15 +50,23 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({ json, isValid, wasCleaned = f
         <h3 className="text-lg font-semibold text-gray-800">Formatted Output</h3>
         <div className="flex items-center space-x-2">
           {wasCleaned && isValid && (
-            <div className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+            <div 
+              className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"
+              role="status"
+              aria-label="JSON was automatically cleaned"
+            >
               Auto-cleaned
             </div>
           )}
-          <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-            isValid 
-              ? 'bg-green-100 text-green-800' 
-              : json.trim() ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-600'
-          }`}>
+          <div 
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+              isValid 
+                ? 'bg-green-100 text-green-800' 
+                : json.trim() ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-600'
+            }`}
+            role="status"
+            aria-live="polite"
+          >
             {!json.trim() ? 'No input' : isValid ? 'Valid JSON' : 'Invalid JSON'}
           </div>
         </div>
@@ -68,6 +76,9 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({ json, isValid, wasCleaned = f
         <pre 
           className="text-sm leading-relaxed font-mono whitespace-pre-wrap"
           dangerouslySetInnerHTML={{ __html: highlightedJson || 'Enter JSON data to see formatted output...' }}
+          aria-label="Formatted JSON output"
+          role="region"
+          aria-live="polite"
         />
       </div>
     </div>
