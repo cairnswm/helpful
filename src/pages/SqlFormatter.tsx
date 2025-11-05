@@ -119,13 +119,14 @@ const SqlFormatter: React.FC = () => {
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Database className="h-5 w-5 text-blue-600" />
+            <Database className="h-5 w-5 text-blue-600" aria-hidden="true" />
             <span className="text-sm text-gray-600">Supports standard SQL syntax</span>
           </div>
           
           <button
             onClick={handleLoadSample}
             className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            aria-label="Load sample SQL query"
           >
             Load Sample
           </button>
@@ -133,33 +134,37 @@ const SqlFormatter: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-320px)]">
           {/* Input Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="sql-input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">SQL Input</h3>
+              <h2 id="sql-input-heading" className="text-lg font-semibold text-gray-800">SQL Input</h2>
               <button
                 onClick={handleClear}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                aria-label="Clear input"
                 title="Clear input"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
             
             <div className="flex-1 p-4">
+              <label htmlFor="sql-input" className="sr-only">SQL query to format</label>
               <textarea
+                id="sql-input"
                 value={input}
                 onChange={(e) => handleInputChange(e.target.value)}
                 placeholder="Paste your SQL query here..."
                 className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed"
                 spellCheck={false}
+                aria-label="SQL input"
               />
             </div>
-          </div>
+          </section>
 
           {/* Output Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="sql-output-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Formatted SQL</h3>
+              <h2 id="sql-output-heading" className="text-lg font-semibold text-gray-800">Formatted SQL</h2>
               <button
                 onClick={handleCopy}
                 disabled={!output}
@@ -168,9 +173,10 @@ const SqlFormatter: React.FC = () => {
                     ? 'bg-blue-600 text-white hover:bg-blue-700'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
+                aria-label={copied ? 'SQL copied to clipboard' : 'Copy formatted SQL to clipboard'}
                 title="Copy output"
               >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span className="text-sm font-medium">
                   {copied ? 'Copied!' : 'Copy'}
                 </span>
