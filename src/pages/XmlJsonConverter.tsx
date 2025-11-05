@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import InfoSection from '../components/InfoSection';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 const XmlJsonConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -9,6 +10,7 @@ const XmlJsonConverter: React.FC = () => {
   const [mode, setMode] = useState<'xmlToJson' | 'jsonToXml'>('xmlToJson');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+  const [wasCleaned, setWasCleaned] = useState(false);
 
   const xmlToJson = (xmlString: string): string => {
     try {
@@ -97,9 +99,13 @@ const XmlJsonConverter: React.FC = () => {
     }
   };
 
-  const jsonToXml = (jsonString: string): string => {
+  const jsonToXml = (jsonString: string): { result: string; wasCleaned: boolean } => {
     try {
-      const obj = JSON.parse(jsonString);
+      const parseResult = parseAndCleanJson(jsonString);
+      if (!parseResult.isValid) {
+        throw new Error('Invalid JSON');
+      }
+      const obj = JSON.parse(parseResult.cleanedJson);
       
       const objToXml = (obj: any, rootName?: string): string => {
         if (typeof obj !== 'object' || obj === null) {
@@ -152,9 +158,11 @@ const XmlJsonConverter: React.FC = () => {
           .map(attr => ` ${attr}="${attributes[attr]}"`)
           .join('');
         
-        return `<?xml version="1.0" encoding="UTF-8"?>\n<${rootKey}${attrString}>${objToXml(rootValue)}</${rootKey}>`;
+        const result = `<?xml version="1.0" encoding="UTF-8"?>\n<${rootKey}${attrString}>${objToXml(rootValue)}</${rootKey}>`;
+        return { result, wasCleaned: parseResult.wasCleaned };
       } else {
-        return `<?xml version="1.0" encoding="UTF-8"?>\n<root>${objToXml(obj)}</root>`;
+        const result = `<?xml version="1.0" encoding="UTF-8"?>\n<root>${objToXml(obj)}</root>`;
+        return { result, wasCleaned: parseResult.wasCleaned };
       }
     } catch (err) {
       throw new Error(err instanceof Error ? err.message : 'Failed to convert JSON to XML');
@@ -165,6 +173,7 @@ const XmlJsonConverter: React.FC = () => {
     if (!value.trim()) {
       setOutput('');
       setError('');
+      setWasCleaned(false);
       return;
     }
 
@@ -172,15 +181,18 @@ const XmlJsonConverter: React.FC = () => {
       if (currentMode === 'xmlToJson') {
         const result = xmlToJson(value);
         setOutput(result);
+        setWasCleaned(false);
         setError('');
       } else {
-        const result = jsonToXml(value);
+        const { result, wasCleaned: cleaned } = jsonToXml(value);
         setOutput(result);
+        setWasCleaned(cleaned);
         setError('');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Conversion failed');
       setOutput('');
+      setWasCleaned(false);
     }
   }, []);
 
@@ -360,7 +372,7 @@ const XmlJsonConverter: React.FC = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-320px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-320px)]">
           {/* Input Panel */}
           <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
@@ -400,9 +412,16 @@ const XmlJsonConverter: React.FC = () => {
           {/* Output Panel */}
           <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="output-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h2 id="output-heading" className="text-lg font-semibold text-gray-800">
-                {mode === 'xmlToJson' ? 'JSON Output' : 'XML Output'}
-              </h2>
+              <div className="flex items-center space-x-2">
+                <h2 id="output-heading" className="text-lg font-semibold text-gray-800">
+                  {mode === 'xmlToJson' ? 'JSON Output' : 'XML Output'}
+                </h2>
+                {wasCleaned && mode === 'jsonToXml' && output && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Auto-cleaned
+                  </span>
+                )}
+              </div>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleDownload}

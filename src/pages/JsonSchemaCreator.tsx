@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Settings, Zap, FileText } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import InfoSection from '../components/InfoSection';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 interface SchemaOptions {
   required: boolean;
@@ -15,6 +16,7 @@ const JsonSchemaCreator: React.FC = () => {
   const [output, setOutput] = useState('');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+  const [wasCleaned, setWasCleaned] = useState(false);
   const [options, setOptions] = useState<SchemaOptions>({
     required: true,
     additionalProperties: false,
@@ -227,11 +229,21 @@ const JsonSchemaCreator: React.FC = () => {
     if (!jsonString.trim()) {
       setOutput('');
       setError('');
+      setWasCleaned(false);
+      return;
+    }
+
+    const parseResult = parseAndCleanJson(jsonString);
+    setWasCleaned(parseResult.wasCleaned);
+
+    if (!parseResult.isValid) {
+      setError('Invalid JSON input');
+      setOutput('');
       return;
     }
 
     try {
-      const data = JSON.parse(jsonString);
+      const data = JSON.parse(parseResult.cleanedJson);
       
       const schema = {
         $schema: 'https://json-schema.org/draft/2020-12/schema',
@@ -255,7 +267,7 @@ const JsonSchemaCreator: React.FC = () => {
       setError(err instanceof Error ? err.message : 'Invalid JSON input');
       setOutput('');
     }
-  }, [options]);
+  }, [options, generateSchemaForValue, inferType]);
 
   const handleInputChange = (value: string) => {
     setInput(value);
@@ -287,6 +299,7 @@ const JsonSchemaCreator: React.FC = () => {
     setInput('');
     setOutput('');
     setError('');
+    setWasCleaned(false);
   };
 
   const loadSampleData = () => {
@@ -415,13 +428,18 @@ const JsonSchemaCreator: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-400px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-400px)]">
           {/* Input Panel */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
               <div className="flex items-center space-x-2">
                 <FileText className="h-5 w-5 text-blue-600" />
                 <h3 className="text-lg font-semibold text-gray-800">Example JSON Data</h3>
+                {wasCleaned && input && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Auto-cleaned
+                  </span>
+                )}
               </div>
               <div className="flex items-center space-x-2">
                 <button

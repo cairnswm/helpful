@@ -3,6 +3,7 @@ import { Copy, Check, RotateCcw, Download, FileSpreadsheet, Upload } from 'lucid
 import PageHeader from '../components/PageHeader';
 import InfoSection from '../components/InfoSection';
 import * as XLSX from 'xlsx';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 const JsonXlsxConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -12,6 +13,7 @@ const JsonXlsxConverter: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
+  const [wasCleaned, setWasCleaned] = useState(false);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -52,9 +54,13 @@ const JsonXlsxConverter: React.FC = () => {
     return flattened;
   };
 
-  const processJsonData = useCallback((jsonText: string) => {
+  const processJsonData = useCallback((jsonText: string): { data: any[]; wasCleaned: boolean } => {
     try {
-      const parsed = JSON.parse(jsonText);
+      const parseResult = parseAndCleanJson(jsonText);
+      if (!parseResult.isValid) {
+        throw new Error('Invalid JSON');
+      }
+      const parsed = JSON.parse(parseResult.cleanedJson);
       
       if (!parsed) {
         throw new Error('No data to convert');
@@ -94,7 +100,7 @@ const JsonXlsxConverter: React.FC = () => {
         });
       }
 
-      return data;
+      return { data, wasCleaned: parseResult.wasCleaned };
     } catch (err) {
       throw new Error(err instanceof Error ? err.message : 'Failed to parse JSON');
     }
@@ -110,7 +116,8 @@ const JsonXlsxConverter: React.FC = () => {
     setError('');
 
     try {
-      const data = processJsonData(input);
+      const { data, wasCleaned: cleaned } = processJsonData(input);
+      setWasCleaned(cleaned);
       
       if (!data || data.length === 0) {
         throw new Error('No data to convert');
@@ -303,7 +310,14 @@ const JsonXlsxConverter: React.FC = () => {
         {/* Input Panel */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-200">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-800">JSON Data Input</h3>
+            <div className="flex items-center space-x-2">
+              <h3 className="text-lg font-semibold text-gray-800">JSON Data Input</h3>
+              {wasCleaned && input && (
+                <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                  Auto-cleaned
+                </span>
+              )}
+            </div>
             <div className="flex items-center space-x-2">
               <label className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
                 <Upload className="h-4 w-4" />

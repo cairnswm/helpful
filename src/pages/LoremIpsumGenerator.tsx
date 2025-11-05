@@ -178,7 +178,7 @@ const LoremIpsumGenerator: React.FC = () => {
           </div>
         </section>
 
-        <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[calc(100vh-500px)] min-h-[300px]" aria-labelledby="generated-text-heading">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col min-h-[calc(100vh-500px)]" aria-labelledby="generated-text-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <h2 id="generated-text-heading" className="text-lg font-semibold text-gray-800">Generated Text</h2>
             <button

@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, Plus, Trash2 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import InfoSection from '../components/InfoSection';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 type MergeStrategy = 'deep' | 'shallow';
 type ArrayHandling = 'replace' | 'concat' | 'unique';
@@ -11,12 +12,14 @@ interface JsonInput {
   id: number;
   value: string;
   isValid: boolean;
+  cleanedJson: string;
+  wasCleaned: boolean;
 }
 
 const JsonMerger: React.FC = () => {
   const [inputs, setInputs] = useState<JsonInput[]>([
-    { id: 1, value: '', isValid: false },
-    { id: 2, value: '', isValid: false },
+    { id: 1, value: '', isValid: false, cleanedJson: '', wasCleaned: false },
+    { id: 2, value: '', isValid: false, cleanedJson: '', wasCleaned: false },
   ]);
   const [mergeStrategy, setMergeStrategy] = useState<MergeStrategy>('deep');
   const [arrayHandling, setArrayHandling] = useState<ArrayHandling>('replace');
@@ -88,7 +91,7 @@ const JsonMerger: React.FC = () => {
         return;
       }
 
-      const parsedObjects = validInputs.map(input => JSON.parse(input.value));
+      const parsedObjects = validInputs.map(input => JSON.parse(input.cleanedJson));
       
       let result = parsedObjects[0];
 
@@ -116,16 +119,14 @@ const JsonMerger: React.FC = () => {
   const handleInputChange = (id: number, value: string) => {
     const updatedInputs = inputs.map(input => {
       if (input.id === id) {
-        let isValid = false;
-        try {
-          if (value.trim()) {
-            JSON.parse(value);
-            isValid = true;
-          }
-        } catch {
-          isValid = false;
-        }
-        return { ...input, value, isValid };
+        const result = parseAndCleanJson(value);
+        return { 
+          ...input, 
+          value, 
+          isValid: result.isValid,
+          cleanedJson: result.cleanedJson,
+          wasCleaned: result.wasCleaned
+        };
       }
       return input;
     });
@@ -133,7 +134,7 @@ const JsonMerger: React.FC = () => {
   };
 
   const addInput = () => {
-    setInputs([...inputs, { id: nextId, value: '', isValid: false }]);
+    setInputs([...inputs, { id: nextId, value: '', isValid: false, cleanedJson: '', wasCleaned: false }]);
   };
 
   const removeInput = (id: number) => {
@@ -156,8 +157,8 @@ const JsonMerger: React.FC = () => {
 
   const handleClear = () => {
     setInputs([
-      { id: 1, value: '', isValid: false },
-      { id: 2, value: '', isValid: false },
+      { id: 1, value: '', isValid: false, cleanedJson: '', wasCleaned: false },
+      { id: 2, value: '', isValid: false, cleanedJson: '', wasCleaned: false },
     ]);
     setOutput('');
   };
@@ -263,6 +264,11 @@ const JsonMerger: React.FC = () => {
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
                   <h4 className="text-md font-semibold text-gray-800">JSON {index + 1}</h4>
                   <div className="flex items-center space-x-2">
+                    {input.wasCleaned && input.isValid && (
+                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        Auto-cleaned
+                      </span>
+                    )}
                     {input.isValid && (
                       <span className="text-xs text-green-600 font-medium">Valid</span>
                     )}

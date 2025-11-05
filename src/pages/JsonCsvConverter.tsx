@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import InfoSection from '../components/InfoSection';
 import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download } from 'lucide-react';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 const JsonCsvConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -11,10 +12,15 @@ const JsonCsvConverter: React.FC = () => {
   const [error, setError] = useState('');
   const [delimiter, setDelimiter] = useState(',');
   const [includeHeaders, setIncludeHeaders] = useState(true);
+  const [wasCleaned, setWasCleaned] = useState(false);
 
-  const jsonToCsv = (jsonString: string): string => {
+  const jsonToCsv = (jsonString: string): { result: string; wasCleaned: boolean } => {
     try {
-      const data = JSON.parse(jsonString);
+      const parseResult = parseAndCleanJson(jsonString);
+      if (!parseResult.isValid) {
+        throw new Error('Invalid JSON');
+      }
+      const data = JSON.parse(parseResult.cleanedJson);
       
       if (!Array.isArray(data)) {
         throw new Error('JSON must be an array of objects');
@@ -50,7 +56,7 @@ const JsonCsvConverter: React.FC = () => {
         csvRows.push(row.join(delimiter));
       });
       
-      return csvRows.join('\n');
+      return { result: csvRows.join('\n'), wasCleaned: parseResult.wasCleaned };
     } catch (err) {
       throw new Error(err instanceof Error ? err.message : 'Failed to convert JSON to CSV');
     }
@@ -124,24 +130,28 @@ const JsonCsvConverter: React.FC = () => {
     if (!value.trim()) {
       setOutput('');
       setError('');
+      setWasCleaned(false);
       return;
     }
 
     try {
       if (currentMode === 'jsonToCsv') {
-        const result = jsonToCsv(value);
+        const { result, wasCleaned: cleaned } = jsonToCsv(value);
         setOutput(result);
+        setWasCleaned(cleaned);
         setError('');
       } else {
         const result = csvToJson(value);
         setOutput(result);
+        setWasCleaned(false);
         setError('');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Conversion failed');
       setOutput('');
+      setWasCleaned(false);
     }
-  }, [delimiter, includeHeaders]);
+  }, [delimiter, includeHeaders, jsonToCsv, csvToJson]);
 
   const handleInputChange = (value: string) => {
     setInput(value);
@@ -332,7 +342,7 @@ const JsonCsvConverter: React.FC = () => {
           </div>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-400px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-400px)]">
           {/* Input Panel */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
@@ -366,9 +376,16 @@ const JsonCsvConverter: React.FC = () => {
           {/* Output Panel */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">
-                {mode === 'jsonToCsv' ? 'CSV Output' : 'JSON Output'}
-              </h3>
+              <div className="flex items-center space-x-2">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {mode === 'jsonToCsv' ? 'CSV Output' : 'JSON Output'}
+                </h3>
+                {wasCleaned && mode === 'jsonToCsv' && output && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Auto-cleaned
+                  </span>
+                )}
+              </div>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleDownload}

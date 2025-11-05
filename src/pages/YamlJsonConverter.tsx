@@ -3,6 +3,7 @@ import InfoSection from '../components/InfoSection';
 import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowRightLeft, Download } from 'lucide-react';
 import * as yaml from 'js-yaml';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 const YamlJsonConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -10,6 +11,7 @@ const YamlJsonConverter: React.FC = () => {
   const [mode, setMode] = useState<'yamlToJson' | 'jsonToYaml'>('yamlToJson');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+  const [wasCleaned, setWasCleaned] = useState(false);
 
   const yamlToJson = (yamlString: string): string => {
     try {
@@ -20,15 +22,20 @@ const YamlJsonConverter: React.FC = () => {
     }
   };
 
-  const jsonToYaml = (jsonString: string): string => {
+  const jsonToYaml = (jsonString: string): { result: string; wasCleaned: boolean } => {
     try {
-      const parsed = JSON.parse(jsonString);
-      return yaml.dump(parsed, {
+      const parseResult = parseAndCleanJson(jsonString);
+      if (!parseResult.isValid) {
+        throw new Error('Invalid JSON');
+      }
+      const parsed = JSON.parse(parseResult.cleanedJson);
+      const result = yaml.dump(parsed, {
         indent: 2,
         lineWidth: -1,
         noRefs: true,
         sortKeys: false
       });
+      return { result, wasCleaned: parseResult.wasCleaned };
     } catch (err) {
       throw new Error(err instanceof Error ? err.message : 'Failed to parse JSON');
     }
@@ -38,6 +45,7 @@ const YamlJsonConverter: React.FC = () => {
     if (!value.trim()) {
       setOutput('');
       setError('');
+      setWasCleaned(false);
       return;
     }
 
@@ -45,15 +53,18 @@ const YamlJsonConverter: React.FC = () => {
       if (currentMode === 'yamlToJson') {
         const result = yamlToJson(value);
         setOutput(result);
+        setWasCleaned(false);
         setError('');
       } else {
-        const result = jsonToYaml(value);
+        const { result, wasCleaned: cleaned } = jsonToYaml(value);
         setOutput(result);
+        setWasCleaned(cleaned);
         setError('');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Conversion failed');
       setOutput('');
+      setWasCleaned(false);
     }
   }, []);
 
@@ -226,7 +237,7 @@ settings:
           </div>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-320px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-320px)]">
           {/* Input Panel */}
           <section aria-labelledby="input-panel-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
@@ -266,9 +277,16 @@ settings:
           {/* Output Panel */}
           <section aria-labelledby="output-panel-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h2 id="output-panel-heading" className="text-lg font-semibold text-gray-800">
-                {mode === 'yamlToJson' ? 'JSON Output' : 'YAML Output'}
-              </h2>
+              <div className="flex items-center space-x-2">
+                <h2 id="output-panel-heading" className="text-lg font-semibold text-gray-800">
+                  {mode === 'yamlToJson' ? 'JSON Output' : 'YAML Output'}
+                </h2>
+                {wasCleaned && mode === 'jsonToYaml' && output && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Auto-cleaned
+                  </span>
+                )}
+              </div>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleDownload}

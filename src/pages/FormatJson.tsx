@@ -3,87 +3,22 @@ import JsonDisplay from '../components/JsonDisplay';
 import InfoSection from '../components/InfoSection';
 import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw } from 'lucide-react';
-
-// Function to clean common JSON formatting issues
-const cleanJson = (jsonString: string): string => {
-  let cleaned = jsonString.trim();
-  
-  // Remove leading/trailing quotes if the entire string is wrapped
-  if ((cleaned.startsWith('"') && cleaned.endsWith('"')) || 
-      (cleaned.startsWith("'") && cleaned.endsWith("'"))) {
-    cleaned = cleaned.slice(1, -1);
-  }
-  
-  // Fix escaped quotes that are common when copying from logs or code
-  cleaned = cleaned.replace(/\\"/g, '"');
-  cleaned = cleaned.replace(/\\'/g, "'");
-  
-  // Fix escaped backslashes
-  cleaned = cleaned.replace(/\\\\/g, '\\');
-  
-  // Remove trailing commas before closing brackets/braces
-  cleaned = cleaned.replace(/,(\s*[}\]])/g, '$1');
-  
-  // Fix single quotes to double quotes (JSON requires double quotes)
-  // But be careful not to replace quotes inside strings
-  cleaned = cleaned.replace(/(\s|^|[{[,:])\s*'([^']*?)'\s*(?=\s*[,}\]:])/, '$1"$2"');
-  
-  // Fix common property name issues (unquoted property names)
-  cleaned = cleaned.replace(/([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g, '$1"$2":');
-  
-  // Remove any BOM (Byte Order Mark) characters
-  cleaned = cleaned.replace(/^\uFEFF/, '');
-  
-  // Fix line breaks that might be escaped incorrectly
-  cleaned = cleaned.replace(/\\n/g, '\n').replace(/\\r/g, '\r').replace(/\\t/g, '\t');
-  
-  // Handle common JSON-like formats that aren't valid JSON
-  // Remove comments (// and /* */ style)
-  cleaned = cleaned.replace(/\/\/.*$/gm, '');
-  cleaned = cleaned.replace(/\/\*[\s\S]*?\*\//g, '');
-  
-  // Handle trailing commas in arrays and objects more thoroughly
-  cleaned = cleaned.replace(/,(\s*[}\]])/g, '$1');
-  
-  // Fix undefined/NaN values to null
-  cleaned = cleaned.replace(/\bundefined\b/g, 'null');
-  cleaned = cleaned.replace(/\bNaN\b/g, 'null');
-  
-  return cleaned;
-};
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 const FormatJson: React.FC = () => {
   const [input, setInput] = useState('');
   const [copied, setCopied] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [cleanedJson, setCleanedJson] = useState('');
+  const [wasCleaned, setWasCleaned] = useState(false);
 
   const handleInputChange = useCallback((value: string) => {
     setInput(value);
     
-    if (!value.trim()) {
-      setIsValid(false);
-      setCleanedJson('');
-      return;
-    }
-    
-    try {
-      // Try parsing original JSON first
-      JSON.parse(value);
-      setIsValid(true);
-      setCleanedJson(value);
-    } catch {
-      // If original fails, try cleaning the JSON
-      try {
-        const cleaned = cleanJson(value);
-        JSON.parse(cleaned);
-        setIsValid(true);
-        setCleanedJson(cleaned);
-      } catch {
-        setIsValid(false);
-        setCleanedJson(value);
-      }
-    }
+    const result = parseAndCleanJson(value);
+    setIsValid(result.isValid);
+    setCleanedJson(result.cleanedJson);
+    setWasCleaned(result.wasCleaned);
   }, []);
 
   const handleCopy = async () => {
@@ -113,7 +48,7 @@ const FormatJson: React.FC = () => {
           description="Paste your JSON data below to format and validate it."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-280px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-280px)]">
           {/* Input Panel */}
           <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="json-input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
@@ -170,7 +105,7 @@ const FormatJson: React.FC = () => {
             <JsonDisplay 
               json={cleanedJson} 
               isValid={isValid} 
-              wasCleaned={cleanedJson !== input && isValid}
+              wasCleaned={wasCleaned}
             />
           </section>
         </div>
