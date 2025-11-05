@@ -283,7 +283,6 @@ const Sidebar: React.FC = () => {
       <div className="p-6 border-t border-gray-200 bg-white flex-shrink-0" role="contentinfo">
         <div className="text-center">
           <p className="text-sm text-gray-500">Professional Developer Tools</p>
-          <p className="text-xs text-gray-400 mt-1">Built with React & Tailwind</p>
         </div>
       </div>
     </aside>

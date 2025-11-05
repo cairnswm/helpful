@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/qrcode": "^1.5.6",
     "city-timezones": "^1.3.2",
     "html2canvas": "^1.4.1",
     "js-yaml": "^4.1.0",
@@ -18,7 +19,7 @@
     "lucide-react": "^0.344.0",
     "marked": "^12.0.0",
     "papaparse": "^5.4.1",
-    "qrcode.react": "^4.2.0",
+    "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.22.0",
@@ -29,7 +30,6 @@
     "@types/js-yaml": "^4.0.9",
     "@types/jspdf": "^1.3.3",
     "@types/papaparse": "^5.3.14",
-    "@types/qrcode.react": "^1.0.5",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
