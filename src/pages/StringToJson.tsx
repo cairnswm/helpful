@@ -144,7 +144,7 @@ const StringToJson: React.FC = () => {
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex bg-gray-100 rounded-lg p-1" role="group" aria-label="Conversion mode selection">
               <button
                 onClick={() => {
                   setMode('stringToJson');
@@ -155,6 +155,8 @@ const StringToJson: React.FC = () => {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={mode === 'stringToJson'}
+                aria-label="Convert string to JSON"
               >
                 String to JSON
               </button>
@@ -168,6 +170,8 @@ const StringToJson: React.FC = () => {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={mode === 'jsonToString'}
+                aria-label="Convert JSON to string"
               >
                 JSON to String
               </button>
@@ -176,9 +180,10 @@ const StringToJson: React.FC = () => {
             <button
               onClick={handleModeToggle}
               className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              aria-label="Swap input and output"
               title="Swap input and output"
             >
-              <ArrowUpDown className="h-4 w-4" />
+              <ArrowUpDown className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-medium">Swap</span>
             </button>
           </div>
@@ -186,6 +191,7 @@ const StringToJson: React.FC = () => {
           <button
             onClick={loadSample}
             className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            aria-label="Load sample data"
           >
             Load Sample
           </button>
@@ -193,11 +199,11 @@ const StringToJson: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-280px)]">
           {/* Input Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="string-json-input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h2 id="string-json-input-heading" className="text-lg font-semibold text-gray-800">
                 {mode === 'stringToJson' ? 'String Input' : 'JSON Input'}
-              </h3>
+              </h2>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleClear}

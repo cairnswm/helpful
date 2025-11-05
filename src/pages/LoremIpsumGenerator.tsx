@@ -103,16 +103,19 @@ const LoremIpsumGenerator: React.FC = () => {
           description="Generate placeholder text in various lengths and formats for mockups and testing."
         />
 
-        <div className="mb-6 bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        <section className="mb-6 bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="generator-options-heading">
+          <h2 id="generator-options-heading" className="sr-only">Lorem Ipsum Generator Options</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="format-select" className="block text-sm font-medium text-gray-700 mb-2">
                 Format
               </label>
               <select
+                id="format-select"
                 value={format}
                 onChange={(e) => setFormat(e.target.value as 'paragraphs' | 'sentences' | 'words')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                aria-label="Select text format"
               >
                 <option value="paragraphs">Paragraphs</option>
                 <option value="sentences">Sentences</option>
@@ -121,32 +124,36 @@ const LoremIpsumGenerator: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="count-input" className="block text-sm font-medium text-gray-700 mb-2">
                 {format === 'paragraphs' ? 'Number of Paragraphs' : 
                  format === 'sentences' ? 'Number of Sentences' : 'Number of Words'}
               </label>
               <input
+                id="count-input"
                 type="number"
                 min="1"
                 max="100"
                 value={paragraphs}
                 onChange={(e) => setParagraphs(parseInt(e.target.value) || 1)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                aria-label={`Number of ${format}`}
               />
             </div>
 
             {format === 'paragraphs' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="words-per-para" className="block text-sm font-medium text-gray-700 mb-2">
                   Words Per Paragraph
                 </label>
                 <input
+                  id="words-per-para"
                   type="number"
                   min="10"
                   max="500"
                   value={wordsPerParagraph}
                   onChange={(e) => setWordsPerParagraph(parseInt(e.target.value) || 50)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Words per paragraph"
                 />
               </div>
             )}
@@ -156,22 +163,24 @@ const LoremIpsumGenerator: React.FC = () => {
             <button
               onClick={generateLorem}
               className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              aria-label="Generate lorem ipsum text"
             >
               Generate
             </button>
             <button
               onClick={handleClear}
               className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium flex items-center space-x-2"
+              aria-label="Clear generated text"
             >
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
               <span>Clear</span>
             </button>
           </div>
-        </div>
+        </section>
 
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[calc(100vh-500px)] min-h-[300px]">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[calc(100vh-500px)] min-h-[300px]" aria-labelledby="generated-text-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-800">Generated Text</h3>
+            <h2 id="generated-text-heading" className="text-lg font-semibold text-gray-800">Generated Text</h2>
             <button
               onClick={handleCopy}
               disabled={!output}
@@ -180,9 +189,10 @@ const LoremIpsumGenerator: React.FC = () => {
                   ? 'bg-blue-600 text-white hover:bg-blue-700'
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
+              aria-label={copied ? 'Text copied to clipboard' : 'Copy text to clipboard'}
               title="Copy output"
             >
-              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
               <span className="text-sm font-medium">
                 {copied ? 'Copied!' : 'Copy'}
               </span>
@@ -190,11 +200,11 @@ const LoremIpsumGenerator: React.FC = () => {
           </div>
           
           <div className="flex-1 p-4 overflow-auto">
-            <div className="text-sm leading-relaxed text-gray-800 whitespace-pre-wrap">
+            <div className="text-sm leading-relaxed text-gray-800 whitespace-pre-wrap" role="status" aria-live="polite">
               {output || 'Generated lorem ipsum text will appear here...'}
             </div>
           </div>
-        </div>
+        </section>
 
         <InfoSection 
           title="About Lorem Ipsum Generator"

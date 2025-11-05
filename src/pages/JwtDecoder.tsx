@@ -244,11 +244,11 @@ const JwtDecoder: React.FC = () => {
   };
 
   const renderJsonSection = (title: string, data: JwtPayload, icon: React.ReactNode, section: 'header' | 'payload') => (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+    <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby={`${section}-heading`}>
       <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
         <div className="flex items-center space-x-2">
-          {icon}
-          <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+          {React.cloneElement(icon as React.ReactElement, { 'aria-hidden': 'true' })}
+          <h2 id={`${section}-heading`} className="text-lg font-semibold text-gray-800">{title}</h2>
         </div>
         <button
           onClick={() => handleCopy(section)}
@@ -258,9 +258,10 @@ const JwtDecoder: React.FC = () => {
               ? 'bg-blue-600 text-white hover:bg-blue-700'
               : 'bg-gray-200 text-gray-400 cursor-not-allowed'
           }`}
+          aria-label={copied === section ? `${title} copied to clipboard` : `Copy ${title.toLowerCase()} to clipboard`}
           title={`Copy ${title.toLowerCase()}`}
         >
-          {copied === section ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+          {copied === section ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
           <span className="text-sm font-medium">
             {copied === section ? 'Copied!' : 'Copy'}
           </span>
@@ -268,11 +269,11 @@ const JwtDecoder: React.FC = () => {
       </div>
       
       <div className="p-4">
-        <pre className="text-sm leading-relaxed font-mono whitespace-pre-wrap text-gray-800 bg-gray-50 p-4 rounded-lg overflow-auto max-h-64">
+        <pre className="text-sm leading-relaxed font-mono whitespace-pre-wrap text-gray-800 bg-gray-50 p-4 rounded-lg overflow-auto max-h-64" aria-label={`${title} JSON data`}>
           {JSON.stringify(data, null, 2)}
         </pre>
       </div>
-    </div>
+    </section>
   );
 
   const renderPayloadInfo = (payload: JwtPayload) => {
@@ -291,14 +292,14 @@ const JwtDecoder: React.FC = () => {
     if (presentClaims.length === 0) return null;
 
     return (
-      <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+      <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="common-claims-heading">
         <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-          <h3 className="text-lg font-semibold text-gray-800">Common Claims</h3>
+          <h2 id="common-claims-heading" className="text-lg font-semibold text-gray-800">Common Claims</h2>
         </div>
-        <div className="p-4 space-y-3">
+        <div className="p-4 space-y-3" role="list" aria-label="JWT common claims">
           {presentClaims.map((claim) => (
-            <div key={claim.key} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-              {claim.icon}
+            <div key={claim.key} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg" role="listitem">
+              {React.cloneElement(claim.icon as React.ReactElement, { 'aria-hidden': 'true' })}
               <div className="flex-1">
                 <div className="font-medium text-gray-900">{claim.label}</div>
                 <div className="text-sm text-gray-600 font-mono">
@@ -311,7 +312,7 @@ const JwtDecoder: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
+      </section>
     );
   };
 
@@ -325,7 +326,7 @@ const JwtDecoder: React.FC = () => {
           : decoded.timeToExpiry && decoded.timeToExpiry < 3600
           ? 'bg-yellow-50 border-yellow-200'
           : 'bg-green-50 border-green-200'
-      }`}>
+      }`} role={decoded.isExpired ? "alert" : "status"} aria-live="polite">
         <div className="flex items-center space-x-2 mb-2">
           <Clock className={`h-5 w-5 ${
             decoded.isExpired 
@@ -333,7 +334,7 @@ const JwtDecoder: React.FC = () => {
               : decoded.timeToExpiry && decoded.timeToExpiry < 3600
               ? 'text-yellow-600'
               : 'text-green-600'
-          }`} />
+          }`} aria-hidden="true" />
           <span className={`font-medium ${
             decoded.isExpired 
               ? 'text-red-800' 
@@ -371,15 +372,15 @@ const JwtDecoder: React.FC = () => {
     if (!decoded?.isValid || !decoded.securityIssues || decoded.securityIssues.length === 0) return null;
 
     return (
-      <div className="p-4 rounded-lg border bg-yellow-50 border-yellow-200">
+      <div className="p-4 rounded-lg border bg-yellow-50 border-yellow-200" role="status" aria-live="polite">
         <div className="flex items-center space-x-2 mb-2">
-          <AlertCircle className="h-5 w-5 text-yellow-600" />
+          <AlertCircle className="h-5 w-5 text-yellow-600" aria-hidden="true" />
           <span className="font-medium text-yellow-800">Security Recommendations</span>
         </div>
-        <ul className="text-sm text-yellow-700 space-y-1">
+        <ul className="text-sm text-yellow-700 space-y-1" aria-label="JWT security recommendations">
           {decoded.securityIssues.map((issue, index) => (
             <li key={index} className="flex items-start space-x-2">
-              <span className="text-yellow-600 mt-1">•</span>
+              <span className="text-yellow-600 mt-1" aria-hidden="true">•</span>
               <span>{issue}</span>
             </li>
           ))}
@@ -397,9 +398,9 @@ const JwtDecoder: React.FC = () => {
         />
 
         {/* Input Panel */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="secret-key-heading">
           <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-800">Secret Key Validation</h3>
+            <h2 id="secret-key-heading" className="text-lg font-semibold text-gray-800">Secret Key Validation</h2>
             <p className="text-sm text-gray-600 mt-1">
               Enter your secret key to validate the JWT signature (optional)
             </p>
@@ -413,45 +414,54 @@ const JwtDecoder: React.FC = () => {
                   checked={validateSignature}
                   onChange={(e) => setValidateSignature(e.target.checked)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  aria-describedby="validate-signature-help"
                 />
                 <label htmlFor="validateSignature" className="ml-2 text-sm font-medium text-gray-700">
                   Validate signature
                 </label>
               </div>
+              <label htmlFor="secret-key-input" className="sr-only">Secret key for JWT validation</label>
               <input
+                id="secret-key-input"
                 type="password"
                 value={secretKey}
                 onChange={(e) => handleSecretKeyChange(e.target.value)}
                 placeholder="Enter your secret key..."
                 disabled={!validateSignature}
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:text-gray-400"
+                aria-label="Secret key input"
               />
+              <span id="validate-signature-help" className="sr-only">Check this box to enable signature validation</span>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="jwt-input-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-800">JWT Token Input</h3>
+            <h2 id="jwt-input-heading" className="text-lg font-semibold text-gray-800">JWT Token Input</h2>
             <button
               onClick={handleClear}
               className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+              aria-label="Clear input"
               title="Clear input"
             >
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
           
           <div className="p-4">
+            <label htmlFor="jwt-token-input" className="sr-only">JWT token to decode</label>
             <textarea
+              id="jwt-token-input"
               value={input}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder="Paste your JWT token here..."
               className="w-full h-32 resize-none border border-gray-300 rounded-lg p-3 font-mono text-sm leading-relaxed focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               spellCheck={false}
+              aria-label="JWT token input"
             />
           </div>
-        </div>
+        </section>
 
         {/* Status */}
         {decoded && (
@@ -460,8 +470,8 @@ const JwtDecoder: React.FC = () => {
               decoded.isValid 
                 ? 'bg-green-50 text-green-800 border border-green-200' 
                 : 'bg-red-50 text-red-800 border border-red-200'
-            }`}>
-              {decoded.isValid ? <CheckCircle className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
+            }`} role={decoded.isValid ? "status" : "alert"} aria-live="polite">
+              {decoded.isValid ? <CheckCircle className="h-5 w-5" aria-hidden="true" /> : <AlertCircle className="h-5 w-5" aria-hidden="true" />}
               <span className="font-medium">
                 {decoded.isValid ? 'Valid JWT Token' : `Invalid JWT: ${decoded.error}`}
               </span>
@@ -473,8 +483,8 @@ const JwtDecoder: React.FC = () => {
                 decoded.isSignatureValid 
                   ? 'bg-green-50 text-green-800 border border-green-200' 
                   : 'bg-red-50 text-red-800 border border-red-200'
-              }`}>
-                {decoded.isSignatureValid ? <CheckCircle className="h-5 w-5" /> : <XCircle className="h-5 w-5" />}
+              }`} role="status" aria-live="polite">
+                {decoded.isSignatureValid ? <CheckCircle className="h-5 w-5" aria-hidden="true" /> : <XCircle className="h-5 w-5" aria-hidden="true" />}
                 <span className="font-medium">
                   {decoded.isSignatureValid 
                     ? 'Signature is valid' 
