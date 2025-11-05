@@ -282,33 +282,6 @@ export function parseCSVWithPaths(csvString: string): any {
   return result;
 }
 
-// Commenting out unused function for now
-// /**
-//  * Get value at path in object
-//  */
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// function getValueAtPath(obj: any, path: string): any {
-//   const segments = parsePath(path);
-//   let current = obj;
-//   
-//   for (const segment of segments) {
-//     if (current === undefined || current === null) {
-//       return undefined;
-//     }
-//     
-//     if (segment.isArray) {
-//       current = current[segment.key];
-//       if (Array.isArray(current) && segment.arrayIndex !== undefined) {
-//         current = current[segment.arrayIndex];
-//       }
-//     } else {
-//       current = current[segment.key];
-//     }
-//   }
-//   
-//   return current;
-// }
-
 /**
  * Escape CSV value
  */
