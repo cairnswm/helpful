@@ -329,52 +329,6 @@ function escapeCSVValue(value: any): string {
 }
 
 /**
- * Flatten nested object to paths
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function flattenObject(obj: any, prefix = ''): Map<string, any> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const result = new Map<string, any>();
-  
-  if (obj === null || obj === undefined) {
-    return result;
-  }
-  
-  if (Array.isArray(obj)) {
-    obj.forEach((item, index) => {
-      const arrayPath = prefix ? `${prefix}[${index + 1}]` : `[${index + 1}]`;
-      if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
-        // Flatten object properties
-        for (const [key, value] of Object.entries(item)) {
-          if (typeof value === 'object' && value !== null) {
-            const nested = flattenObject(value, `${arrayPath}.${key}`);
-            nested.forEach((v, k) => result.set(k, v));
-          } else {
-            result.set(`${arrayPath}.${key}`, value);
-          }
-        }
-      } else {
-        result.set(arrayPath, item);
-      }
-    });
-  } else if (typeof obj === 'object') {
-    for (const [key, value] of Object.entries(obj)) {
-      const path = prefix ? `${prefix}.${key}` : key;
-      if (typeof value === 'object' && value !== null) {
-        const nested = flattenObject(value, path);
-        nested.forEach((v, k) => result.set(k, v));
-      } else {
-        result.set(path, value);
-      }
-    }
-  } else {
-    result.set(prefix, obj);
-  }
-  
-  return result;
-}
-
-/**
  * Generate CSV-with-paths format from JSON
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
