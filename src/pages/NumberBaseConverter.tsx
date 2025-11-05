@@ -158,25 +158,27 @@ const NumberBaseConverter: React.FC = () => {
         />
 
         {/* Input Panel */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="number-input-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Calculator className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Number Input</h3>
+              <Calculator className="h-5 w-5 text-blue-600" aria-hidden="true" />
+              <h2 id="number-input-heading" className="text-lg font-semibold text-gray-800">Number Input</h2>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={loadSample}
                 className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors"
+                aria-label="Load sample number"
               >
                 Load Sample
               </button>
               <button
                 onClick={handleClear}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                aria-label="Clear input"
                 title="Clear input"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -184,10 +186,10 @@ const NumberBaseConverter: React.FC = () => {
           <div className="p-4 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label id="input-base-label" className="block text-sm font-medium text-gray-700 mb-2">
                   Input Base
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2" role="group" aria-labelledby="input-base-label">
                   {bases.map((base) => (
                     <button
                       key={base.value}
@@ -197,6 +199,8 @@ const NumberBaseConverter: React.FC = () => {
                           ? 'bg-blue-50 border-blue-300 text-blue-900'
                           : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
                       }`}
+                      aria-pressed={inputBase === base.value}
+                      aria-label={`Select ${base.name} (${base.description})`}
                     >
                       <div className="font-medium">{base.name}</div>
                       <div className="text-xs text-gray-500">{base.description}</div>
@@ -206,41 +210,46 @@ const NumberBaseConverter: React.FC = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="number-value-input" className="block text-sm font-medium text-gray-700 mb-2">
                   Number Value
                 </label>
                 <input
+                  id="number-value-input"
                   type="text"
                   value={input}
                   onChange={(e) => handleInputChange(e.target.value)}
                   placeholder={`Enter ${bases.find(b => b.value === inputBase)?.name.toLowerCase()} number...`}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label={`Number value in ${bases.find(b => b.value === inputBase)?.name}`}
+                  aria-invalid={error ? 'true' : 'false'}
+                  aria-describedby="valid-chars-help"
                 />
-                <div className="mt-2 text-xs text-gray-500">
+                <div id="valid-chars-help" className="mt-2 text-xs text-gray-500">
                   Valid characters for base {inputBase}: {getValidCharsForBase(inputBase)}
                 </div>
               </div>
             </div>
             
             {error && (
-              <div className="flex items-center space-x-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <AlertCircle className="h-4 w-4 text-red-500" />
+              <div className="flex items-center space-x-2 p-3 bg-red-50 border border-red-200 rounded-lg" role="alert" aria-live="assertive">
+                <AlertCircle className="h-4 w-4 text-red-500" aria-hidden="true" />
                 <span className="text-red-700 text-sm">{error}</span>
               </div>
             )}
           </div>
-        </div>
+        </section>
 
         {/* Conversion Results */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="conversion-results-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-800">Conversion Results</h3>
+            <h2 id="conversion-results-heading" className="text-lg font-semibold text-gray-800">Conversion Results</h2>
             {results.length > 0 && (
               <button
                 onClick={handleCopyAll}
                 className="flex items-center space-x-2 px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+                aria-label={copied === 'all' ? 'All results copied to clipboard' : 'Copy all conversion results to clipboard'}
               >
-                {copied === 'all' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied === 'all' ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span>{copied === 'all' ? 'Copied!' : 'Copy All'}</span>
               </button>
             )}
@@ -248,7 +257,7 @@ const NumberBaseConverter: React.FC = () => {
           
           <div className="p-4">
             {results.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4" role="list" aria-label="Converted number values">
                 {results.map((result) => {
                   const baseInfo = bases.find(b => b.value.toString() === result.base);
                   const isInputBase = parseInt(result.base) === inputBase;
@@ -261,24 +270,26 @@ const NumberBaseConverter: React.FC = () => {
                           ? 'bg-blue-50 border-blue-200' 
                           : 'bg-gray-50 border-gray-200'
                       }`}
+                      role="listitem"
                     >
                       <div className="flex items-center justify-between mb-3">
                         <div>
-                          <h4 className={`font-semibold ${isInputBase ? 'text-blue-900' : 'text-gray-900'}`}>
+                          <h3 className={`font-semibold ${isInputBase ? 'text-blue-900' : 'text-gray-900'}`}>
                             {result.name}
                             {isInputBase && (
                               <span className="text-xs ml-2 bg-blue-200 text-blue-800 px-2 py-0.5 rounded-full">
                                 Input
                               </span>
                             )}
-                          </h4>
+                          </h3>
                           <p className="text-sm text-gray-600">{result.description}</p>
                         </div>
                         <button
                           onClick={() => handleCopy(result.value, result.base)}
                           className="flex items-center space-x-1 px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 transition-colors"
+                          aria-label={copied === result.base ? `${result.name} value copied` : `Copy ${result.name} value to clipboard`}
                         >
-                          {copied === result.base ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                          {copied === result.base ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
                           <span>{copied === result.base ? 'Copied!' : 'Copy'}</span>
                         </button>
                       </div>
@@ -308,16 +319,16 @@ const NumberBaseConverter: React.FC = () => {
                 })}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-500" role="status">
                 Enter a number above to see conversions...
               </div>
             )}
           </div>
-        </div>
+        </section>
 
         {/* Quick Examples */}
-        <div className="mt-6 bg-blue-50 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-900 mb-4">Quick Examples</h3>
+        <section className="mt-6 bg-blue-50 rounded-lg p-6" aria-labelledby="examples-heading">
+          <h2 id="examples-heading" className="text-lg font-semibold text-blue-900 mb-4">Quick Examples</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { input: '255', base: 10, label: 'Common byte value' },
