@@ -13,19 +13,25 @@ interface InfoSectionProps {
 
 const InfoSection: React.FC<InfoSectionProps> = ({ title, items, useCases }) => {
   return (
-    <div className="mt-6 bg-blue-50 rounded-lg p-4">
-      <h4 className="font-semibold text-blue-900 mb-2">{title}</h4>
-      <div className="text-sm text-blue-800 space-y-1">
+    <section className="mt-6 bg-blue-50 rounded-lg p-4" aria-labelledby="info-section-title">
+      <h2 id="info-section-title" className="font-semibold text-blue-900 mb-2">{title}</h2>
+      <dl className="text-sm text-blue-800 space-y-1">
         {items.map((item, index) => (
-          <p key={index}>
-            <strong>{item.label}:</strong> {item.description}
-          </p>
+          <div key={index}>
+            <dt className="inline font-bold">{item.label}:</dt>
+            {' '}
+            <dd className="inline">{item.description}</dd>
+          </div>
         ))}
         {useCases && (
-          <p><strong>Use cases:</strong> {useCases}</p>
+          <div>
+            <dt className="inline font-bold">Use cases:</dt>
+            {' '}
+            <dd className="inline">{useCases}</dd>
+          </div>
         )}
-      </div>
-    </div>
+      </dl>
+    </section>
   );
 };
 

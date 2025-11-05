@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useRef, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ToolsFilterProvider } from './contexts/ToolsFilterContext';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import ScrollToTop from './components/ScrollToTop';
@@ -48,67 +49,121 @@ const SvgOptimizer = React.lazy(() => import('./pages/SvgOptimizer'));
 const CertificateInspector = React.lazy(() => import('./pages/CertificateInspector'));
 const SecurityHeadersChecker = React.lazy(() => import('./pages/SecurityHeadersChecker'));
 const EncryptionTool = React.lazy(() => import('./pages/EncryptionTool'));
+const JsonMerger = React.lazy(() => import('./pages/JsonMerger'));
+const JsonDiff = React.lazy(() => import('./pages/JsonDiff'));
+const JsonSchemaCreator = React.lazy(() => import('./pages/JsonSchemaCreator'));
+const JsonXlsxConverter = React.lazy(() => import('./pages/JsonXlsxConverter'));
+const CsvXlsxConverter = React.lazy(() => import('./pages/CsvXlsxConverter'));
+const ImageCropper = React.lazy(() => import('./pages/ImageCropper'));
+const ImageRotatorFlipper = React.lazy(() => import('./pages/ImageRotatorFlipper'));
+const ImageColorAdjustments = React.lazy(() => import('./pages/ImageColorAdjustments'));
+const ImageFiltersEffects = React.lazy(() => import('./pages/ImageFiltersEffects'));
+const ImageMetadataEditor = React.lazy(() => import('./pages/ImageMetadataEditor'));
+const WatermarkOverlay = React.lazy(() => import('./pages/WatermarkOverlay'));
+const HtmlPdfConverter = React.lazy(() => import('./pages/HtmlPdfConverter'));
+const MarkdownPdfConverter = React.lazy(() => import('./pages/MarkdownPdfConverter'));
 
+
+// Component to handle focus management on route changes
+const FocusManager: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const location = useLocation();
+  const mainRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    // Set focus to main content area on route change for screen readers
+    if (mainRef.current) {
+      mainRef.current.focus();
+    }
+  }, [location.pathname]);
+
+  return (
+    <main 
+      ref={mainRef} 
+      className="flex-1 overflow-auto" 
+      id="main-content"
+      tabIndex={-1}
+      role="main"
+      aria-label="Main content"
+    >
+      {children}
+    </main>
+  );
+};
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <ScrollToTop />
-        <Header />
-        <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-          <main className="flex-1 overflow-auto">
-            <Routes>
+      <ToolsFilterProvider>
+        <div className="min-h-screen bg-gray-50 flex flex-col">
+          <ScrollToTop />
+          <Header />
+          <div className="flex flex-1 overflow-hidden">
+            <Sidebar />
+            <FocusManager>
+              <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/format-json" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><FormatJson /></React.Suspense>} />
-              <Route path="/string-to-json" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><StringToJson /></React.Suspense>} />
-              <Route path="/jwt-decoder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JwtDecoder /></React.Suspense>} />
-              <Route path="/base64" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><Base64Tool /></React.Suspense>} />
-              <Route path="/url-encoder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><UrlEncoder /></React.Suspense>} />
-              <Route path="/regex-tester" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><RegexTester /></React.Suspense>} />
-              <Route path="/diff-checker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><DiffChecker /></React.Suspense>} />
-              <Route path="/uuid-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><UuidGenerator /></React.Suspense>} />
-              <Route path="/timestamp-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><TimestampConverter /></React.Suspense>} />
-              <Route path="/css-formatter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CssFormatter /></React.Suspense>} />
-              <Route path="/sql-formatter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SqlFormatter /></React.Suspense>} />
-              <Route path="/hex-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HexConverter /></React.Suspense>} />
-              <Route path="/color-picker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ColorPicker /></React.Suspense>} />
-              <Route path="/json-schema-validator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonSchemaValidator /></React.Suspense>} />
-              <Route path="/api-request-builder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ApiRequestBuilder /></React.Suspense>} />
-              <Route path="/jwt-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JwtGenerator /></React.Suspense>} />
-              <Route path="/command-builder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CommandBuilder /></React.Suspense>} />
-              <Route path="/markdown-previewer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><MarkdownPreviewer /></React.Suspense>} />
-              <Route path="/image-resizer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageResizer /></React.Suspense>} />
-              <Route path="/json-csv-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JsonCsvConverter /></React.Suspense>} />
-              <Route path="/uuid-validator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><UuidValidator /></React.Suspense>} />
-              <Route path="/http-status-reference" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HttpStatusReference /></React.Suspense>} />
-              <Route path="/text-case-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><TextCaseConverter /></React.Suspense>} />
-              <Route path="/sql-query-analyzer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SqlQueryAnalyzer /></React.Suspense>} />
-              <Route path="/xml-formatter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><XmlFormatter /></React.Suspense>} />
-              <Route path="/password-checker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><PasswordChecker /></React.Suspense>} />
-              <Route path="/yaml-json-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><YamlJsonConverter /></React.Suspense>} />
-              <Route path="/markdown-html-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><MarkdownHtmlConverter /></React.Suspense>} />
-              <Route path="/xml-json-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><XmlJsonConverter /></React.Suspense>} />
-              <Route path="/color-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ColorConverter /></React.Suspense>} />
-              <Route path="/timezone-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><TimezoneConverter /></React.Suspense>} />
-              <Route path="/hash-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HashGenerator /></React.Suspense>} />
-              <Route path="/number-base-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><NumberBaseConverter /></React.Suspense>} />
-              <Route path="/lorem-ipsum-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><LoremIpsumGenerator /></React.Suspense>} />
-              <Route path="/qr-code-generator" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><QRCodeGenerator /></React.Suspense>} />
-              <Route path="/image-base64-converter" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><ImageBase64Converter /></React.Suspense>} />
-              <Route path="/cron-expression-builder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CronExpressionBuilder /></React.Suspense>} />
-              <Route path="/env-variable-manager" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><EnvVariableManager /></React.Suspense>} />
-              <Route path="/html-entity-encoder" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><HtmlEntityEncoder /></React.Suspense>} />
-              <Route path="/javascript-minifier" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><JavaScriptMinifier /></React.Suspense>} />
-              <Route path="/svg-optimizer" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SvgOptimizer /></React.Suspense>} />
-              <Route path="/certificate-inspector" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><CertificateInspector /></React.Suspense>} />
-              <Route path="/security-headers-checker" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><SecurityHeadersChecker /></React.Suspense>} />
-              <Route path="/encryption-tool" element={<React.Suspense fallback={<div className='p-8 text-center'>Loading...</div>}><EncryptionTool /></React.Suspense>} />
-            </Routes>
-          </main>
+              <Route path="/format-json" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><FormatJson /></React.Suspense>} />
+              <Route path="/string-to-json" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><StringToJson /></React.Suspense>} />
+              <Route path="/jwt-decoder" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JwtDecoder /></React.Suspense>} />
+              <Route path="/base64" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><Base64Tool /></React.Suspense>} />
+              <Route path="/url-encoder" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><UrlEncoder /></React.Suspense>} />
+              <Route path="/regex-tester" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><RegexTester /></React.Suspense>} />
+              <Route path="/diff-checker" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><DiffChecker /></React.Suspense>} />
+              <Route path="/uuid-generator" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><UuidGenerator /></React.Suspense>} />
+              <Route path="/timestamp-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><TimestampConverter /></React.Suspense>} />
+              <Route path="/css-formatter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><CssFormatter /></React.Suspense>} />
+              <Route path="/sql-formatter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><SqlFormatter /></React.Suspense>} />
+              <Route path="/hex-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><HexConverter /></React.Suspense>} />
+              <Route path="/color-picker" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ColorPicker /></React.Suspense>} />
+              <Route path="/json-schema-validator" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JsonSchemaValidator /></React.Suspense>} />
+              <Route path="/api-request-builder" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ApiRequestBuilder /></React.Suspense>} />
+              <Route path="/jwt-generator" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JwtGenerator /></React.Suspense>} />
+              <Route path="/command-builder" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><CommandBuilder /></React.Suspense>} />
+              <Route path="/markdown-previewer" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><MarkdownPreviewer /></React.Suspense>} />
+              <Route path="/image-resizer" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ImageResizer /></React.Suspense>} />
+              <Route path="/json-csv-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JsonCsvConverter /></React.Suspense>} />
+              <Route path="/uuid-validator" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><UuidValidator /></React.Suspense>} />
+              <Route path="/http-status-reference" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><HttpStatusReference /></React.Suspense>} />
+              <Route path="/text-case-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><TextCaseConverter /></React.Suspense>} />
+              <Route path="/sql-query-analyzer" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><SqlQueryAnalyzer /></React.Suspense>} />
+              <Route path="/xml-formatter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><XmlFormatter /></React.Suspense>} />
+              <Route path="/password-checker" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><PasswordChecker /></React.Suspense>} />
+              <Route path="/yaml-json-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><YamlJsonConverter /></React.Suspense>} />
+              <Route path="/markdown-html-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><MarkdownHtmlConverter /></React.Suspense>} />
+              <Route path="/xml-json-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><XmlJsonConverter /></React.Suspense>} />
+              <Route path="/color-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ColorConverter /></React.Suspense>} />
+              <Route path="/timezone-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><TimezoneConverter /></React.Suspense>} />
+              <Route path="/hash-generator" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><HashGenerator /></React.Suspense>} />
+              <Route path="/number-base-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><NumberBaseConverter /></React.Suspense>} />
+              <Route path="/lorem-ipsum-generator" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><LoremIpsumGenerator /></React.Suspense>} />
+              <Route path="/qr-code-generator" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><QRCodeGenerator /></React.Suspense>} />
+              <Route path="/image-base64-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ImageBase64Converter /></React.Suspense>} />
+              <Route path="/cron-expression-builder" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><CronExpressionBuilder /></React.Suspense>} />
+              <Route path="/env-variable-manager" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><EnvVariableManager /></React.Suspense>} />
+              <Route path="/html-entity-encoder" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><HtmlEntityEncoder /></React.Suspense>} />
+              <Route path="/javascript-minifier" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JavaScriptMinifier /></React.Suspense>} />
+              <Route path="/svg-optimizer" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><SvgOptimizer /></React.Suspense>} />
+              <Route path="/certificate-inspector" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><CertificateInspector /></React.Suspense>} />
+              <Route path="/security-headers-checker" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><SecurityHeadersChecker /></React.Suspense>} />
+              <Route path="/encryption-tool" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><EncryptionTool /></React.Suspense>} />
+              <Route path="/json-merger" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JsonMerger /></React.Suspense>} />
+              <Route path="/json-diff" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JsonDiff /></React.Suspense>} />
+              <Route path="/json-schema-creator" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JsonSchemaCreator /></React.Suspense>} />
+              <Route path="/json-xlsx-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JsonXlsxConverter /></React.Suspense>} />
+              <Route path="/csv-xlsx-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><CsvXlsxConverter /></React.Suspense>} />
+              <Route path="/image-cropper" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ImageCropper /></React.Suspense>} />
+              <Route path="/image-rotator-flipper" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ImageRotatorFlipper /></React.Suspense>} />
+              <Route path="/image-color-adjustments" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ImageColorAdjustments /></React.Suspense>} />
+              <Route path="/image-filters-effects" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ImageFiltersEffects /></React.Suspense>} />
+              <Route path="/image-metadata-editor" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><ImageMetadataEditor /></React.Suspense>} />
+              <Route path="/watermark-overlay" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><WatermarkOverlay /></React.Suspense>} />
+              <Route path="/html-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><HtmlPdfConverter /></React.Suspense>} />
+              <Route path="/markdown-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><MarkdownPdfConverter /></React.Suspense>} />
+              </Routes>
+            </FocusManager>
+          </div>
         </div>
-      </div>
+      </ToolsFilterProvider>
     </Router>
   );
 }

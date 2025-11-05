@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, Braces, FileText, Shield, 
@@ -9,40 +9,53 @@ import {
   CheckCircle, Info, Type, BarChart3,
   FileX, Lock, ChevronDown, ChevronRight,
   RefreshCw, Calculator, QrCode, ImageIcon,
-  Settings, Minimize2, FileCheck, Key
+  Settings, Minimize2, FileCheck, Key,
+  FileSpreadsheet, Crop, RotateCw, Droplet, Filter, FileImage
 } from 'lucide-react';
 
 interface NavItem {
   path: string;
   label: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 interface NavGroup {
   title: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   items: NavItem[];
 }
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const [expandedGroup, setExpandedGroup] = useState<string>('general');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const toggleGroup = (groupTitle: string) => {
     setExpandedGroup(expandedGroup === groupTitle ? '' : groupTitle);
   };
 
-  const navGroups: NavGroup[] = [
+  const navGroups = useMemo<NavGroup[]>(() => [
     {
       title: 'General',
       icon: Home,
       items: [
-        { path: '/', label: 'Home', icon: Home },
-        { path: '/image-resizer', label: 'Image Resizer', icon: Image },
         { path: '/diff-checker', label: 'Diff Checker', icon: GitCompare },
         { path: '/regex-tester', label: 'Regex Tester', icon: Search },
         { path: '/lorem-ipsum-generator', label: 'Lorem Ipsum Generator', icon: FileText },
         { path: '/qr-code-generator', label: 'QR Code Generator', icon: QrCode }
+      ]
+    },
+    {
+      title: 'Image Tools',
+      icon: Image,
+      items: [
+        { path: '/image-resizer', label: 'Image Resizer', icon: Image },
+        { path: '/image-cropper', label: 'Image Cropper', icon: Crop },
+        { path: '/image-rotator-flipper', label: 'Rotate & Flip', icon: RotateCw },
+        { path: '/image-color-adjustments', label: 'Color Adjustments', icon: Droplet },
+        { path: '/image-filters-effects', label: 'Filters & Effects', icon: Filter },
+        { path: '/watermark-overlay', label: 'Watermark Overlay', icon: FileImage },
+        { path: '/image-metadata-editor', label: 'Metadata Editor', icon: FileText }
       ]
     },
     {
@@ -52,7 +65,9 @@ const Sidebar: React.FC = () => {
         { path: '/format-json', label: 'Format JSON', icon: Braces },
         { path: '/string-to-json', label: 'String to JSON', icon: FileText },
         { path: '/json-schema-validator', label: 'JSON Schema Validator', icon: Zap },
-        { path: '/json-csv-converter', label: 'JSON/CSV Converter', icon: ArrowRightLeft }
+        { path: '/json-schema-creator', label: 'JSON Schema Creator', icon: Plus },
+        { path: '/json-merger', label: 'JSON Merger', icon: GitCompare },
+        { path: '/json-diff', label: 'JSON Diff', icon: GitCompare }
       ]
     },
     {
@@ -60,9 +75,13 @@ const Sidebar: React.FC = () => {
       icon: RefreshCw,
       items: [
         { path: '/json-csv-converter', label: 'JSON ↔ CSV', icon: ArrowRightLeft },
+        { path: '/json-xlsx-converter', label: 'JSON ↔ XLSX', icon: FileSpreadsheet },
+        { path: '/csv-xlsx-converter', label: 'CSV ↔ XLSX', icon: FileSpreadsheet },
         { path: '/yaml-json-converter', label: 'YAML ↔ JSON', icon: RefreshCw },
         { path: '/xml-json-converter', label: 'XML ↔ JSON', icon: RefreshCw },
         { path: '/markdown-html-converter', label: 'Markdown ↔ HTML', icon: RefreshCw },
+        { path: '/html-pdf-converter', label: 'HTML → PDF', icon: FileText },
+        { path: '/markdown-pdf-converter', label: 'Markdown → PDF', icon: FileText },
         { path: '/image-base64-converter', label: 'Image ↔ Base64', icon: ImageIcon }
       ]
     },
@@ -152,15 +171,57 @@ const Sidebar: React.FC = () => {
         { path: '/env-variable-manager', label: 'Environment Variables', icon: Settings }
       ]
     }
-  ];
+  ], []);
+
+  // Filter navigation based on search term
+  const filteredNavGroups = useMemo(() => {
+    if (!searchTerm.trim()) return navGroups;
+    
+    const searchLower = searchTerm.toLowerCase();
+    return navGroups.map(group => ({
+      ...group,
+      items: group.items.filter(item => 
+        item.label.toLowerCase().includes(searchLower) ||
+        item.path.toLowerCase().includes(searchLower)
+      )
+    })).filter(group => group.items.length > 0);
+  }, [searchTerm, navGroups]);
 
   return (
-    <aside className="w-64 bg-white shadow-lg border-r border-gray-200 h-full flex flex-col">
+    <aside className="w-64 bg-white shadow-lg border-r border-gray-200 h-full flex flex-col" role="complementary" aria-label="Tools navigation">
       <div className="flex-1 overflow-y-auto">
         <div className="p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Tools</h2>
-          <nav className="space-y-2">
-            {navGroups.map((group) => {
+          
+          {/* Home Link - Standalone */}
+          <Link
+            to="/"
+            className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 mb-4 ${
+              location.pathname === '/'
+                ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-sm'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+            }`}
+            aria-current={location.pathname === '/' ? 'page' : undefined}
+          >
+            <Home className={`h-4 w-4 ${location.pathname === '/' ? 'text-blue-600' : 'text-gray-400'}`} aria-hidden="true" />
+            <span className="font-medium">Home</span>
+          </Link>
+
+          {/* Search Bar */}
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" aria-hidden="true" />
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search tools..."
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              aria-label="Search tools"
+            />
+          </div>
+
+          <nav className="space-y-2" aria-label="Main">
+            {filteredNavGroups.map((group) => {
               const GroupIcon = group.icon;
               const isExpanded = expandedGroup === group.title.toLowerCase();
               
@@ -169,20 +230,27 @@ const Sidebar: React.FC = () => {
                   <button
                     onClick={() => toggleGroup(group.title.toLowerCase())}
                     className="w-full flex items-center justify-between px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                    aria-expanded={isExpanded}
+                    aria-controls={`${group.title.toLowerCase()}-group`}
                   >
                     <div className="flex items-center space-x-3">
-                      <GroupIcon className="h-4 w-4 text-gray-500" />
+                      <GroupIcon className="h-4 w-4 text-gray-500" aria-hidden="true" />
                       <span className="font-medium text-sm">{group.title}</span>
                     </div>
                     {isExpanded ? (
-                      <ChevronDown className="h-4 w-4 text-gray-400" />
+                      <ChevronDown className="h-4 w-4 text-gray-400" aria-hidden="true" />
                     ) : (
-                      <ChevronRight className="h-4 w-4 text-gray-400" />
+                      <ChevronRight className="h-4 w-4 text-gray-400" aria-hidden="true" />
                     )}
                   </button>
                   
                   {isExpanded && (
-                    <div className="ml-4 mt-1 space-y-1">
+                    <div 
+                      className="ml-4 mt-1 space-y-1"
+                      id={`${group.title.toLowerCase()}-group`}
+                      role="group"
+                      aria-label={`${group.title} tools`}
+                    >
                       {group.items.map((item) => {
                         const Icon = item.icon;
                         const isActive = location.pathname === item.path;
@@ -196,8 +264,9 @@ const Sidebar: React.FC = () => {
                                 ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-sm'
                                 : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                             }`}
+                            aria-current={isActive ? 'page' : undefined}
                           >
-                            <Icon className={`h-4 w-4 ${isActive ? 'text-blue-600' : 'text-gray-400'}`} />
+                            <Icon className={`h-4 w-4 ${isActive ? 'text-blue-600' : 'text-gray-400'}`} aria-hidden="true" />
                             <span className="font-medium">{item.label}</span>
                           </Link>
                         );
@@ -211,7 +280,7 @@ const Sidebar: React.FC = () => {
         </div>
       </div>
       
-      <div className="p-6 border-t border-gray-200 bg-white flex-shrink-0">
+      <div className="p-6 border-t border-gray-200 bg-white flex-shrink-0" role="contentinfo">
         <div className="text-center">
           <p className="text-sm text-gray-500">Professional Developer Tools</p>
           <p className="text-xs text-gray-400 mt-1">Built with React & Tailwind</p>

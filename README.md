@@ -161,9 +161,56 @@ helpful/
    ```
 5. Add lazy import in `src/App.tsx`
 6. Add route in `src/App.tsx`
-7. Follow existing patterns and styling conventions
+7. **Add the tool to `src/data/tools.json`** (see Tools Configuration section below)
+8. Follow existing patterns and styling conventions
 
 See `.github/copilot-instructions.md` for detailed development guidelines.
+
+### Tools Configuration
+
+All tools are centrally configured in `src/data/tools.json`. This file controls which tools appear on the home page and enables category-based filtering.
+
+#### Structure
+
+```json
+{
+  "tools": [
+    {
+      "id": "tool-url-slug",
+      "title": "Tool Display Name",
+      "description": "Brief description of what the tool does.",
+      "path": "/tool-url-path",
+      "icon": "IconName",
+      "color": "bg-color-class",
+      "keywords": ["keyword1", "keyword2", "keyword3"],
+      "categories": ["Category1", "Category2"]
+    }
+  ]
+}
+```
+
+#### Field Descriptions
+
+- **id**: Unique identifier for the tool (typically matches the URL slug)
+- **title**: Display name shown on cards and in navigation
+- **description**: One-sentence description of the tool's functionality
+- **path**: URL route path (must match the route in App.tsx)
+- **icon**: Name of the Lucide React icon (e.g., "Braces", "Shield", "Image")
+  - Available icons must be imported in `src/pages/Home.tsx`
+- **color**: Tailwind CSS background color class for the tool's card icon (e.g., "bg-blue-500")
+- **keywords**: Array of searchable keywords for better discovery
+- **categories**: Array of category names this tool belongs to
+  - Tools can belong to multiple categories
+  - Categories are automatically aggregated and displayed as filter buttons on the home page
+  - Common categories: "JSON Tools", "Converters", "Security & Auth", "Image Tools", "Formatters", "Generators", "Validators", "Development Tools", etc.
+
+#### Maintaining Categories
+
+When adding a new tool:
+1. Choose appropriate existing categories or create new ones if needed
+2. Keep category names consistent across tools
+3. A tool can belong to multiple categories (e.g., a JSON converter might be in both "JSON Tools" and "Converters")
+4. Categories will automatically appear in the filter UI on the home page
 
 ## 📝 License
 
