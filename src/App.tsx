@@ -62,6 +62,7 @@ const ImageMetadataEditor = React.lazy(() => import('./pages/ImageMetadataEditor
 const WatermarkOverlay = React.lazy(() => import('./pages/WatermarkOverlay'));
 const HtmlPdfConverter = React.lazy(() => import('./pages/HtmlPdfConverter'));
 const MarkdownPdfConverter = React.lazy(() => import('./pages/MarkdownPdfConverter'));
+const JsonAiReadyConverter = React.lazy(() => import('./pages/JsonAiReadyConverter'));
 
 
 // Component to handle focus management on route changes
@@ -159,6 +160,7 @@ function App() {
               <Route path="/watermark-overlay" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><WatermarkOverlay /></React.Suspense>} />
               <Route path="/html-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><HtmlPdfConverter /></React.Suspense>} />
               <Route path="/markdown-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><MarkdownPdfConverter /></React.Suspense>} />
+              <Route path="/json-ai-ready-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JsonAiReadyConverter /></React.Suspense>} />
               </Routes>
             </FocusManager>
           </div>
