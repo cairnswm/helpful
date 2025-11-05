@@ -415,7 +415,7 @@ const JsonSchemaCreator: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-400px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-400px)]">
           {/* Input Panel */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">

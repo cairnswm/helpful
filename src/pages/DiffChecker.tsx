@@ -166,7 +166,7 @@ const DiffChecker: React.FC = () => {
           </section>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-320px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-[calc(100vh-320px)]">
           {/* Left Text */}
           <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="original-text-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
