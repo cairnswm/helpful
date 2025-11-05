@@ -17,8 +17,6 @@ const JsonSchemaValidator: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [jsonWasCleaned, setJsonWasCleaned] = useState(false);
   const [schemaWasCleaned, setSchemaWasCleaned] = useState(false);
-  const [cleanedJsonData, setCleanedJsonData] = useState('');
-  const [cleanedSchema, setCleanedSchema] = useState('');
 
   // Basic JSON Schema validation (simplified implementation)
   const validateJsonSchema = useCallback((data: any, schemaObj: any, path = ''): ValidationError[] => {
@@ -130,8 +128,6 @@ const JsonSchemaValidator: React.FC = () => {
     const jsonResult = parseAndCleanJson(jsonData);
     const schemaResult = parseAndCleanJson(schema);
     
-    setCleanedJsonData(jsonResult.cleanedJson);
-    setCleanedSchema(schemaResult.cleanedJson);
     setJsonWasCleaned(jsonResult.wasCleaned);
     setSchemaWasCleaned(schemaResult.wasCleaned);
 
@@ -189,8 +185,6 @@ const JsonSchemaValidator: React.FC = () => {
     setErrors([]);
     setJsonWasCleaned(false);
     setSchemaWasCleaned(false);
-    setCleanedJsonData('');
-    setCleanedSchema('');
   };
 
   const sampleSchema = `{

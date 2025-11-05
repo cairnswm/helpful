@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import JsonDisplay from '../components/JsonDisplay';
 import InfoSection from '../components/InfoSection';
 import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowUpDown } from 'lucide-react';
@@ -102,7 +101,7 @@ const StringToJson: React.FC = () => {
   const handleInputChange = useCallback((value: string) => {
     setInput(value);
     processInput(value, mode);
-  }, []);
+  }, [mode, processInput]);
 
   const handleModeToggle = () => {
     const newMode = mode === 'stringToJson' ? 'jsonToString' : 'stringToJson';
