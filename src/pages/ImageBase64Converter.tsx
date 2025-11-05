@@ -105,60 +105,72 @@ const ImageBase64Converter: React.FC = () => {
           description="Convert images to Base64 strings and vice versa - essential for embedding images in CSS, emails, or APIs."
         />
 
-        <div className="mb-6 flex items-center space-x-4">
-          <div className="flex bg-gray-100 rounded-lg p-1">
-            <button
-              onClick={() => setMode('toBase64')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                mode === 'toBase64'
-                  ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Image → Base64
-            </button>
-            <button
-              onClick={() => setMode('fromBase64')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                mode === 'fromBase64'
-                  ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Base64 → Image
-            </button>
+        <section aria-labelledby="mode-selector-heading">
+          <h2 id="mode-selector-heading" className="sr-only">Conversion Mode</h2>
+          <div className="mb-6 flex items-center space-x-4">
+            <div className="flex bg-gray-100 rounded-lg p-1" role="group" aria-label="Conversion mode selection">
+              <button
+                onClick={() => setMode('toBase64')}
+                aria-pressed={mode === 'toBase64'}
+                aria-label="Convert image to Base64 string"
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  mode === 'toBase64'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Image → Base64
+              </button>
+              <button
+                onClick={() => setMode('fromBase64')}
+                aria-pressed={mode === 'fromBase64'}
+                aria-label="Convert Base64 string to image"
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  mode === 'fromBase64'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Base64 → Image
+              </button>
+            </div>
           </div>
-        </div>
+        </section>
 
         {mode === 'toBase64' ? (
           <div className="space-y-6">
             {/* Upload Area */}
-            <div
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              className="bg-white rounded-lg shadow-lg border-2 border-dashed border-gray-300 hover:border-blue-500 transition-colors p-12 text-center cursor-pointer"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-lg font-medium text-gray-700 mb-2">
-                Click to upload or drag and drop
-              </p>
-              <p className="text-sm text-gray-500">
-                PNG, JPG, GIF, WebP, SVG (Max 10MB)
-              </p>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleFileUpload}
-                className="hidden"
-              />
-            </div>
+            <section aria-labelledby="upload-heading">
+              <h2 id="upload-heading" className="sr-only">Upload Image</h2>
+              <label
+                htmlFor="image-upload-input"
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                className="block bg-white rounded-lg shadow-lg border-2 border-dashed border-gray-300 hover:border-blue-500 transition-colors p-12 text-center cursor-pointer"
+              >
+                <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" aria-hidden="true" />
+                <p className="text-lg font-medium text-gray-700 mb-2">
+                  Click to upload or drag and drop
+                </p>
+                <p className="text-sm text-gray-500">
+                  PNG, JPG, GIF, WebP, SVG (Max 10MB)
+                </p>
+                <input
+                  id="image-upload-input"
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  aria-label="Upload image file for Base64 conversion"
+                  className="hidden"
+                />
+              </label>
+            </section>
 
             {fileName && (
-              <div className="bg-blue-50 rounded-lg p-4 flex items-center justify-between">
+              <div className="bg-blue-50 rounded-lg p-4 flex items-center justify-between" role="status">
                 <div className="flex items-center space-x-3">
-                  <ImageIcon className="h-5 w-5 text-blue-600" />
+                  <ImageIcon className="h-5 w-5 text-blue-600" aria-hidden="true" />
                   <div>
                     <p className="font-medium text-gray-800">{fileName}</p>
                     <p className="text-sm text-gray-600">{fileSize}</p>
@@ -166,98 +178,112 @@ const ImageBase64Converter: React.FC = () => {
                 </div>
                 <button
                   onClick={handleClear}
+                  aria-label="Clear uploaded image"
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <RotateCcw className="h-5 w-5" />
+                  <RotateCcw className="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
             )}
 
             {imagePreview && (
-              <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+              <section aria-labelledby="image-preview-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-800">Preview</h3>
+                  <h2 id="image-preview-heading" className="text-lg font-semibold text-gray-800">Preview</h2>
                 </div>
                 <div className="flex justify-center bg-gray-50 rounded-lg p-4">
                   <img
                     src={imagePreview}
-                    alt="Preview"
+                    alt={`Preview of uploaded image: ${fileName}`}
                     className="max-w-full max-h-96 object-contain"
                   />
                 </div>
-              </div>
+              </section>
             )}
 
             {base64String && (
-              <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+              <section aria-labelledby="base64-output-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
                 <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-                  <h3 className="text-lg font-semibold text-gray-800">Base64 String</h3>
+                  <h2 id="base64-output-heading" className="text-lg font-semibold text-gray-800">Base64 String</h2>
                   <button
                     onClick={handleCopy}
+                    aria-label={copied ? 'Base64 string copied to clipboard' : 'Copy Base64 string to clipboard'}
                     className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200"
                   >
-                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                     <span className="text-sm font-medium">
                       {copied ? 'Copied!' : 'Copy'}
                     </span>
                   </button>
                 </div>
                 <div className="p-4 max-h-64 overflow-auto">
+                  <label htmlFor="base64-output-textarea" className="sr-only">Base64 string output</label>
                   <textarea
+                    id="base64-output-textarea"
                     value={base64String}
                     readOnly
+                    aria-label="Base64 encoded string"
                     className="w-full h-48 resize-none border-0 outline-none font-mono text-xs leading-relaxed bg-gray-50"
                   />
                 </div>
+              </section>
+            )}
+            {copied && (
+              <div role="status" aria-live="polite" className="sr-only">
+                Base64 string copied to clipboard
               </div>
             )}
           </div>
         ) : (
           <div className="space-y-6">
             {/* Base64 Input */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+            <section aria-labelledby="base64-input-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
               <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-                <h3 className="text-lg font-semibold text-gray-800">Paste Base64 String</h3>
+                <h2 id="base64-input-heading" className="text-lg font-semibold text-gray-800">Paste Base64 String</h2>
                 <button
                   onClick={handleClear}
+                  aria-label="Clear Base64 input"
                   className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
-                  title="Clear input"
                 >
-                  <RotateCcw className="h-4 w-4" />
+                  <RotateCcw className="h-4 w-4" aria-hidden="true" />
                 </button>
               </div>
               <div className="p-4">
+                <label htmlFor="base64-input-textarea" className="sr-only">Base64 string input</label>
                 <textarea
+                  id="base64-input-textarea"
                   value={base64String}
                   onChange={(e) => handleBase64Input(e.target.value)}
                   placeholder="Paste Base64 string here (with or without data:image prefix)..."
+                  aria-label="Paste Base64 string for image conversion"
                   className="w-full h-48 resize-none border border-gray-300 rounded-lg p-3 outline-none font-mono text-xs leading-relaxed focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   spellCheck={false}
                 />
               </div>
-            </div>
+            </section>
 
             {imagePreview && (
-              <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+              <section aria-labelledby="decoded-image-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-800">Image Preview</h3>
+                  <h2 id="decoded-image-heading" className="text-lg font-semibold text-gray-800">Image Preview</h2>
                   <button
                     onClick={handleDownload}
+                    aria-label="Download decoded image"
                     className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
-                    <Download className="h-4 w-4" />
+                    <Download className="h-4 w-4" aria-hidden="true" />
                     <span className="text-sm font-medium">Download</span>
                   </button>
                 </div>
                 <div className="flex justify-center bg-gray-50 rounded-lg p-4">
                   <img
                     src={imagePreview}
-                    alt="Preview"
+                    alt="Decoded image from Base64 string"
                     className="max-w-full max-h-96 object-contain"
                     onError={() => setImagePreview('')}
                   />
                 </div>
-              </div>
+              </section>
             )}
           </div>
         )}
