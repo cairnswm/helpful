@@ -6,7 +6,7 @@ import {
   ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
   FileX, Lock, RefreshCw, Calculator, QrCode, ImageIcon,
   Settings, Minimize2, FileCheck, Key, FileSpreadsheet,
-  Crop, RotateCw, Droplet, Filter, FileImage
+  Crop, RotateCw, Droplet, Filter, FileImage, Sparkles
 } from 'lucide-react';
 import toolsData from '../data/tools.json';
 
@@ -18,7 +18,7 @@ const iconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>
   ArrowRightLeft, CheckCircle, Info, Type, BarChart3,
   FileX, Lock, RefreshCw, Calculator, QrCode, ImageIcon,
   Settings, Minimize2, FileCheck, Key, FileSpreadsheet,
-  Crop, RotateCw, Droplet, Filter, FileImage
+  Crop, RotateCw, Droplet, Filter, FileImage, Sparkles
 };
 
 export interface Tool {

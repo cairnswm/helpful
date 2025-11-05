@@ -471,6 +471,16 @@
       "categories": ["JSON Tools", "Converters"]
     },
     {
+      "id": "json-ai-ready-converter",
+      "title": "JSON / AI Ready Data Converter",
+      "description": "Transform JSON data to AI Ready CSV-with-paths format and vice versa for AI/LLM tooling and data processing.",
+      "path": "/json-ai-ready-converter",
+      "icon": "Sparkles",
+      "color": "bg-violet-600",
+      "keywords": ["json", "ai", "llm", "csv", "convert", "ai-ready", "data", "paths"],
+      "categories": ["JSON Tools", "Converters", "AI Tools"]
+    },
+    {
       "id": "csv-xlsx-converter",
       "title": "CSV/XLSX Converter",
       "description": "Convert between CSV and Excel (XLSX) file formats.",
