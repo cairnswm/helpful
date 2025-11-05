@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw, AlertCircle, CheckCircle, Zap } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import InfoSection from '../components/InfoSection';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 interface ValidationError {
   path: string;
@@ -14,6 +15,8 @@ const JsonSchemaValidator: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [copied, setCopied] = useState(false);
+  const [jsonWasCleaned, setJsonWasCleaned] = useState(false);
+  const [schemaWasCleaned, setSchemaWasCleaned] = useState(false);
 
   // Basic JSON Schema validation (simplified implementation)
   const validateJsonSchema = useCallback((data: any, schemaObj: any, path = ''): ValidationError[] => {
@@ -117,12 +120,29 @@ const JsonSchemaValidator: React.FC = () => {
     if (!jsonData.trim() || !schema.trim()) {
       setIsValid(null);
       setErrors([]);
+      setJsonWasCleaned(false);
+      setSchemaWasCleaned(false);
+      return;
+    }
+
+    const jsonResult = parseAndCleanJson(jsonData);
+    const schemaResult = parseAndCleanJson(schema);
+    
+    setJsonWasCleaned(jsonResult.wasCleaned);
+    setSchemaWasCleaned(schemaResult.wasCleaned);
+
+    if (!jsonResult.isValid || !schemaResult.isValid) {
+      setIsValid(false);
+      setErrors([{
+        path: 'parsing',
+        message: !jsonResult.isValid ? 'Invalid JSON data' : 'Invalid JSON schema'
+      }]);
       return;
     }
 
     try {
-      const parsedData = JSON.parse(jsonData);
-      const parsedSchema = JSON.parse(schema);
+      const parsedData = JSON.parse(jsonResult.cleanedJson);
+      const parsedSchema = JSON.parse(schemaResult.cleanedJson);
       
       const validationErrors = validateJsonSchema(parsedData, parsedSchema);
       
@@ -163,6 +183,8 @@ const JsonSchemaValidator: React.FC = () => {
     setSchema('');
     setIsValid(null);
     setErrors([]);
+    setJsonWasCleaned(false);
+    setSchemaWasCleaned(false);
   };
 
   const sampleSchema = `{
@@ -252,6 +274,15 @@ const JsonSchemaValidator: React.FC = () => {
                 <span className="font-medium">
                   {isValid ? 'Valid JSON Schema' : `Invalid: ${errors.length} error${errors.length !== 1 ? 's' : ''}`}
                 </span>
+                {(jsonWasCleaned || schemaWasCleaned) && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    {(() => {
+                      if (jsonWasCleaned && schemaWasCleaned) return 'Both auto-cleaned';
+                      if (jsonWasCleaned) return 'Data auto-cleaned';
+                      return 'Schema auto-cleaned';
+                    })()}
+                  </span>
+                )}
               </div>
               <button
                 onClick={handleCopy}

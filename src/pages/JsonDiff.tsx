@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Copy, Check, RotateCcw } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import InfoSection from '../components/InfoSection';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 type DiffType = 'added' | 'removed' | 'changed' | 'unchanged';
 type OutputFormat = 'unified' | 'structured';
@@ -18,6 +19,10 @@ const JsonDiff: React.FC = () => {
   const [rightJson, setRightJson] = useState('');
   const [leftValid, setLeftValid] = useState(false);
   const [rightValid, setRightValid] = useState(false);
+  const [leftCleaned, setLeftCleaned] = useState('');
+  const [rightCleaned, setRightCleaned] = useState('');
+  const [leftWasCleaned, setLeftWasCleaned] = useState(false);
+  const [rightWasCleaned, setRightWasCleaned] = useState(false);
   const [diffs, setDiffs] = useState<DiffItem[]>([]);
   const [outputFormat, setOutputFormat] = useState<OutputFormat>('structured');
   const [copied, setCopied] = useState(false);
@@ -139,30 +144,18 @@ const JsonDiff: React.FC = () => {
 
   const handleLeftChange = (value: string) => {
     setLeftJson(value);
-    let isValid = false;
-    try {
-      if (value.trim()) {
-        JSON.parse(value);
-        isValid = true;
-      }
-    } catch {
-      isValid = false;
-    }
-    setLeftValid(isValid);
+    const result = parseAndCleanJson(value);
+    setLeftValid(result.isValid);
+    setLeftCleaned(result.cleanedJson);
+    setLeftWasCleaned(result.wasCleaned);
   };
 
   const handleRightChange = (value: string) => {
     setRightJson(value);
-    let isValid = false;
-    try {
-      if (value.trim()) {
-        JSON.parse(value);
-        isValid = true;
-      }
-    } catch {
-      isValid = false;
-    }
-    setRightValid(isValid);
+    const result = parseAndCleanJson(value);
+    setRightValid(result.isValid);
+    setRightCleaned(result.cleanedJson);
+    setRightWasCleaned(result.wasCleaned);
   };
 
   const computeDiff = useCallback(() => {
@@ -172,15 +165,15 @@ const JsonDiff: React.FC = () => {
     }
 
     try {
-      const obj1 = JSON.parse(leftJson);
-      const obj2 = JSON.parse(rightJson);
+      const obj1 = JSON.parse(leftCleaned);
+      const obj2 = JSON.parse(rightCleaned);
       const differences = generateDiff(obj1, obj2);
       setDiffs(differences);
     } catch (error) {
       console.error('Error computing diff:', error);
       setDiffs([]);
     }
-  }, [leftJson, rightJson, leftValid, rightValid, generateDiff]);
+  }, [leftCleaned, rightCleaned, leftValid, rightValid, generateDiff]);
 
   React.useEffect(() => {
     computeDiff();
@@ -247,6 +240,10 @@ const JsonDiff: React.FC = () => {
     setRightJson('');
     setLeftValid(false);
     setRightValid(false);
+    setLeftCleaned('');
+    setRightCleaned('');
+    setLeftWasCleaned(false);
+    setRightWasCleaned(false);
     setDiffs([]);
   };
 
@@ -328,11 +325,18 @@ const JsonDiff: React.FC = () => {
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[500px]">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
               <h3 className="text-lg font-semibold text-gray-800">Original JSON</h3>
-              {leftJson && (
-                <span className={`text-xs font-medium ${leftValid ? 'text-green-600' : 'text-red-600'}`}>
-                  {leftValid ? 'Valid JSON' : 'Invalid JSON'}
-                </span>
-              )}
+              <div className="flex items-center space-x-2 mt-1">
+                {leftWasCleaned && leftValid && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Auto-cleaned
+                  </span>
+                )}
+                {leftJson && (
+                  <span className={`text-xs font-medium ${leftValid ? 'text-green-600' : 'text-red-600'}`}>
+                    {leftValid ? 'Valid JSON' : 'Invalid JSON'}
+                  </span>
+                )}
+              </div>
             </div>
             <div className="flex-1 p-4 overflow-auto">
               <textarea
@@ -349,11 +353,18 @@ const JsonDiff: React.FC = () => {
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[500px]">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
               <h3 className="text-lg font-semibold text-gray-800">Modified JSON</h3>
-              {rightJson && (
-                <span className={`text-xs font-medium ${rightValid ? 'text-green-600' : 'text-red-600'}`}>
-                  {rightValid ? 'Valid JSON' : 'Invalid JSON'}
-                </span>
-              )}
+              <div className="flex items-center space-x-2 mt-1">
+                {rightWasCleaned && rightValid && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Auto-cleaned
+                  </span>
+                )}
+                {rightJson && (
+                  <span className={`text-xs font-medium ${rightValid ? 'text-green-600' : 'text-red-600'}`}>
+                    {rightValid ? 'Valid JSON' : 'Invalid JSON'}
+                  </span>
+                )}
+              </div>
             </div>
             <div className="flex-1 p-4 overflow-auto">
               <textarea

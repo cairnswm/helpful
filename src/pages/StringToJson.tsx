@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import JsonDisplay from '../components/JsonDisplay';
 import InfoSection from '../components/InfoSection';
 import PageHeader from '../components/PageHeader';
 import { Copy, Check, RotateCcw, ArrowUpDown } from 'lucide-react';
+import { parseAndCleanJson } from '../utils/jsonCleaner';
 
 const StringToJson: React.FC = () => {
   const [input, setInput] = useState('');
@@ -11,6 +11,7 @@ const StringToJson: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [error, setError] = useState('');
+  const [wasCleaned, setWasCleaned] = useState(false);
 
   const parseStringToJson = (str: string): string => {
     if (!str.trim()) return '';
@@ -40,24 +41,30 @@ const StringToJson: React.FC = () => {
     }
   };
 
-  const jsonToEscapedString = (jsonStr: string): string => {
-    if (!jsonStr.trim()) return '';
+  const jsonToEscapedString = (jsonStr: string): { result: string; wasCleaned: boolean } => {
+    if (!jsonStr.trim()) return { result: '', wasCleaned: false };
     
     try {
-      // First validate it's valid JSON
-      JSON.parse(jsonStr);
+      // First validate it's valid JSON, attempt to clean if needed
+      const parseResult = parseAndCleanJson(jsonStr);
+      if (!parseResult.isValid) {
+        return { result: '', wasCleaned: false };
+      }
+      
+      // Use the cleaned JSON for escaping
+      const toEscape = parseResult.cleanedJson;
       
       // Escape the JSON string
-      const escaped = jsonStr
+      const escaped = toEscape
         .replace(/\\/g, '\\\\')  // Escape backslashes first
         .replace(/"/g, '\\"')    // Escape quotes
         .replace(/\n/g, '\\n')   // Escape newlines
         .replace(/\r/g, '\\r')   // Escape carriage returns
         .replace(/\t/g, '\\t');  // Escape tabs
       
-      return `"${escaped}"`;
+      return { result: `"${escaped}"`, wasCleaned: parseResult.wasCleaned };
     } catch {
-      return '';
+      return { result: '', wasCleaned: false };
     }
   };
 
@@ -66,6 +73,7 @@ const StringToJson: React.FC = () => {
       setOutput('');
       setIsValid(false);
       setError('');
+      setWasCleaned(false);
       return;
     }
 
@@ -74,23 +82,26 @@ const StringToJson: React.FC = () => {
         const result = parseStringToJson(value);
         setOutput(result);
         setIsValid(!!result);
+        setWasCleaned(false);
         setError('');
       } else {
-        const result = jsonToEscapedString(value);
+        const { result, wasCleaned: cleaned } = jsonToEscapedString(value);
         setOutput(result);
         setIsValid(!!result);
+        setWasCleaned(cleaned);
         setError('');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Conversion failed');
       setOutput('');
       setIsValid(false);
+      setWasCleaned(false);
     }
   }, []);
   const handleInputChange = useCallback((value: string) => {
     setInput(value);
     processInput(value, mode);
-  }, []);
+  }, [mode, processInput]);
 
   const handleModeToggle = () => {
     const newMode = mode === 'stringToJson' ? 'jsonToString' : 'stringToJson';
@@ -201,9 +212,16 @@ const StringToJson: React.FC = () => {
           {/* Input Panel */}
           <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="string-json-input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h2 id="string-json-input-heading" className="text-lg font-semibold text-gray-800">
-                {mode === 'stringToJson' ? 'String Input' : 'JSON Input'}
-              </h2>
+              <div className="flex items-center space-x-2">
+                <h2 id="string-json-input-heading" className="text-lg font-semibold text-gray-800">
+                  {mode === 'stringToJson' ? 'String Input' : 'JSON Input'}
+                </h2>
+                {wasCleaned && mode === 'jsonToString' && output && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Auto-cleaned
+                  </span>
+                )}
+              </div>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleClear}
