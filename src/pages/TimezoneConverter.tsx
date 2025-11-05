@@ -218,25 +218,27 @@ const TimezoneConverter: React.FC = () => {
         />
 
         {/* Time Input */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section aria-labelledby="time-input-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Time & Source Timezone</h3>
+              <Clock className="h-5 w-5 text-blue-600" aria-hidden="true" />
+              <h2 id="time-input-heading" className="text-lg font-semibold text-gray-800">Time & Source Timezone</h2>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={handleUseCurrentTime}
+                aria-label="Use current time"
                 className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
               >
                 Use Current Time
               </button>
               <button
                 onClick={handleClear}
+                aria-label="Reset to defaults"
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
                 title="Reset to defaults"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -244,24 +246,28 @@ const TimezoneConverter: React.FC = () => {
           <div className="p-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="datetime-input" className="block text-sm font-medium text-gray-700 mb-2">
                   Date & Time
                 </label>
                 <input
+                  id="datetime-input"
                   type="datetime-local"
                   value={selectedTime}
                   onChange={(e) => setSelectedTime(e.target.value)}
+                  aria-label="Select date and time"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="source-timezone" className="block text-sm font-medium text-gray-700 mb-2">
                   Source Timezone
                 </label>
                 <select
+                  id="source-timezone"
                   value={sourceTimezone}
                   onChange={(e) => setSourceTimezone(e.target.value)}
+                  aria-label="Select source timezone"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {popularTimezones.map(tz => (
@@ -276,33 +282,38 @@ const TimezoneConverter: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* City Search */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section aria-labelledby="city-search-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
           <div className="p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <MapPin className="h-5 w-5 text-green-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Add Timezone by City</h3>
+              <MapPin className="h-5 w-5 text-green-600" aria-hidden="true" />
+              <h2 id="city-search-heading" className="text-lg font-semibold text-gray-800">Add Timezone by City</h2>
             </div>
           </div>
           
           <div className="p-4">
             <div className="relative">
+              <label htmlFor="city-search-input" className="sr-only">Search for a city</label>
               <input
+                id="city-search-input"
                 type="text"
                 value={searchCity}
                 onChange={(e) => handleCitySearch(e.target.value)}
+                aria-label="Search for a city"
                 placeholder="Search for a city (e.g., New York, London, Tokyo)..."
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
               
               {cityResults.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                <div role="list" aria-label="City search results" className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
                   {cityResults.map((city, index) => (
                     <button
                       key={index}
+                      role="listitem"
                       onClick={() => addTimezoneFromCity(city)}
+                      aria-label={`Add ${city.city}, ${city.province || city.country} - ${city.timezone}`}
                       className="w-full text-left px-4 py-2 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
                     >
                       <div className="font-medium text-gray-900">
@@ -317,36 +328,39 @@ const TimezoneConverter: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Target Timezones */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section aria-labelledby="target-timezones-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Globe className="h-5 w-5 text-purple-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Target Timezones</h3>
+              <Globe className="h-5 w-5 text-purple-600" aria-hidden="true" />
+              <h2 id="target-timezones-heading" className="text-lg font-semibold text-gray-800">Target Timezones</h2>
             </div>
             {timeZoneResults.length > 1 && (
               <button
                 onClick={copyAllResults}
+                aria-label={copied === 'all-results' ? 'All results copied to clipboard' : 'Copy all results to clipboard'}
                 className="flex items-center space-x-2 px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
               >
-                {copied === 'all-results' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied === 'all-results' ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span>{copied === 'all-results' ? 'Copied!' : 'Copy All'}</span>
               </button>
             )}
           </div>
           
           <div className="p-4">
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div role="list" aria-label="Selected target timezones" className="flex flex-wrap gap-2 mb-4">
               {targetTimezones.map((tz) => (
                 <div
                   key={tz}
+                  role="listitem"
                   className="flex items-center space-x-2 bg-blue-50 text-blue-800 px-3 py-1 rounded-full text-sm"
                 >
                   <span>{tz}</span>
                   <button
                     onClick={() => removeTimezone(tz)}
+                    aria-label={`Remove ${tz} from target timezones`}
                     className="text-blue-600 hover:text-blue-800 ml-1"
                   >
                     ×
@@ -356,16 +370,18 @@ const TimezoneConverter: React.FC = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="add-timezone-select" className="block text-sm font-medium text-gray-700 mb-2">
                 Add Timezone Manually
               </label>
               <select
+                id="add-timezone-select"
                 onChange={(e) => {
                   if (e.target.value && !targetTimezones.includes(e.target.value)) {
                     setTargetTimezones([...targetTimezones, e.target.value]);
                   }
                   e.target.value = '';
                 }}
+                aria-label="Select a timezone to add"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Select a timezone to add...</option>
@@ -382,37 +398,39 @@ const TimezoneConverter: React.FC = () => {
               </select>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Results */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+        <section aria-labelledby="results-heading" className="bg-white rounded-lg shadow-lg border border-gray-200">
           <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-800">Converted Times</h3>
+            <h2 id="results-heading" className="text-lg font-semibold text-gray-800">Converted Times</h2>
           </div>
           
           <div className="p-4">
             {timeZoneResults.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div role="list" aria-label="Converted timezone results" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {timeZoneResults.map((result, index) => (
                   <div
                     key={index}
+                    role="listitem"
                     className={`p-4 rounded-lg border ${
                       index === 0 ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
-                        <Globe className={`h-4 w-4 ${index === 0 ? 'text-blue-600' : 'text-gray-600'}`} />
-                        <h4 className={`font-semibold ${index === 0 ? 'text-blue-900' : 'text-gray-900'}`}>
+                        <Globe className={`h-4 w-4 ${index === 0 ? 'text-blue-600' : 'text-gray-600'}`} aria-hidden="true" />
+                        <h3 className={`font-semibold ${index === 0 ? 'text-blue-900' : 'text-gray-900'}`}>
                           {result.city}
                           {index === 0 && <span className="text-xs ml-2 bg-blue-200 text-blue-800 px-2 py-0.5 rounded-full">Source</span>}
-                        </h4>
+                        </h3>
                       </div>
                       <button
                         onClick={() => handleCopy(result.time, `time-${index}`)}
+                        aria-label={copied === `time-${index}` ? 'Time copied to clipboard' : `Copy time for ${result.city}`}
                         className="flex items-center space-x-1 px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 transition-colors"
                       >
-                        {copied === `time-${index}` ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                        {copied === `time-${index}` ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
                         <span>{copied === `time-${index}` ? 'Copied!' : 'Copy'}</span>
                       </button>
                     </div>
@@ -437,12 +455,17 @@ const TimezoneConverter: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
+              <div role="status" className="text-center py-8 text-gray-500">
                 Select a time and timezones to see conversions...
               </div>
             )}
           </div>
-        </div>
+        </section>
+        {copied && (
+          <div role="status" aria-live="polite" className="sr-only">
+            {copied === 'all-results' ? 'All results copied to clipboard' : 'Time copied to clipboard'}
+          </div>
+        )}
 
         <InfoSection 
           title="Timezone Conversion Features"

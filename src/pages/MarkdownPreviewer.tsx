@@ -141,7 +141,7 @@ function hello() {
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex bg-gray-100 rounded-lg p-1" role="group" aria-label="View mode selection">
               <button
                 onClick={() => setView('edit')}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -149,8 +149,10 @@ function hello() {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={view === 'edit'}
+                aria-label="Edit only view"
               >
-                <Edit className="h-4 w-4" />
+                <Edit className="h-4 w-4" aria-hidden="true" />
                 <span>Edit</span>
               </button>
               <button
@@ -160,6 +162,8 @@ function hello() {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={view === 'split'}
+                aria-label="Split view (edit and preview)"
               >
                 <span>Split</span>
               </button>
@@ -170,8 +174,10 @@ function hello() {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={view === 'preview'}
+                aria-label="Preview only view"
               >
-                <Eye className="h-4 w-4" />
+                <Eye className="h-4 w-4" aria-hidden="true" />
                 <span>Preview</span>
               </button>
             </div>
@@ -181,15 +187,17 @@ function hello() {
             <button
               onClick={handleLoadSample}
               className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+              aria-label="Load sample markdown"
             >
               Load Sample
             </button>
             <button
               onClick={handleClear}
               className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+              aria-label="Clear markdown content"
               title="Clear content"
             >
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -199,11 +207,11 @@ function hello() {
         }`}>
           {/* Editor */}
           {(view === 'edit' || view === 'split') && (
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col   h-[calc(100vh-280px)]">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[calc(100vh-280px)]" aria-labelledby="markdown-editor-heading">
               <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
-                  <Edit className="h-5 w-5 text-blue-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Markdown Editor</h3>
+                  <Edit className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                  <h2 id="markdown-editor-heading" className="text-lg font-semibold text-gray-800">Markdown Editor</h2>
                 </div>
                 <button
                   onClick={() => handleCopy(markdown, 'markdown')}
@@ -213,9 +221,10 @@ function hello() {
                       ? 'bg-blue-600 text-white hover:bg-blue-700'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }`}
+                  aria-label={copied === 'markdown' ? 'Markdown copied to clipboard' : 'Copy markdown to clipboard'}
                   title="Copy markdown"
                 >
-                  {copied === 'markdown' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copied === 'markdown' ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                   <span className="text-sm font-medium">
                     {copied === 'markdown' ? 'Copied!' : 'Copy'}
                   </span>
@@ -223,24 +232,27 @@ function hello() {
               </div>
               
               <div className="flex-1 p-4">
+                <label htmlFor="markdown-input" className="sr-only">Markdown content</label>
                 <textarea
+                  id="markdown-input"
                   value={markdown}
                   onChange={(e) => setMarkdown(e.target.value)}
                   placeholder="Enter your markdown here..."
                   className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed"
                   spellCheck={false}
+                  aria-label="Markdown editor"
                 />
               </div>
-            </div>
+            </section>
           )}
 
           {/* Preview */}
           {(view === 'preview' || view === 'split') && (
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col   h-[calc(100vh-280px)]">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[calc(100vh-280px)]" aria-labelledby="markdown-preview-heading">
               <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
-                  <Eye className="h-5 w-5 text-green-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Preview</h3>
+                  <Eye className="h-5 w-5 text-green-600" aria-hidden="true" />
+                  <h2 id="markdown-preview-heading" className="text-lg font-semibold text-gray-800">Preview</h2>
                 </div>
                 <button
                   onClick={() => handleCopy(htmlContent, 'html')}
@@ -250,9 +262,10 @@ function hello() {
                       ? 'bg-green-600 text-white hover:bg-green-700'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }`}
+                  aria-label={copied === 'html' ? 'HTML copied to clipboard' : 'Copy HTML to clipboard'}
                   title="Copy HTML"
                 >
-                  {copied === 'html' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copied === 'html' ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                   <span className="text-sm font-medium">
                     {copied === 'html' ? 'Copied!' : 'Copy HTML'}
                   </span>
@@ -274,7 +287,7 @@ function hello() {
                   </div>
                 )}
               </div>
-            </div>
+            </section>
           )}
         </div>
 

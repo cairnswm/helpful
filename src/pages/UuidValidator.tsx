@@ -194,41 +194,48 @@ const UuidValidator: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-96">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-96" aria-labelledby="uuid-input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">UUID Input</h3>
+              <h2 id="uuid-input-heading" className="text-lg font-semibold text-gray-800">UUID Input</h2>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={generateSampleUuids}
                   className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors"
+                  aria-label="Load sample UUIDs"
                 >
                   Load Samples
                 </button>
                 <button
                   onClick={handleClear}
                   className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                  aria-label="Clear input"
                   title="Clear input"
                 >
-                  <RotateCcw className="h-4 w-4" />
+                  <RotateCcw className="h-4 w-4" aria-hidden="true" />
                 </button>
               </div>
             </div>
             
             <div className="flex-1 p-4">
+              <label htmlFor="uuid-validator-input" className="sr-only">UUIDs to validate (one per line)</label>
               <textarea
+                id="uuid-validator-input"
                 value={input}
                 onChange={(e) => handleInputChange(e.target.value)}
                 placeholder="Enter UUIDs to validate (one per line)...&#10;&#10;Examples:&#10;550e8400-e29b-41d4-a716-446655440000&#10;6ba7b810-9dad-11d1-80b4-00c04fd430c8&#10;invalid-uuid-format"
                 className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed"
                 spellCheck={false}
+                aria-label="UUID input for validation"
+                aria-describedby="uuid-input-help"
               />
+              <span id="uuid-input-help" className="sr-only">Enter one UUID per line for validation</span>
             </div>
-          </div>
+          </section>
 
           {/* Results Summary */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="validation-summary-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Validation Summary</h3>
+              <h2 id="validation-summary-heading" className="text-lg font-semibold text-gray-800">Validation Summary</h2>
               {totalCount > 0 && (
                 <div className="flex items-center space-x-2">
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -237,7 +244,7 @@ const UuidValidator: React.FC = () => {
                       : validCount > 0
                       ? 'bg-yellow-100 text-yellow-800'
                       : 'bg-red-100 text-red-800'
-                  }`}>
+                  }`} role="status" aria-live="polite">
                     {validCount}/{totalCount} valid
                   </span>
                   <button
@@ -248,9 +255,10 @@ const UuidValidator: React.FC = () => {
                         ? 'bg-blue-600 text-white hover:bg-blue-700'
                         : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
+                    aria-label={copied ? 'Valid UUIDs copied to clipboard' : 'Copy valid UUIDs to clipboard'}
                     title="Copy valid UUIDs"
                   >
-                    {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                    {copied ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
                     <span>{copied ? 'Copied!' : 'Copy Valid'}</span>
                   </button>
                 </div>
@@ -259,7 +267,7 @@ const UuidValidator: React.FC = () => {
             
             <div className="p-4 h-80 overflow-auto">
               {results.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-3" role="list" aria-label="Validation results">
                   {results.map((result, index) => {
                     const uuid = input.split('\n')[index]?.trim();
                     return (
@@ -270,12 +278,14 @@ const UuidValidator: React.FC = () => {
                             ? 'bg-green-50 border-green-200'
                             : 'bg-red-50 border-red-200'
                         }`}
+                        role="listitem"
+                        aria-label={`UUID ${index + 1}: ${result.isValid ? 'Valid' : 'Invalid'}`}
                       >
                         <div className="flex items-start space-x-3">
                           {result.isValid ? (
-                            <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                            <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
                           ) : (
-                            <XCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                            <XCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
                           )}
                           <div className="flex-1 min-w-0">
                             <div className="font-mono text-sm text-gray-800 break-all mb-2">
@@ -300,12 +310,12 @@ const UuidValidator: React.FC = () => {
                   })}
                 </div>
               ) : (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-gray-500" role="status">
                   Enter UUIDs above to see validation results...
                 </div>
               )}
             </div>
-          </div>
+          </section>
         </div>
 
         <InfoSection 

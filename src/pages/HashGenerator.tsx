@@ -109,53 +109,59 @@ const HashGenerator: React.FC = () => {
         />
 
         {/* Input Panel */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="hash-input-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Hash className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Text Input</h3>
+              <Hash className="h-5 w-5 text-blue-600" aria-hidden="true" />
+              <h2 id="hash-input-heading" className="text-lg font-semibold text-gray-800">Text Input</h2>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={loadSample}
                 className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors"
+                aria-label="Load sample text"
               >
                 Load Sample
               </button>
               <button
                 onClick={handleClear}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                aria-label="Clear input"
                 title="Clear input"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
           
           <div className="p-4">
+            <label htmlFor="hash-text-input" className="sr-only">Text to generate hashes from</label>
             <textarea
+              id="hash-text-input"
               value={input}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder="Enter text to generate hashes..."
               className="w-full h-32 resize-none border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               spellCheck={false}
+              aria-label="Text input for hash generation"
             />
           </div>
-        </div>
+        </section>
 
         {/* Hash Results */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="hash-results-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Shield className="h-5 w-5 text-green-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Generated Hashes</h3>
+              <Shield className="h-5 w-5 text-green-600" aria-hidden="true" />
+              <h2 id="hash-results-heading" className="text-lg font-semibold text-gray-800">Generated Hashes</h2>
             </div>
             {results.length > 1 && (
               <button
                 onClick={handleCopyAll}
                 className="flex items-center space-x-2 px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+                aria-label={copied === 'all' ? 'All hashes copied to clipboard' : 'Copy all hashes to clipboard'}
               >
-                {copied === 'all' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied === 'all' ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span>{copied === 'all' ? 'Copied!' : 'Copy All'}</span>
               </button>
             )}
@@ -163,11 +169,12 @@ const HashGenerator: React.FC = () => {
           
           <div className="p-4">
             {results.length > 0 ? (
-              <div className="space-y-4">
+              <div className="space-y-4" role="list" aria-label="Generated hash values">
                 {results.map((result) => (
                   <div
                     key={result.algorithm}
                     className="p-4 bg-gray-50 rounded-lg border border-gray-200"
+                    role="listitem"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
@@ -177,8 +184,9 @@ const HashGenerator: React.FC = () => {
                       <button
                         onClick={() => handleCopy(result.hash, result.algorithm)}
                         className="flex items-center space-x-1 px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+                        aria-label={copied === result.algorithm ? `${result.algorithm} hash copied` : `Copy ${result.algorithm} hash to clipboard`}
                       >
-                        {copied === result.algorithm ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                        {copied === result.algorithm ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
                         <span>{copied === result.algorithm ? 'Copied!' : 'Copy'}</span>
                       </button>
                     </div>
@@ -189,19 +197,19 @@ const HashGenerator: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-500" role="status">
                 Enter text above to generate hashes...
               </div>
             )}
           </div>
-        </div>
+        </section>
 
         {/* Security Warning */}
-        <div className="mt-6 bg-yellow-50 rounded-lg p-4">
+        <section className="mt-6 bg-yellow-50 rounded-lg p-4" aria-labelledby="security-notice-heading">
           <div className="flex items-start space-x-2">
-            <Shield className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+            <Shield className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
             <div>
-              <h4 className="font-semibold text-yellow-900 mb-2">Security Notice</h4>
+              <h3 id="security-notice-heading" className="font-semibold text-yellow-900 mb-2">Security Notice</h3>
               <div className="text-sm text-yellow-800 space-y-1">
                 <p><strong>Demo Implementation:</strong> These hashes are generated using simplified algorithms for demonstration purposes</p>
                 <p><strong>Production Use:</strong> For real applications, use proper cryptographic libraries like Web Crypto API or Node.js crypto module</p>
@@ -209,7 +217,7 @@ const HashGenerator: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         <InfoSection 
           title="Hash Generation & Algorithms"

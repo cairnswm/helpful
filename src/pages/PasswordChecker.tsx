@@ -228,25 +228,27 @@ const PasswordChecker: React.FC = () => {
         />
 
         {/* Password Input */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="password-input-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Lock className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Password Input</h3>
+              <Lock className="h-5 w-5 text-blue-600" aria-hidden="true" />
+              <h2 id="password-input-heading" className="text-lg font-semibold text-gray-800">Password Input</h2>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={generatePassword}
                 className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors"
+                aria-label="Generate strong password"
               >
                 Generate Strong Password
               </button>
               <button
                 onClick={handleClear}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                aria-label="Clear password"
                 title="Clear password"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -254,18 +256,23 @@ const PasswordChecker: React.FC = () => {
           <div className="p-4">
             <div className="flex items-center space-x-2">
               <div className="relative flex-1">
+                <label htmlFor="password-input" className="sr-only">Password to analyze</label>
                 <input
+                  id="password-input"
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => handlePasswordChange(e.target.value)}
                   placeholder="Enter password to analyze..."
                   className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Password input for strength analysis"
                 />
                 <button
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
                 </button>
               </div>
               <button
@@ -276,26 +283,27 @@ const PasswordChecker: React.FC = () => {
                     ? 'bg-blue-600 text-white hover:bg-blue-700'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
+                aria-label={copied ? 'Password copied to clipboard' : 'Copy password to clipboard'}
                 title="Copy password"
               >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span className="text-sm font-medium">
                   {copied ? 'Copied!' : 'Copy'}
                 </span>
               </button>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Analysis Results */}
         {analysis && (
           <div className="space-y-6">
             {/* Strength Overview */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="strength-heading">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-800">Password Strength</h3>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStrengthColor(analysis.strength)}`}>
+                  <h2 id="strength-heading" className="text-lg font-semibold text-gray-800">Password Strength</h2>
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStrengthColor(analysis.strength)}`} role="status" aria-live="polite">
                     {analysis.strength}
                   </span>
                 </div>
@@ -324,14 +332,14 @@ const PasswordChecker: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* Security Checks */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="security-checks-heading">
               <div className="p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
-                  <Shield className="h-5 w-5 text-green-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Security Checks</h3>
+                  <Shield className="h-5 w-5 text-green-600" aria-hidden="true" />
+                  <h2 id="security-checks-heading" className="text-lg font-semibold text-gray-800">Security Checks</h2>
                 </div>
               </div>
               
@@ -363,28 +371,28 @@ const PasswordChecker: React.FC = () => {
                   })}
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* Feedback */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="recommendations-heading">
               <div className="p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
-                  <AlertTriangle className="h-5 w-5 text-yellow-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Recommendations</h3>
+                  <AlertTriangle className="h-5 w-5 text-yellow-600" aria-hidden="true" />
+                  <h2 id="recommendations-heading" className="text-lg font-semibold text-gray-800">Recommendations</h2>
                 </div>
               </div>
               
               <div className="p-6">
-                <ul className="space-y-2">
+                <ul className="space-y-2" role="list">
                   {analysis.feedback.map((item, index) => (
                     <li key={index} className="flex items-start space-x-2 text-sm">
-                      <span className="text-blue-500 mt-1">•</span>
+                      <span className="text-blue-500 mt-1" aria-hidden="true">•</span>
                       <span className="text-gray-700">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-            </div>
+            </section>
           </div>
         )}
 
