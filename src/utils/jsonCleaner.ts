@@ -40,7 +40,7 @@ export const cleanJson = (jsonString: string): string => {
   
   // Fix single quotes to double quotes (JSON requires double quotes)
   // But be careful not to replace quotes inside strings
-  cleaned = cleaned.replace(/(\s|^|[{[,:])\s*'([^']*?)'\s*(?=\s*[,}\]:])/, '$1"$2"');
+  cleaned = cleaned.replace(/(\s|^|[{[,:])\s*'([^']*?)'\s*(?=\s*[,}\]:])/g, '$1"$2"');
   
   // Fix common property name issues (unquoted property names)
   cleaned = cleaned.replace(/([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g, '$1"$2":');

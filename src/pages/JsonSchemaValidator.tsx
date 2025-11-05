@@ -276,7 +276,11 @@ const JsonSchemaValidator: React.FC = () => {
                 </span>
                 {(jsonWasCleaned || schemaWasCleaned) && (
                   <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                    {jsonWasCleaned && schemaWasCleaned ? 'Both auto-cleaned' : jsonWasCleaned ? 'Data auto-cleaned' : 'Schema auto-cleaned'}
+                    {(() => {
+                      if (jsonWasCleaned && schemaWasCleaned) return 'Both auto-cleaned';
+                      if (jsonWasCleaned) return 'Data auto-cleaned';
+                      return 'Schema auto-cleaned';
+                    })()}
                   </span>
                 )}
               </div>
