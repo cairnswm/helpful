@@ -139,11 +139,12 @@ const SvgOptimizer: React.FC = () => {
           description="Clean up SVG code, remove unnecessary attributes, optimize file size, preview graphics, and export as React components."
         />
 
-        <div className="mb-6 bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        <section className="mb-6 bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="options-heading">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Options</h3>
+            <h2 id="options-heading" className="text-lg font-semibold text-gray-800">Options</h2>
             <button
               onClick={loadSample}
+              aria-label="Load sample SVG data"
               className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
             >
               Load Sample
@@ -194,23 +195,27 @@ const SvgOptimizer: React.FC = () => {
             </div>
 
             <div className="border-t pt-4">
-              <label className="flex items-center space-x-2 cursor-pointer mb-3">
+              <label htmlFor="replace-colors-checkbox" className="flex items-center space-x-2 cursor-pointer mb-3">
                 <input
+                  id="replace-colors-checkbox"
                   type="checkbox"
                   checked={replaceColors}
                   onChange={(e) => setReplaceColors(e.target.checked)}
+                  aria-label="Enable color replacement"
                   className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                 />
                 <span className="text-sm font-medium text-gray-700">Replace Colors</span>
               </label>
               {replaceColors && (
                 <div className="ml-6">
-                  <label className="block text-sm text-gray-700 mb-1">Color Value</label>
+                  <label htmlFor="color-value-input" className="block text-sm text-gray-700 mb-1">Color Value</label>
                   <input
+                    id="color-value-input"
                     type="text"
                     value={colorValue}
                     onChange={(e) => setColorValue(e.target.value)}
                     placeholder="currentColor or #000000"
+                    aria-label="Replacement color value for fill and stroke"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <p className="text-xs text-gray-500 mt-1">Use "currentColor" or any valid color value</p>
@@ -219,11 +224,13 @@ const SvgOptimizer: React.FC = () => {
             </div>
 
             <div className="border-t pt-4">
-              <label className="flex items-center space-x-2 cursor-pointer mb-3">
+              <label htmlFor="set-dimensions-checkbox" className="flex items-center space-x-2 cursor-pointer mb-3">
                 <input
+                  id="set-dimensions-checkbox"
                   type="checkbox"
                   checked={setDimensions}
                   onChange={(e) => setSetDimensions(e.target.checked)}
+                  aria-label="Enable custom dimensions"
                   className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                 />
                 <span className="text-sm font-medium text-gray-700">Set Dimensions</span>
@@ -231,22 +238,26 @@ const SvgOptimizer: React.FC = () => {
               {setDimensions && (
                 <div className="ml-6 grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm text-gray-700 mb-1">Width</label>
+                    <label htmlFor="width-input" className="block text-sm text-gray-700 mb-1">Width</label>
                     <input
+                      id="width-input"
                       type="text"
                       value={widthValue}
                       onChange={(e) => setWidthValue(e.target.value)}
                       placeholder="24"
+                      aria-label="SVG width value"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-700 mb-1">Height</label>
+                    <label htmlFor="height-input" className="block text-sm text-gray-700 mb-1">Height</label>
                     <input
+                      id="height-input"
                       type="text"
                       value={heightValue}
                       onChange={(e) => setHeightValue(e.target.value)}
                       placeholder="24"
+                      aria-label="SVG height value"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
@@ -254,45 +265,51 @@ const SvgOptimizer: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
+        </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Input Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[500px]">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[500px]" aria-labelledby="input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                <Code className="h-5 w-5 mr-2" />
+              <h2 id="input-heading" className="text-lg font-semibold text-gray-800 flex items-center">
+                <Code className="h-5 w-5 mr-2" aria-hidden="true" />
                 SVG Input
-              </h3>
+              </h2>
               <button
                 onClick={handleClear}
+                aria-label="Clear SVG input"
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
                 title="Clear input"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
             
             <div className="flex-1 p-4">
+              <label htmlFor="svg-input-textarea" className="sr-only">SVG input field</label>
               <textarea
+                id="svg-input-textarea"
                 value={input}
                 onChange={(e) => handleInputChange(e.target.value)}
                 placeholder="Paste your SVG code here..."
+                aria-label="SVG code input for optimization"
                 className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed"
                 spellCheck={false}
               />
             </div>
-          </div>
+          </section>
 
           {/* Output Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[500px]">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[500px]" aria-labelledby="output-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h2 id="output-heading" className="text-lg font-semibold text-gray-800">
                 Optimized SVG
-              </h3>
+              </h2>
               <button
                 onClick={handleCopy}
                 disabled={!output}
+                aria-disabled={!output}
+                aria-label={copied ? 'Optimized SVG copied to clipboard' : output ? 'Copy optimized SVG to clipboard' : 'Copy not available'}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ${
                   output
                     ? 'bg-blue-600 text-white hover:bg-blue-700'
@@ -300,7 +317,7 @@ const SvgOptimizer: React.FC = () => {
                 }`}
                 title="Copy output"
               >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span className="text-sm font-medium">
                   {copied ? 'Copied!' : 'Copy'}
                 </span>
@@ -309,27 +326,34 @@ const SvgOptimizer: React.FC = () => {
             
             <div className="flex-1 p-4 overflow-auto">
               {error ? (
-                <div className="text-red-600 text-sm font-medium">{error}</div>
+                <div role="alert" aria-live="assertive" className="text-red-600 text-sm font-medium">{error}</div>
               ) : (
-                <pre className="text-sm leading-relaxed font-mono whitespace-pre-wrap text-gray-800">
-                  {output || 'Optimized output will appear here...'}
-                </pre>
+                <>
+                  <pre className="text-sm leading-relaxed font-mono whitespace-pre-wrap text-gray-800" role="region" aria-label="Optimized SVG output">
+                    {output || 'Optimized output will appear here...'}
+                  </pre>
+                  {copied && (
+                    <div role="status" aria-live="polite" className="sr-only">
+                      Optimized SVG copied to clipboard
+                    </div>
+                  )}
+                </>
               )}
             </div>
-          </div>
+          </section>
         </div>
 
         {/* Preview Panel */}
         {input && !error && (
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-              <Eye className="h-5 w-5 mr-2" />
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="preview-heading">
+            <h2 id="preview-heading" className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+              <Eye className="h-5 w-5 mr-2" aria-hidden="true" />
               Preview
-            </h3>
-            <div className="flex justify-center items-center bg-gray-50 rounded-lg p-8 min-h-[200px]">
+            </h2>
+            <div className="flex justify-center items-center bg-gray-50 rounded-lg p-8 min-h-[200px]" role="img" aria-label="SVG graphic preview">
               <div dangerouslySetInnerHTML={{ __html: output || input }} />
             </div>
-          </div>
+          </section>
         )}
 
         <InfoSection 

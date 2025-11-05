@@ -225,11 +225,11 @@ const WatermarkOverlay: React.FC = () => {
         />
 
         {/* Controls */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="settings-heading">
           <div className="p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Type className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Watermark Settings</h3>
+              <Type className="h-5 w-5 text-blue-600" aria-hidden="true" />
+              <h2 id="settings-heading" className="text-lg font-semibold text-gray-800">Watermark Settings</h2>
             </div>
           </div>
           
@@ -237,60 +237,68 @@ const WatermarkOverlay: React.FC = () => {
             {/* Watermark Type and File Name */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <span className="block text-sm font-medium text-gray-700 mb-2">
                   Watermark Type
-                </label>
-                <div className="flex bg-gray-100 rounded-lg p-1">
+                </span>
+                <div className="flex bg-gray-100 rounded-lg p-1" role="group" aria-label="Watermark type selection">
                   <button
                     onClick={() => setWatermarkType('text')}
+                    aria-pressed={watermarkType === 'text'}
+                    aria-label="Use text watermark"
                     className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       watermarkType === 'text'
                         ? 'bg-white text-blue-600 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
-                    <Type className="h-4 w-4" />
+                    <Type className="h-4 w-4" aria-hidden="true" />
                     <span>Text</span>
                   </button>
                   <button
                     onClick={() => setWatermarkType('image')}
+                    aria-pressed={watermarkType === 'image'}
+                    aria-label="Use image watermark"
                     className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       watermarkType === 'image'
                         ? 'bg-white text-blue-600 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
-                    <ImageIcon className="h-4 w-4" />
+                    <ImageIcon className="h-4 w-4" aria-hidden="true" />
                     <span>Image</span>
                   </button>
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="filename-input" className="block text-sm font-medium text-gray-700 mb-2">
                   File Name
                 </label>
                 <input
+                  id="filename-input"
                   type="text"
                   value={fileName}
                   onChange={(e) => setFileName(e.target.value)}
+                  aria-label="Output filename for watermarked image"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               
               {watermarkType === 'image' && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <span className="block text-sm font-medium text-gray-700 mb-2">
                     Watermark Image
-                  </label>
-                  <label className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
-                    <Upload className="h-4 w-4" />
+                  </span>
+                  <label htmlFor="watermark-upload" className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
+                    <Upload className="h-4 w-4" aria-hidden="true" />
                     <span className="text-sm">Upload Image</span>
                     <input
+                      id="watermark-upload"
                       ref={watermarkInputRef}
                       type="file"
                       accept="image/*"
                       onChange={handleWatermarkUpload}
+                      aria-label="Upload watermark image file"
                       className="hidden"
                     />
                   </label>
@@ -302,53 +310,67 @@ const WatermarkOverlay: React.FC = () => {
             {watermarkType === 'text' && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="watermark-text-input" className="block text-sm font-medium text-gray-700 mb-2">
                     Watermark Text
                   </label>
                   <input
+                    id="watermark-text-input"
                     type="text"
                     value={settings.text}
                     onChange={(e) => updateSetting('text', e.target.value)}
+                    aria-label="Watermark text content"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="font-size-slider" className="block text-sm font-medium text-gray-700 mb-2">
                     Font Size ({settings.fontSize}px)
                   </label>
                   <input
+                    id="font-size-slider"
                     type="range"
                     min="12"
                     max="120"
                     value={settings.fontSize}
                     onChange={(e) => updateSetting('fontSize', parseInt(e.target.value))}
+                    aria-valuemin={12}
+                    aria-valuemax={120}
+                    aria-valuenow={settings.fontSize}
+                    aria-label={`Font size slider, current value ${settings.fontSize} pixels`}
                     className="w-full"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="text-color-input" className="block text-sm font-medium text-gray-700 mb-2">
                     Text Color
                   </label>
                   <input
+                    id="text-color-input"
                     type="color"
                     value={settings.color}
                     onChange={(e) => updateSetting('color', e.target.value)}
+                    aria-label="Watermark text color"
                     className="w-full h-10 border border-gray-300 rounded-lg cursor-pointer"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="opacity-slider" className="block text-sm font-medium text-gray-700 mb-2">
                     Opacity ({settings.opacity}%)
                   </label>
                   <input
+                    id="opacity-slider"
                     type="range"
                     min="10"
                     max="100"
                     value={settings.opacity}
                     onChange={(e) => updateSetting('opacity', parseInt(e.target.value))}
+                    aria-valuemin={10}
+                    aria-valuemax={100}
+                    aria-valuenow={settings.opacity}
+                    aria-label={`Opacity slider, current value ${settings.opacity} percent`}
                     className="w-full"
                   />
                 </div>
@@ -358,12 +380,14 @@ const WatermarkOverlay: React.FC = () => {
             {/* Position and Offset Settings */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="position-select" className="block text-sm font-medium text-gray-700 mb-2">
                   Position
                 </label>
                 <select
+                  id="position-select"
                   value={settings.position}
                   onChange={(e) => updateSetting('position', e.target.value)}
+                  aria-label="Watermark position on image"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {positions.map(pos => (
@@ -373,43 +397,58 @@ const WatermarkOverlay: React.FC = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="offset-x-slider" className="block text-sm font-medium text-gray-700 mb-2">
                   X Offset ({settings.offsetX}px)
                 </label>
                 <input
+                  id="offset-x-slider"
                   type="range"
                   min="-100"
                   max="100"
                   value={settings.offsetX}
                   onChange={(e) => updateSetting('offsetX', parseInt(e.target.value))}
+                  aria-valuemin={-100}
+                  aria-valuemax={100}
+                  aria-valuenow={settings.offsetX}
+                  aria-label={`Horizontal offset slider, current value ${settings.offsetX} pixels`}
                   className="w-full"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="offset-y-slider" className="block text-sm font-medium text-gray-700 mb-2">
                   Y Offset ({settings.offsetY}px)
                 </label>
                 <input
+                  id="offset-y-slider"
                   type="range"
                   min="-100"
                   max="100"
                   value={settings.offsetY}
                   onChange={(e) => updateSetting('offsetY', parseInt(e.target.value))}
+                  aria-valuemin={-100}
+                  aria-valuemax={100}
+                  aria-valuenow={settings.offsetY}
+                  aria-label={`Vertical offset slider, current value ${settings.offsetY} pixels`}
                   className="w-full"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="rotation-slider" className="block text-sm font-medium text-gray-700 mb-2">
                   Rotation ({settings.rotation}°)
                 </label>
                 <input
+                  id="rotation-slider"
                   type="range"
                   min="-45"
                   max="45"
                   value={settings.rotation}
                   onChange={(e) => updateSetting('rotation', parseInt(e.target.value))}
+                  aria-valuemin={-45}
+                  aria-valuemax={45}
+                  aria-valuenow={settings.rotation}
+                  aria-label={`Rotation slider, current value ${settings.rotation} degrees`}
                   className="w-full"
                 />
               </div>
@@ -419,20 +458,21 @@ const WatermarkOverlay: React.FC = () => {
             <div className="flex items-center justify-end mt-6 pt-6 border-t border-gray-200">
               <button
                 onClick={handleClear}
+                aria-label="Clear all images and reset settings"
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
                 title="Clear all"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
-        </div>
+        </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Upload and Original Image */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="original-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Original Image</h3>
+              <h2 id="original-heading" className="text-lg font-semibold text-gray-800">Original Image</h2>
             </div>
             
             <div className="p-6">
@@ -441,18 +481,21 @@ const WatermarkOverlay: React.FC = () => {
                   onClick={() => fileInputRef.current?.click()}
                   className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer"
                 >
-                  <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" aria-hidden="true" />
                   <p className="text-lg font-medium text-gray-700 mb-2">
                     Upload an image to add watermark
                   </p>
                   <p className="text-sm text-gray-500">
                     Supports JPEG, PNG, WebP, and other image formats
                   </p>
+                  <label htmlFor="original-image-upload" className="sr-only">Upload original image file</label>
                   <input
+                    id="original-image-upload"
                     ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     onChange={handleFileUpload}
+                    aria-label="Upload original image to add watermark"
                     className="hidden"
                   />
                 </div>
@@ -460,24 +503,25 @@ const WatermarkOverlay: React.FC = () => {
                 <div>
                   <img
                     src={originalImage}
-                    alt="Original"
+                    alt={`Original image: ${fileName}`}
                     className="w-full h-auto max-h-96 object-contain bg-gray-50 rounded-lg"
                   />
                 </div>
               )}
             </div>
-          </div>
+          </section>
 
           {/* Watermarked Result */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="watermarked-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Watermarked Image</h3>
+              <h2 id="watermarked-heading" className="text-lg font-semibold text-gray-800">Watermarked Image</h2>
               {processedImage && (
                 <button
                   onClick={downloadProcessedImage}
+                  aria-label="Download watermarked image"
                   className="flex items-center space-x-2 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                 >
-                  <Download className="h-4 w-4" />
+                  <Download className="h-4 w-4" aria-hidden="true" />
                   <span>Download</span>
                 </button>
               )}
@@ -488,20 +532,23 @@ const WatermarkOverlay: React.FC = () => {
                 <div>
                   <img
                     src={processedImage}
-                    alt="Watermarked"
+                    alt={`Watermarked image: ${fileName}`}
                     className="w-full h-auto max-h-96 object-contain bg-gray-50 rounded-lg border"
                   />
+                  <div role="status" aria-live="polite" className="sr-only">
+                    Watermark applied successfully
+                  </div>
                 </div>
               ) : (
                 <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
                   <div className="text-center">
-                    <Move className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <Move className="h-12 w-12 text-gray-400 mx-auto mb-4" aria-hidden="true" />
                     <p className="text-gray-500">Watermarked image will appear here</p>
                   </div>
                 </div>
               )}
             </div>
-          </div>
+          </section>
         </div>
 
         {/* Hidden canvas for processing */}
