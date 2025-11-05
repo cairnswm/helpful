@@ -172,7 +172,8 @@ export function parseCSVWithPaths(csvString: string): any {
       
       if (isChildBlock && joinKey) {
         // Find parent record and attach child
-        // First value corresponds to first field (join key at headers[1])
+        // values[0] corresponds to headers[1] (the join key)
+        // headers[0] is the path and not included in values array
         const joinValue = inferType(values[0]);
         const parents = parentRecords.get(parentKey);
         
