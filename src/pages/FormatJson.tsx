@@ -113,7 +113,7 @@ const FormatJson: React.FC = () => {
           description="Paste your JSON data below to format and validate it."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-280px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[calc(100vh-280px)]">
           {/* Input Panel */}
           <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="json-input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">

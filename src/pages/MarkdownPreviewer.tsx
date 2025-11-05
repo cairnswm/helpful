@@ -202,12 +202,12 @@ function hello() {
           </div>
         </div>
 
-        <div className={`grid gap-6 h-[calc(100vh-320px)] ${
+        <div className={`grid gap-6 min-h-[calc(100vh-320px)] ${
           view === 'split' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'
         }`}>
           {/* Editor */}
           {(view === 'edit' || view === 'split') && (
-            <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[calc(100vh-280px)]" aria-labelledby="markdown-editor-heading">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col min-h-[calc(100vh-280px)]" aria-labelledby="markdown-editor-heading">
               <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
                   <Edit className="h-5 w-5 text-blue-600" aria-hidden="true" />
@@ -248,7 +248,7 @@ function hello() {
 
           {/* Preview */}
           {(view === 'preview' || view === 'split') && (
-            <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col h-[calc(100vh-280px)]" aria-labelledby="markdown-preview-heading">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col min-h-[calc(100vh-280px)]" aria-labelledby="markdown-preview-heading">
               <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
                   <Eye className="h-5 w-5 text-green-600" aria-hidden="true" />
