@@ -172,95 +172,104 @@ const TextCaseConverter: React.FC = () => {
         />
 
         {/* Input Panel */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="text-input-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Type className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Text Input</h3>
+              <Type className="h-5 w-5 text-blue-600" aria-hidden="true" />
+              <h2 id="text-input-heading" className="text-lg font-semibold text-gray-800">Text Input</h2>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={loadSample}
                 className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors"
+                aria-label="Load sample text"
               >
                 Load Sample
               </button>
               <button
                 onClick={handleClear}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                aria-label="Clear input"
                 title="Clear input"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
           
           <div className="p-4">
+            <label htmlFor="text-case-input" className="sr-only">Text to convert to different cases</label>
             <textarea
+              id="text-case-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Enter text to convert between different cases..."
               className="w-full h-24 resize-none border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               spellCheck={false}
+              aria-label="Text input for case conversion"
             />
           </div>
-        </div>
+        </section>
 
         {/* Conversions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {conversions.map((conversion) => {
-            const convertedText = input ? conversion.convert(input) : '';
-            
-            return (
-              <div
-                key={conversion.name}
-                className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden"
-              >
-                <div className="p-4 bg-gray-50 border-b">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-900">{conversion.name}</h4>
-                    <button
-                      onClick={() => handleCopy(convertedText, conversion.name)}
-                      disabled={!convertedText}
-                      className={`flex items-center space-x-1 px-2 py-1 rounded text-xs transition-colors ${
-                        convertedText
-                          ? 'bg-blue-600 text-white hover:bg-blue-700'
-                          : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                      }`}
-                      title="Copy converted text"
-                    >
-                      {copied === conversion.name ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-                      <span>{copied === conversion.name ? 'Copied!' : 'Copy'}</span>
-                    </button>
-                  </div>
-                  <p className="text-xs text-gray-600">{conversion.description}</p>
-                </div>
-                
-                <div className="p-4">
-                  <div className="mb-3">
-                    <div className="text-xs text-gray-500 mb-1">Example:</div>
-                    <code className="text-sm text-blue-600 bg-blue-50 px-2 py-1 rounded">
-                      {conversion.example}
-                    </code>
+        <section aria-label="Case conversion results">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {conversions.map((conversion) => {
+              const convertedText = input ? conversion.convert(input) : '';
+              
+              return (
+                <article
+                  key={conversion.name}
+                  className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden"
+                  aria-labelledby={`conversion-${conversion.name.replace(/\s+/g, '-')}`}
+                >
+                  <div className="p-4 bg-gray-50 border-b">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 id={`conversion-${conversion.name.replace(/\s+/g, '-')}`} className="font-semibold text-gray-900">{conversion.name}</h3>
+                      <button
+                        onClick={() => handleCopy(convertedText, conversion.name)}
+                        disabled={!convertedText}
+                        className={`flex items-center space-x-1 px-2 py-1 rounded text-xs transition-colors ${
+                          convertedText
+                            ? 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        }`}
+                        aria-label={copied === conversion.name ? `${conversion.name} copied to clipboard` : `Copy ${conversion.name} conversion to clipboard`}
+                        title="Copy converted text"
+                      >
+                        {copied === conversion.name ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
+                        <span>{copied === conversion.name ? 'Copied!' : 'Copy'}</span>
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-600">{conversion.description}</p>
                   </div>
                   
-                  <div>
-                    <div className="text-xs text-gray-500 mb-1">Result:</div>
-                    <div className="bg-gray-50 p-3 rounded-lg min-h-[3rem] flex items-center">
-                      <code className="text-sm text-gray-800 font-mono break-all">
-                        {convertedText || 'Enter text above to see conversion...'}
+                  <div className="p-4">
+                    <div className="mb-3">
+                      <div className="text-xs text-gray-500 mb-1">Example:</div>
+                      <code className="text-sm text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                        {conversion.example}
                       </code>
                     </div>
+                    
+                    <div>
+                      <div className="text-xs text-gray-500 mb-1">Result:</div>
+                      <div className="bg-gray-50 p-3 rounded-lg min-h-[3rem] flex items-center" role="status" aria-live="polite">
+                        <code className="text-sm text-gray-800 font-mono break-all">
+                          {convertedText || 'Enter text above to see conversion...'}
+                        </code>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Usage Examples */}
-        <div className="mt-8 bg-blue-50 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-900 mb-4">Common Use Cases</h3>
+        <section className="mt-8 bg-blue-50 rounded-lg p-6" aria-labelledby="use-cases-heading">
+          <h3 id="use-cases-heading" className="text-lg font-semibold text-blue-900 mb-4">Common Use Cases</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
             <div>
               <div className="font-medium text-blue-800 mb-2">Programming</div>
