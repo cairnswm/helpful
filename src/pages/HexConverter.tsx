@@ -18,7 +18,7 @@ const HexConverter: React.FC = () => {
         .split('')
         .map(char => char.charCodeAt(0).toString(16).padStart(2, '0'))
         .join(' ');
-    } catch (err) {
+    } catch {
       throw new Error('Failed to convert to hex');
     }
   };
@@ -124,7 +124,7 @@ const HexConverter: React.FC = () => {
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex bg-gray-100 rounded-lg p-1" role="group" aria-label="Conversion mode selection">
               <button
                 onClick={() => {
                   setMode('toHex');
@@ -135,6 +135,8 @@ const HexConverter: React.FC = () => {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={mode === 'toHex'}
+                aria-label="Convert string to hex"
               >
                 String to Hex
               </button>
@@ -148,6 +150,8 @@ const HexConverter: React.FC = () => {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={mode === 'fromHex'}
+                aria-label="Convert hex to string"
               >
                 Hex to String
               </button>
@@ -156,9 +160,10 @@ const HexConverter: React.FC = () => {
             <button
               onClick={handleModeToggle}
               className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              aria-label="Swap input and output"
               title="Swap input and output"
             >
-              <ArrowUpDown className="h-4 w-4" />
+              <ArrowUpDown className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-medium">Swap</span>
             </button>
           </div>
@@ -166,6 +171,7 @@ const HexConverter: React.FC = () => {
           <button
             onClick={handleLoadSample}
             className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            aria-label="Load sample data"
           >
             Load Sample
           </button>
@@ -173,22 +179,27 @@ const HexConverter: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-320px)]">
           {/* Input Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="hex-input-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h2 id="hex-input-heading" className="text-lg font-semibold text-gray-800">
                 {mode === 'toHex' ? 'Text Input' : 'Hex Input'}
-              </h3>
+              </h2>
               <button
                 onClick={handleClear}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                aria-label="Clear input"
                 title="Clear input"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
             
             <div className="flex-1 p-4">
+              <label htmlFor="hex-converter-input" className="sr-only">
+                {mode === 'toHex' ? 'Text to convert to hex' : 'Hex to convert to text'}
+              </label>
               <textarea
+                id="hex-converter-input"
                 value={input}
                 onChange={(e) => handleInputChange(e.target.value)}
                 placeholder={
@@ -198,16 +209,17 @@ const HexConverter: React.FC = () => {
                 }
                 className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed"
                 spellCheck={false}
+                aria-label={mode === 'toHex' ? 'Text input for hex conversion' : 'Hex input for text conversion'}
               />
             </div>
-          </div>
+          </section>
 
           {/* Output Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="hex-output-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h2 id="hex-output-heading" className="text-lg font-semibold text-gray-800">
                 {mode === 'toHex' ? 'Hex Output' : 'Text Output'}
-              </h3>
+              </h2>
               <button
                 onClick={handleCopy}
                 disabled={!output}
@@ -216,9 +228,10 @@ const HexConverter: React.FC = () => {
                     ? 'bg-blue-600 text-white hover:bg-blue-700'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
+                aria-label={copied ? 'Output copied to clipboard' : 'Copy output to clipboard'}
                 title="Copy output"
               >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span className="text-sm font-medium">
                   {copied ? 'Copied!' : 'Copy'}
                 </span>
@@ -227,19 +240,26 @@ const HexConverter: React.FC = () => {
             
             <div className="flex-1 p-4">
               {error ? (
-                <div className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-lg">
+                <div className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-lg" role="alert" aria-live="assertive">
                   {error}
                 </div>
               ) : (
-                <textarea
-                  value={output}
-                  readOnly
-                  placeholder={`${mode === 'toHex' ? 'Hex' : 'Text'} output will appear here...`}
-                  className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed bg-gray-50"
-                />
+                <>
+                  <label htmlFor="hex-converter-output" className="sr-only">
+                    {mode === 'toHex' ? 'Hex output' : 'Text output'}
+                  </label>
+                  <textarea
+                    id="hex-converter-output"
+                    value={output}
+                    readOnly
+                    placeholder={`${mode === 'toHex' ? 'Hex' : 'Text'} output will appear here...`}
+                    className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed bg-gray-50"
+                    aria-label={mode === 'toHex' ? 'Hex output' : 'Text output'}
+                  />
+                </>
               )}
             </div>
-          </div>
+          </section>
         </div>
 
         <InfoSection 
