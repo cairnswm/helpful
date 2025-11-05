@@ -269,7 +269,7 @@ console.log('Total: $' + total.toFixed(2));`;
                 {output || `${mode === 'minify' ? 'Minified' : 'Beautified'} JavaScript will appear here...`}
               </pre>
             </div>
-          </div>
+          </section>
         </div>
 
         <InfoSection 

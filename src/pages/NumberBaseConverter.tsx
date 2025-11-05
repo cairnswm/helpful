@@ -344,6 +344,7 @@ const NumberBaseConverter: React.FC = () => {
                   convertNumber(example.input, example.base);
                 }}
                 className="p-3 text-left bg-white rounded-lg border border-blue-200 hover:bg-blue-50 transition-colors"
+                aria-label={`Load example: ${example.label}`}
               >
                 <div className="font-mono text-sm text-blue-800">{example.input}</div>
                 <div className="text-xs text-blue-600 mt-1">{example.label}</div>
@@ -351,7 +352,7 @@ const NumberBaseConverter: React.FC = () => {
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
         <InfoSection 
           title="Number Base Conversion"

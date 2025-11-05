@@ -243,7 +243,7 @@ const StringToJson: React.FC = () => {
                 spellCheck={false}
               />
             </div>
-          </div>
+          </section>
 
           {/* Output Panel */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">

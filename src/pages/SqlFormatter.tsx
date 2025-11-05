@@ -188,7 +188,7 @@ const SqlFormatter: React.FC = () => {
                 {output || 'Formatted SQL will appear here...'}
               </pre>
             </div>
-          </div>
+          </section>
         </div>
 
         <InfoSection 

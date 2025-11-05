@@ -332,14 +332,14 @@ const PasswordChecker: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* Security Checks */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="security-checks-heading">
               <div className="p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
-                  <Shield className="h-5 w-5 text-green-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Security Checks</h3>
+                  <Shield className="h-5 w-5 text-green-600" aria-hidden="true" />
+                  <h2 id="security-checks-heading" className="text-lg font-semibold text-gray-800">Security Checks</h2>
                 </div>
               </div>
               
@@ -371,28 +371,28 @@ const PasswordChecker: React.FC = () => {
                   })}
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* Feedback */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="recommendations-heading">
               <div className="p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
-                  <AlertTriangle className="h-5 w-5 text-yellow-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Recommendations</h3>
+                  <AlertTriangle className="h-5 w-5 text-yellow-600" aria-hidden="true" />
+                  <h2 id="recommendations-heading" className="text-lg font-semibold text-gray-800">Recommendations</h2>
                 </div>
               </div>
               
               <div className="p-6">
-                <ul className="space-y-2">
+                <ul className="space-y-2" role="list">
                   {analysis.feedback.map((item, index) => (
                     <li key={index} className="flex items-start space-x-2 text-sm">
-                      <span className="text-blue-500 mt-1">•</span>
+                      <span className="text-blue-500 mt-1" aria-hidden="true">•</span>
                       <span className="text-gray-700">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-            </div>
+            </section>
           </div>
         )}
 

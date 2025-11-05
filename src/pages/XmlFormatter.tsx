@@ -165,18 +165,21 @@ const XmlFormatter: React.FC = () => {
         />
 
         {/* Controls */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="xml-controls-heading">
           <div className="p-4">
+            <h2 id="xml-controls-heading" className="sr-only">XML formatting controls</h2>
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center space-x-2">
-                <label className="text-sm font-medium text-gray-700">Indent Size:</label>
+                <label htmlFor="indent-size" className="text-sm font-medium text-gray-700">Indent Size:</label>
                 <select
+                  id="indent-size"
                   value={indentSize}
                   onChange={(e) => {
                     setIndentSize(parseInt(e.target.value));
                     if (input) processInput(input, true);
                   }}
                   className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Select indentation size"
                 >
                   <option value={2}>2 spaces</option>
                   <option value={4}>4 spaces</option>
@@ -184,7 +187,7 @@ const XmlFormatter: React.FC = () => {
                 </select>
               </div>
               
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2" role="group" aria-label="XML formatting actions">
                 <button
                   onClick={handleFormat}
                   disabled={!input.trim()}
@@ -193,6 +196,7 @@ const XmlFormatter: React.FC = () => {
                       ? 'bg-blue-600 text-white hover:bg-blue-700'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }`}
+                  aria-label="Format XML"
                 >
                   Format
                 </button>
@@ -204,19 +208,21 @@ const XmlFormatter: React.FC = () => {
                       ? 'bg-green-600 text-white hover:bg-green-700'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }`}
+                  aria-label="Minify XML"
                 >
                   Minify
                 </button>
                 <button
                   onClick={handleLoadSample}
                   className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+                  aria-label="Load sample XML"
                 >
                   Load Sample
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Validation Status */}
         {isValid !== null && (

@@ -305,10 +305,10 @@ const QRCodeGenerator: React.FC = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </section>
 
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Customization</h3>
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="qr-customization-heading">
+              <h2 id="qr-customization-heading" className="text-lg font-semibold text-gray-800 mb-4">Customization</h2>
               
               <div className="space-y-4">
                 <div>
@@ -430,7 +430,7 @@ const QRCodeGenerator: React.FC = () => {
                   </>
                 )}
               </div>
-            </div>
+            </section>
 
             <button
               onClick={handleClear}

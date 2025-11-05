@@ -238,12 +238,12 @@ const JwtGenerator: React.FC = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </section>
 
             {/* Secret */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="jwt-secret-heading">
               <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-                <h3 className="text-lg font-semibold text-gray-800">Secret Key</h3>
+                <h2 id="jwt-secret-heading" className="text-lg font-semibold text-gray-800">Secret Key</h2>
               </div>
               <div className="p-4">
                 <textarea
@@ -257,13 +257,13 @@ const JwtGenerator: React.FC = () => {
                   ⚠️ This is for demo purposes only. Use proper cryptographic libraries in production.
                 </p>
               </div>
-            </div>
+            </section>
           </div>
 
           {/* Generated JWT */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="generated-jwt-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Generated JWT</h3>
+              <h2 id="generated-jwt-heading" className="text-lg font-semibold text-gray-800">Generated JWT</h2>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleClear}
@@ -329,7 +329,7 @@ const JwtGenerator: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
+          </section>
         </div>
 
         {/* Common Claims Info */}

@@ -187,14 +187,14 @@ const CssFormatter: React.FC = () => {
                 aria-label="CSS input"
               />
             </div>
-          </div>
+          </section>
 
           {/* Output Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="css-output-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h2 id="css-output-heading" className="text-lg font-semibold text-gray-800">
                 {mode === 'format' ? 'Formatted' : 'Minified'} CSS
-              </h3>
+              </h2>
               <button
                 onClick={handleCopy}
                 disabled={!output}
@@ -203,9 +203,10 @@ const CssFormatter: React.FC = () => {
                     ? 'bg-blue-600 text-white hover:bg-blue-700'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
+                aria-label={copied ? 'CSS copied to clipboard' : 'Copy CSS to clipboard'}
                 title="Copy output"
               >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span className="text-sm font-medium">
                   {copied ? 'Copied!' : 'Copy'}
                 </span>
@@ -217,7 +218,7 @@ const CssFormatter: React.FC = () => {
                 {output || `${mode === 'format' ? 'Formatted' : 'Minified'} CSS will appear here...`}
               </pre>
             </div>
-          </div>
+          </section>
         </div>
 
         <InfoSection 

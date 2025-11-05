@@ -408,20 +408,20 @@ const ColorConverter: React.FC = () => {
             </div>
             
             {error && (
-              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg" role="alert">
                 <p className="text-red-700 text-sm">{error}</p>
               </div>
             )}
           </div>
-        </div>
+        </section>
 
         {/* Color Preview */}
         {formats && (
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="color-preview-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
               <div className="flex items-center space-x-2">
-                <Eye className="h-5 w-5 text-green-600" />
-                <h3 className="text-lg font-semibold text-gray-800">Color Preview</h3>
+                <Eye className="h-5 w-5 text-green-600" aria-hidden="true" />
+                <h2 id="color-preview-heading" className="text-lg font-semibold text-gray-800">Color Preview</h2>
               </div>
             </div>
             
@@ -460,12 +460,12 @@ const ColorConverter: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         )}
 
         {/* Color Formats */}
         {formats && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="region" aria-label="Converted color formats">
             {/* HEX */}
             <div className="bg-white rounded-lg shadow-lg border border-gray-200">
               <div className="p-4 bg-gray-50 border-b rounded-t-lg">
