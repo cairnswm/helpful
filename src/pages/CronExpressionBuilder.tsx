@@ -206,26 +206,29 @@ const CronExpressionBuilder: React.FC = () => {
         />
 
         {/* Cron Expression Input */}
-        <div className="mb-6 bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+        <section className="mb-6 bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="cron-input-heading">
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="cron-expression" className="block text-sm font-medium text-gray-700 mb-2">
               Cron Expression
             </label>
             <div className="flex space-x-2">
               <input
+                id="cron-expression"
                 type="text"
                 value={cronExpression}
                 onChange={(e) => handleCronExpressionChange(e.target.value)}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="0 0 * * *"
+                aria-label="Cron expression input"
               />
               <button
                 onClick={handleCopy}
+                aria-label={copied ? 'Cron expression copied to clipboard' : 'Copy cron expression to clipboard'}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
                   'bg-blue-600 text-white hover:bg-blue-700'
                 }`}
               >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 <span className="text-sm font-medium">
                   {copied ? 'Copied!' : 'Copy'}
                 </span>
@@ -233,12 +236,13 @@ const CronExpressionBuilder: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-5 gap-4">
+          <div className="grid grid-cols-5 gap-4" role="group" aria-label="Cron expression field controls">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="minute-field" className="block text-sm font-medium text-gray-700 mb-2">
                 Minute (0-59)
               </label>
               <input
+                id="minute-field"
                 type="text"
                 value={minute}
                 onChange={(e) => {
@@ -247,13 +251,15 @@ const CronExpressionBuilder: React.FC = () => {
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="*"
+                aria-label="Minute field - enter 0-59 or * for every minute"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="hour-field" className="block text-sm font-medium text-gray-700 mb-2">
                 Hour (0-23)
               </label>
               <input
+                id="hour-field"
                 type="text"
                 value={hour}
                 onChange={(e) => {
@@ -262,13 +268,15 @@ const CronExpressionBuilder: React.FC = () => {
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="*"
+                aria-label="Hour field - enter 0-23 or * for every hour"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="day-field" className="block text-sm font-medium text-gray-700 mb-2">
                 Day (1-31)
               </label>
               <input
+                id="day-field"
                 type="text"
                 value={dayOfMonth}
                 onChange={(e) => {
@@ -277,13 +285,15 @@ const CronExpressionBuilder: React.FC = () => {
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="*"
+                aria-label="Day of month field - enter 1-31 or * for every day"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="month-field" className="block text-sm font-medium text-gray-700 mb-2">
                 Month (1-12)
               </label>
               <input
+                id="month-field"
                 type="text"
                 value={month}
                 onChange={(e) => {
@@ -292,13 +302,15 @@ const CronExpressionBuilder: React.FC = () => {
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="*"
+                aria-label="Month field - enter 1-12 or * for every month"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="dow-field" className="block text-sm font-medium text-gray-700 mb-2">
                 Day of Week (0-6)
               </label>
               <input
+                id="dow-field"
                 type="text"
                 value={dayOfWeek}
                 onChange={(e) => {
@@ -307,50 +319,52 @@ const CronExpressionBuilder: React.FC = () => {
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="*"
+                aria-label="Day of week field - enter 0-6 or * for every day, 0=Sunday"
               />
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Preset Schedules */}
-        <div className="mb-6 bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Preset Schedules</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        <section className="mb-6 bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="preset-heading">
+          <h2 id="preset-heading" className="text-lg font-semibold text-gray-800 mb-4">Preset Schedules</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2" role="group" aria-label="Preset schedule buttons">
             {presetSchedules.map((preset) => (
               <button
                 key={preset.value}
                 onClick={() => loadPreset(preset.value)}
+                aria-label={`Load preset: ${preset.label}`}
                 className="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-left"
               >
                 {preset.label}
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Human Readable */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-              <Clock className="h-5 w-5 mr-2 text-blue-600" />
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="readable-heading">
+            <h2 id="readable-heading" className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+              <Clock className="h-5 w-5 mr-2 text-blue-600" aria-hidden="true" />
               Human Readable
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
+            </h2>
+            <p className="text-gray-700 leading-relaxed" role="status" aria-live="polite">
               {getHumanReadable(cronExpression)}
             </p>
-          </div>
+          </section>
 
           {/* Next Run Times */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Next Run Times</h3>
-            <ul className="space-y-2">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="runtimes-heading">
+            <h2 id="runtimes-heading" className="text-lg font-semibold text-gray-800 mb-4">Next Run Times</h2>
+            <ul className="space-y-2" role="list" aria-label="Next scheduled run times">
               {getNextRunTimes(cronExpression).map((time, index) => (
-                <li key={index} className="text-sm text-gray-700">
+                <li key={index} className="text-sm text-gray-700" role="listitem">
                   {index + 1}. {time}
                 </li>
               ))}
             </ul>
-          </div>
+          </section>
         </div>
 
         <InfoSection 
