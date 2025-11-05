@@ -233,6 +233,69 @@ const handleCopy = async () => {
 };
 ```
 
+## Accessibility Requirements (WCAG 2.1 AA)
+
+All new components and pages must meet WCAG 2.1 AA accessibility standards:
+
+### Required Practices
+1. **Semantic HTML**: Use appropriate HTML elements (header, nav, main, section, article, aside, footer)
+2. **ARIA Labels**: Add `aria-label` or `aria-labelledby` to all interactive elements and regions
+3. **Keyboard Navigation**: Ensure all functionality is accessible via keyboard (Tab, Enter, Space, Arrow keys)
+4. **Focus Management**: Manage focus appropriately, especially on route changes and modal dialogs
+5. **Screen Reader Support**: Use `sr-only` class for screen-reader-only text, add `aria-live` regions for dynamic content
+6. **Form Accessibility**: Label all form inputs with `<label>` or `aria-label`, provide `aria-describedby` for help text
+7. **Button Accessibility**: All buttons must have descriptive `aria-label` attributes
+8. **Color Contrast**: Ensure text meets WCAG AA contrast ratios (4.5:1 for normal text, 3:1 for large text)
+9. **Alternative Text**: Add `aria-hidden="true"` to decorative icons, descriptive `alt` for informative images
+10. **Live Regions**: Use `aria-live="polite"` for status updates and `aria-live="assertive"` for errors
+
+### Accessibility Checklist for New Features
+- [ ] All interactive elements are keyboard accessible
+- [ ] Focus indicators are visible
+- [ ] ARIA labels are present on all custom controls
+- [ ] Form inputs have associated labels
+- [ ] Error messages are announced to screen readers
+- [ ] Loading states have `role="status"` and `aria-live="polite"`
+- [ ] Icons have `aria-hidden="true"` if decorative
+- [ ] Buttons have descriptive `aria-label` attributes
+- [ ] Color is not the only means of conveying information
+- [ ] Motion respects `prefers-reduced-motion` user preference
+
+### Example: Accessible Button
+```typescript
+<button
+  onClick={handleAction}
+  aria-label="Clear input field"
+  className="p-2 hover:bg-gray-200 rounded"
+>
+  <X className="h-4 w-4" aria-hidden="true" />
+</button>
+```
+
+### Example: Accessible Form Input
+```typescript
+<label htmlFor="email-input" className="block mb-2">
+  Email Address
+</label>
+<input
+  id="email-input"
+  type="email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  aria-describedby="email-help"
+  aria-invalid={error ? 'true' : 'false'}
+  className="w-full px-3 py-2 border rounded"
+/>
+<span id="email-help" className="text-sm text-gray-600">
+  We'll never share your email with anyone else.
+</span>
+{error && (
+  <div role="alert" className="text-red-600 text-sm mt-1">
+    {error}
+  </div>
+)}
+```
+
 ## Code Quality Standards
 
 - Run `npm run lint` to check for issues before committing
@@ -251,3 +314,10 @@ Currently, the project does not have automated tests. When adding new features o
 - **Browser Compatibility**: Test on Chrome, Firefox, and Safari
 - **Responsive Design**: Test on desktop (1920x1080), tablet (768px), and mobile (375px) viewports
 - **User Experience**: Verify loading states, button feedback, and copy-to-clipboard functionality
+- **Accessibility Testing**: 
+  - Test keyboard-only navigation (Tab, Shift+Tab, Enter, Space, Arrow keys)
+  - Test with screen reader (NVDA on Windows, VoiceOver on Mac)
+  - Verify skip links work (press Tab on page load)
+  - Check color contrast with browser DevTools
+  - Test with browser zoom at 200%
+  - Verify focus indicators are visible
