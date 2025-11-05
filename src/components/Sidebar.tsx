@@ -10,7 +10,7 @@ import {
   FileX, Lock, ChevronDown, ChevronRight,
   RefreshCw, Calculator, QrCode, ImageIcon,
   Settings, Minimize2, FileCheck, Key,
-  FileSpreadsheet, Crop, RotateCw, Droplet, Filter, FileImage
+  FileSpreadsheet, Crop, RotateCw, Droplet, Filter, FileImage, Sparkles
 } from 'lucide-react';
 
 interface NavItem {
@@ -76,6 +76,7 @@ const Sidebar: React.FC = () => {
       items: [
         { path: '/json-csv-converter', label: 'JSON ↔ CSV', icon: ArrowRightLeft },
         { path: '/json-xlsx-converter', label: 'JSON ↔ XLSX', icon: FileSpreadsheet },
+        { path: '/json-ai-ready-converter', label: 'JSON ↔ AI Ready', icon: Sparkles },
         { path: '/csv-xlsx-converter', label: 'CSV ↔ XLSX', icon: FileSpreadsheet },
         { path: '/yaml-json-converter', label: 'YAML ↔ JSON', icon: RefreshCw },
         { path: '/xml-json-converter', label: 'XML ↔ JSON', icon: RefreshCw },
