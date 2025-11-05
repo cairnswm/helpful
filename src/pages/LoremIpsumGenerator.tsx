@@ -9,6 +9,7 @@ const LoremIpsumGenerator: React.FC = () => {
   const [format, setFormat] = useState<'paragraphs' | 'sentences' | 'words'>('paragraphs');
   const [output, setOutput] = useState('');
   const [copied, setCopied] = useState(false);
+  const [startWithLorem, setStartWithLorem] = useState(true);
 
   const loremWords = [
     'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
@@ -38,9 +39,15 @@ const LoremIpsumGenerator: React.FC = () => {
     return words.join(' ') + '.';
   };
 
-  const generateParagraph = (wordCount: number): string => {
+  const generateParagraph = (wordCount: number, isFirst: boolean = false): string => {
     const sentences: string[] = [];
     let currentWords = 0;
+    
+    // If this is the first paragraph and we want to start with Lorem ipsum
+    if (isFirst && startWithLorem) {
+      sentences.push('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+      currentWords += 10; // "Lorem ipsum dolor sit amet, consectetur adipiscing elit" is 10 words
+    }
     
     while (currentWords < wordCount) {
       const sentence = generateSentence();
@@ -56,21 +63,52 @@ const LoremIpsumGenerator: React.FC = () => {
 
     switch (format) {
       case 'paragraphs': {
-        const paraArray = Array.from({ length: paragraphs }, () => 
-          generateParagraph(wordsPerParagraph)
+        const paraArray = Array.from({ length: paragraphs }, (_, index) => 
+          generateParagraph(wordsPerParagraph, index === 0)
         );
         result = paraArray.join('\n\n');
         break;
       }
       case 'sentences': {
-        const sentenceArray = Array.from({ length: paragraphs }, () => 
-          generateSentence()
-        );
+        const sentenceArray: string[] = [];
+        
+        // If we want to start with Lorem ipsum, add it as the first sentence
+        if (startWithLorem && paragraphs > 0) {
+          sentenceArray.push('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+          // Generate the remaining sentences
+          for (let i = 1; i < paragraphs; i++) {
+            sentenceArray.push(generateSentence());
+          }
+        } else {
+          // Generate all sentences normally
+          for (let i = 0; i < paragraphs; i++) {
+            sentenceArray.push(generateSentence());
+          }
+        }
+        
         result = sentenceArray.join(' ');
         break;
       }
       case 'words': {
-        const wordArray = Array.from({ length: paragraphs }, generateWord);
+        const wordArray: string[] = [];
+        
+        // If we want to start with Lorem ipsum, add those words first
+        if (startWithLorem && paragraphs > 0) {
+          const loremWords = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit'];
+          const wordsToAdd = Math.min(paragraphs, loremWords.length);
+          wordArray.push(...loremWords.slice(0, wordsToAdd));
+          
+          // Generate the remaining words
+          for (let i = wordsToAdd; i < paragraphs; i++) {
+            wordArray.push(generateWord());
+          }
+        } else {
+          // Generate all words normally
+          for (let i = 0; i < paragraphs; i++) {
+            wordArray.push(generateWord());
+          }
+        }
+        
         result = wordArray.join(' ');
         break;
       }
@@ -157,6 +195,22 @@ const LoremIpsumGenerator: React.FC = () => {
                 />
               </div>
             )}
+          </div>
+
+          <div className="mt-4">
+            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700">
+              <input
+                type="checkbox"
+                checked={startWithLorem}
+                onChange={(e) => setStartWithLorem(e.target.checked)}
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                aria-describedby="lorem-start-help"
+              />
+              <span>Start with "Lorem ipsum"</span>
+            </label>
+            <p id="lorem-start-help" className="text-xs text-gray-500 mt-1 ml-6">
+              When checked, the generated text will begin with the classic "Lorem ipsum" phrase
+            </p>
           </div>
 
           <div className="mt-4 flex space-x-3">
