@@ -102,28 +102,28 @@ const Home: React.FC = () => {
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3" aria-hidden="true">
                 <span className="text-blue-600 font-bold text-xl">⚡</span>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Fast & Efficient</h3>
+              <h4 className="font-semibold text-gray-900 mb-2">Fast & Efficient</h4>
               <p className="text-gray-600 text-sm">Real-time processing with instant results</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3" aria-hidden="true">
                 <span className="text-green-600 font-bold text-xl">🛡️</span>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Secure & Private</h3>
+              <h4 className="font-semibold text-gray-900 mb-2">Secure & Private</h4>
               <p className="text-gray-600 text-sm">All processing happens locally in your browser</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3" aria-hidden="true">
                 <span className="text-purple-600 font-bold text-xl">🎨</span>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Beautiful UI</h3>
+              <h4 className="font-semibold text-gray-900 mb-2">Beautiful UI</h4>
               <p className="text-gray-600 text-sm">Clean, intuitive interface with syntax highlighting</p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-3" aria-hidden="true">
                 <span className="text-orange-600 font-bold text-xl">🔧</span>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Comprehensive</h3>
+              <h4 className="font-semibold text-gray-900 mb-2">Comprehensive</h4>
               <p className="text-gray-600 text-sm">{tools.length}+ essential tools for modern development</p>
             </div>
           </div>

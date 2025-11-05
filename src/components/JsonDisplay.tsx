@@ -72,13 +72,12 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({ json, isValid, wasCleaned = f
         </div>
       </div>
       
-      <div className="flex-1 p-4 overflow-auto">
+      <div className="flex-1 p-4 overflow-auto" aria-live="polite" aria-atomic="true">
         <pre 
           className="text-sm leading-relaxed font-mono whitespace-pre-wrap"
           dangerouslySetInnerHTML={{ __html: highlightedJson || 'Enter JSON data to see formatted output...' }}
           aria-label="Formatted JSON output"
           role="region"
-          aria-live="polite"
         />
       </div>
     </div>
