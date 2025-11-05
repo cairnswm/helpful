@@ -12,7 +12,7 @@ interface ApiResponse {
   status: number;
   statusText: string;
   headers: Record<string, string>;
-  data: any;
+  data: unknown;
   time: number;
 }
 
@@ -157,18 +157,20 @@ const ApiRequestBuilder: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Request Builder */}
-          <div className="space-y-6">
+          <section className="space-y-6" aria-labelledby="request-builder-heading">
+            <h2 id="request-builder-heading" className="sr-only">Request Configuration</h2>
             {/* URL and Method */}
             <div className="bg-white rounded-lg shadow-lg border border-gray-200">
               <div className="p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Globe className="h-5 w-5 text-blue-600" />
+                    <Globe className="h-5 w-5 text-blue-600" aria-hidden="true" />
                     <h3 className="text-lg font-semibold text-gray-800">Request</h3>
                   </div>
                   <button
                     onClick={loadSampleRequest}
                     className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors"
+                    aria-label="Load sample API request"
                   >
                     Load Sample
                   </button>
@@ -176,22 +178,30 @@ const ApiRequestBuilder: React.FC = () => {
               </div>
               <div className="p-4 space-y-4">
                 <div className="flex space-x-2">
+                  <label htmlFor="http-method" className="sr-only">HTTP Method</label>
                   <select
+                    id="http-method"
                     value={method}
                     onChange={(e) => setMethod(e.target.value)}
                     className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="Select HTTP method"
                   >
                     {methods.map(m => (
                       <option key={m} value={m}>{m}</option>
                     ))}
                   </select>
+                  <label htmlFor="api-url" className="sr-only">API URL</label>
                   <input
+                    id="api-url"
                     type="text"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://api.example.com/endpoint"
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="API URL"
+                    aria-describedby="url-help"
                   />
+                  <span id="url-help" className="sr-only">Enter the full URL of the API endpoint</span>
                   <button
                     onClick={sendRequest}
                     disabled={!url.trim() || loading}
@@ -200,8 +210,9 @@ const ApiRequestBuilder: React.FC = () => {
                         ? 'bg-blue-600 text-white hover:bg-blue-700'
                         : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
+                    aria-label={loading ? 'Sending request' : 'Send API request'}
                   >
-                    <Send className="h-4 w-4" />
+                    <Send className="h-4 w-4" aria-hidden="true" />
                     <span>{loading ? 'Sending...' : 'Send'}</span>
                   </button>
                 </div>
@@ -215,34 +226,42 @@ const ApiRequestBuilder: React.FC = () => {
                 <button
                   onClick={addHeader}
                   className="flex items-center space-x-1 px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+                  aria-label="Add new header"
                 >
-                  <Plus className="h-3 w-3" />
+                  <Plus className="h-3 w-3" aria-hidden="true" />
                   <span>Add</span>
                 </button>
               </div>
               <div className="p-4 space-y-2">
                 {headers.map((header, index) => (
                   <div key={index} className="flex space-x-2">
+                    <label htmlFor={`header-key-${index}`} className="sr-only">Header name {index + 1}</label>
                     <input
+                      id={`header-key-${index}`}
                       type="text"
                       value={header.key}
                       onChange={(e) => updateHeader(index, 'key', e.target.value)}
                       placeholder="Header name"
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      aria-label={`Header name ${index + 1}`}
                     />
+                    <label htmlFor={`header-value-${index}`} className="sr-only">Header value {index + 1}</label>
                     <input
+                      id={`header-value-${index}`}
                       type="text"
                       value={header.value}
                       onChange={(e) => updateHeader(index, 'value', e.target.value)}
                       placeholder="Header value"
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      aria-label={`Header value ${index + 1}`}
                     />
                     <button
                       onClick={() => removeHeader(index)}
                       disabled={headers.length === 1}
                       className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label={`Remove header ${index + 1}`}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" aria-hidden="true" />
                     </button>
                   </div>
                 ))}
@@ -256,13 +275,18 @@ const ApiRequestBuilder: React.FC = () => {
                   <h3 className="text-lg font-semibold text-gray-800">Request Body</h3>
                 </div>
                 <div className="p-4">
+                  <label htmlFor="request-body" className="sr-only">Request body content</label>
                   <textarea
+                    id="request-body"
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     placeholder="Enter request body (JSON, XML, etc.)"
                     className="w-full h-32 resize-none border border-gray-300 rounded-lg p-3 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     spellCheck={false}
+                    aria-label="Request body content"
+                    aria-describedby="body-help"
                   />
+                  <span id="body-help" className="sr-only">Enter the request body in JSON, XML, or other format</span>
                 </div>
               </div>
             )}
@@ -274,8 +298,9 @@ const ApiRequestBuilder: React.FC = () => {
                 <button
                   onClick={() => handleCopy(generateCurlCommand(), 'curl')}
                   className="flex items-center space-x-1 px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors"
+                  aria-label={copied === 'curl' ? 'cURL command copied to clipboard' : 'Copy cURL command to clipboard'}
                 >
-                  {copied === 'curl' ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                  {copied === 'curl' ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
                   <span>{copied === 'curl' ? 'Copied!' : 'Copy'}</span>
                 </button>
               </div>
@@ -285,12 +310,12 @@ const ApiRequestBuilder: React.FC = () => {
                 </pre>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Response */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="response-heading">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Response</h3>
+              <h3 id="response-heading" className="text-lg font-semibold text-gray-800">Response</h3>
               {response && (
                 <div className="flex items-center space-x-4">
                   <span className={`px-2 py-1 rounded text-sm font-medium ${
@@ -299,17 +324,18 @@ const ApiRequestBuilder: React.FC = () => {
                       : response.status >= 400
                       ? 'bg-red-100 text-red-800'
                       : 'bg-yellow-100 text-yellow-800'
-                  }`}>
+                  }`} role="status" aria-live="polite">
                     {response.status} {response.statusText}
                   </span>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600" role="status">
                     {response.time}ms
                   </span>
                   <button
                     onClick={() => handleCopy(JSON.stringify(response.data, null, 2), 'response')}
                     className="flex items-center space-x-1 px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+                    aria-label={copied === 'response' ? 'Response copied to clipboard' : 'Copy response to clipboard'}
                   >
-                    {copied === 'response' ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                    {copied === 'response' ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
                     <span>{copied === 'response' ? 'Copied!' : 'Copy'}</span>
                   </button>
                 </div>
@@ -318,7 +344,7 @@ const ApiRequestBuilder: React.FC = () => {
             
             <div className="p-4 h-96 overflow-auto">
               {loading ? (
-                <div className="flex items-center justify-center h-full">
+                <div className="flex items-center justify-center h-full" role="status" aria-live="polite">
                   <div className="text-gray-500">Sending request...</div>
                 </div>
               ) : response ? (
@@ -349,12 +375,12 @@ const ApiRequestBuilder: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center justify-center h-full text-gray-500">
+                <div className="flex items-center justify-center h-full text-gray-500" role="status">
                   Send a request to see the response here...
                 </div>
               )}
             </div>
-          </div>
+          </section>
         </div>
 
         <InfoSection 
