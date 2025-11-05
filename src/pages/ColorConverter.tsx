@@ -344,25 +344,27 @@ const ColorConverter: React.FC = () => {
         />
 
         {/* Input Section */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="color-input-heading">
           <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Palette className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-800">Color Input</h3>
+              <Palette className="h-5 w-5 text-blue-600" aria-hidden="true" />
+              <h2 id="color-input-heading" className="text-lg font-semibold text-gray-800">Color Input</h2>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={loadSample}
                 className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors"
+                aria-label="Load sample color"
               >
                 Load Sample
               </button>
               <button
                 onClick={handleClear}
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                aria-label="Clear input"
                 title="Clear input"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -370,13 +372,15 @@ const ColorConverter: React.FC = () => {
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
               <div className="md:col-span-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="color-format-select" className="block text-sm font-medium text-gray-700 mb-2">
                   Color Format
                 </label>
                 <select
+                  id="color-format-select"
                   value={input.type}
                   onChange={(e) => handleTypeChange(e.target.value as ColorInput['type'])}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Select color format"
                 >
                   {formatOptions.map(option => (
                     <option key={option.value} value={option.value}>
@@ -387,15 +391,18 @@ const ColorConverter: React.FC = () => {
               </div>
               
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="color-value-input" className="block text-sm font-medium text-gray-700 mb-2">
                   Color Value
                 </label>
                 <input
+                  id="color-value-input"
                   type="text"
                   value={input.value}
                   onChange={(e) => handleInputChange(e.target.value)}
                   placeholder={formatOptions.find(opt => opt.value === input.type)?.example || ''}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Color value to convert"
+                  aria-invalid={error ? 'true' : 'false'}
                 />
               </div>
             </div>

@@ -122,22 +122,24 @@ const JwtGenerator: React.FC = () => {
           {/* JWT Configuration */}
           <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="jwt-header-heading">
               <div className="p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
-                  <Key className="h-5 w-5 text-blue-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Header</h3>
+                  <Key className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                  <h2 id="jwt-header-heading" className="text-lg font-semibold text-gray-800">Header</h2>
                 </div>
               </div>
               <div className="p-4 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="jwt-algorithm" className="block text-sm font-medium text-gray-700 mb-2">
                     Algorithm
                   </label>
                   <select
+                    id="jwt-algorithm"
                     value={header.alg}
                     onChange={(e) => setHeader(prev => ({ ...prev, alg: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="Select JWT signing algorithm"
                   >
                     {algorithms.map(alg => (
                       <option key={alg} value={alg}>{alg}</option>
@@ -145,38 +147,42 @@ const JwtGenerator: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="jwt-type" className="block text-sm font-medium text-gray-700 mb-2">
                     Type
                   </label>
                   <input
+                    id="jwt-type"
                     type="text"
                     value={header.typ}
                     onChange={(e) => setHeader(prev => ({ ...prev, typ: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="JWT type"
                   />
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* Payload */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="jwt-payload-heading">
               <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
                 <div className="flex items-center space-x-2">
-                  <User className="h-5 w-5 text-green-600" />
-                  <h3 className="text-lg font-semibold text-gray-800">Payload</h3>
+                  <User className="h-5 w-5 text-green-600" aria-hidden="true" />
+                  <h2 id="jwt-payload-heading" className="text-lg font-semibold text-gray-800">Payload</h2>
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={loadSamplePayload}
                     className="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors"
+                    aria-label="Load sample payload data"
                   >
                     Load Sample
                   </button>
                   <button
                     onClick={addPayloadField}
                     className="flex items-center space-x-1 px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors"
+                    aria-label="Add new payload field"
                   >
-                    <Plus className="h-3 w-3" />
+                    <Plus className="h-3 w-3" aria-hidden="true" />
                     <span>Add Field</span>
                   </button>
                 </div>

@@ -232,7 +232,7 @@ const JsonCsvConverter: React.FC = () => {
 
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex bg-gray-100 rounded-lg p-1" role="group" aria-label="Conversion mode selection">
               <button
                 onClick={() => {
                   setMode('jsonToCsv');
@@ -243,6 +243,8 @@ const JsonCsvConverter: React.FC = () => {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={mode === 'jsonToCsv'}
+                aria-label="Convert JSON to CSV"
               >
                 JSON to CSV
               </button>
@@ -256,6 +258,8 @@ const JsonCsvConverter: React.FC = () => {
                     ? 'bg-white text-blue-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
+                aria-pressed={mode === 'csvToJson'}
+                aria-label="Convert CSV to JSON"
               >
                 CSV to JSON
               </button>
@@ -264,9 +268,10 @@ const JsonCsvConverter: React.FC = () => {
             <button
               onClick={handleModeToggle}
               className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              aria-label="Swap input and output"
               title="Swap input and output"
             >
-              <ArrowRightLeft className="h-4 w-4" />
+              <ArrowRightLeft className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-medium">Swap</span>
             </button>
           </div>
@@ -274,29 +279,32 @@ const JsonCsvConverter: React.FC = () => {
           <button
             onClick={handleLoadSample}
             className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            aria-label="Load sample data"
           >
             Load Sample
           </button>
         </div>
 
         {/* Settings */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="conversion-settings-heading">
           <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-800">Conversion Settings</h3>
+            <h2 id="conversion-settings-heading" className="text-lg font-semibold text-gray-800">Conversion Settings</h2>
           </div>
           <div className="p-4">
             <div className="flex items-center space-x-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="csv-delimiter" className="block text-sm font-medium text-gray-700 mb-2">
                   CSV Delimiter
                 </label>
                 <select
+                  id="csv-delimiter"
                   value={delimiter}
                   onChange={(e) => {
                     setDelimiter(e.target.value);
                     processInput(input, mode);
                   }}
                   className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Select CSV delimiter character"
                 >
                   <option value=",">Comma (,)</option>
                   <option value=";">Semicolon (;)</option>
