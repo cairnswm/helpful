@@ -168,75 +168,90 @@ settings:
           description="Convert between YAML and JSON formats with syntax validation and error detection."
         />
 
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex bg-gray-100 rounded-lg p-1">
+        <section aria-labelledby="conversion-controls-heading" className="mb-6">
+          <h2 id="conversion-controls-heading" className="sr-only">Conversion Controls</h2>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div role="group" aria-label="Conversion mode selection" className="flex bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => {
+                    setMode('yamlToJson');
+                    processInput(input, 'yamlToJson');
+                  }}
+                  aria-pressed={mode === 'yamlToJson'}
+                  aria-label="Convert YAML to JSON"
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    mode === 'yamlToJson'
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  YAML to JSON
+                </button>
+                <button
+                  onClick={() => {
+                    setMode('jsonToYaml');
+                    processInput(input, 'jsonToYaml');
+                  }}
+                  aria-pressed={mode === 'jsonToYaml'}
+                  aria-label="Convert JSON to YAML"
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    mode === 'jsonToYaml'
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  JSON to YAML
+                </button>
+              </div>
+              
               <button
-                onClick={() => {
-                  setMode('yamlToJson');
-                  processInput(input, 'yamlToJson');
-                }}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  mode === 'yamlToJson'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+                onClick={handleModeToggle}
+                aria-label="Swap input and output"
+                className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                title="Swap input and output"
               >
-                YAML to JSON
-              </button>
-              <button
-                onClick={() => {
-                  setMode('jsonToYaml');
-                  processInput(input, 'jsonToYaml');
-                }}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  mode === 'jsonToYaml'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                JSON to YAML
+                <ArrowRightLeft className="h-4 w-4" aria-hidden="true" />
+                <span className="text-sm font-medium">Swap</span>
               </button>
             </div>
             
             <button
-              onClick={handleModeToggle}
-              className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              title="Swap input and output"
+              onClick={handleLoadSample}
+              aria-label="Load sample data"
+              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
             >
-              <ArrowRightLeft className="h-4 w-4" />
-              <span className="text-sm font-medium">Swap</span>
+              Load Sample
             </button>
           </div>
-          
-          <button
-            onClick={handleLoadSample}
-            className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
-          >
-            Load Sample
-          </button>
-        </div>
+        </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-320px)]">
           {/* Input Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section aria-labelledby="input-panel-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h2 id="input-panel-heading" className="text-lg font-semibold text-gray-800">
                 {mode === 'yamlToJson' ? 'YAML Input' : 'JSON Input'}
-              </h3>
+              </h2>
               <button
                 onClick={handleClear}
+                aria-label="Clear input"
                 className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
                 title="Clear input"
               >
-                <RotateCcw className="h-4 w-4" />
+                <RotateCcw className="h-4 w-4" aria-hidden="true" />
               </button>
             </div>
             
             <div className="flex-1 p-4">
+              <label htmlFor="input-textarea" className="sr-only">
+                {mode === 'yamlToJson' ? 'YAML input' : 'JSON input'}
+              </label>
               <textarea
+                id="input-textarea"
                 value={input}
                 onChange={(e) => handleInputChange(e.target.value)}
+                aria-label={mode === 'yamlToJson' ? 'YAML input field' : 'JSON input field'}
                 placeholder={
                   mode === 'yamlToJson' 
                     ? 'Enter YAML data to convert to JSON...\n\nExample:\napp:\n  name: "My App"\n  version: "1.0.0"\n  debug: true'
@@ -246,18 +261,19 @@ settings:
                 spellCheck={false}
               />
             </div>
-          </div>
+          </section>
 
           {/* Output Panel */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section aria-labelledby="output-panel-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h2 id="output-panel-heading" className="text-lg font-semibold text-gray-800">
                 {mode === 'yamlToJson' ? 'JSON Output' : 'YAML Output'}
-              </h3>
+              </h2>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleDownload}
                   disabled={!output}
+                  aria-label={`Download ${mode === 'yamlToJson' ? 'JSON' : 'YAML'} file`}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ${
                     output
                       ? 'bg-green-600 text-white hover:bg-green-700'
@@ -265,12 +281,13 @@ settings:
                   }`}
                   title="Download file"
                 >
-                  <Download className="h-4 w-4" />
+                  <Download className="h-4 w-4" aria-hidden="true" />
                   <span className="text-sm font-medium">Download</span>
                 </button>
                 <button
                   onClick={handleCopy}
                   disabled={!output}
+                  aria-label={copied ? 'Output copied to clipboard' : 'Copy output to clipboard'}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ${
                     output
                       ? 'bg-blue-600 text-white hover:bg-blue-700'
@@ -278,7 +295,7 @@ settings:
                   }`}
                   title="Copy output"
                 >
-                  {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                   <span className="text-sm font-medium">
                     {copied ? 'Copied!' : 'Copy'}
                   </span>
@@ -288,20 +305,32 @@ settings:
             
             <div className="flex-1 p-4">
               {error ? (
-                <div className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-lg">
+                <div role="alert" aria-live="assertive" className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-lg">
                   {error}
                 </div>
               ) : (
-                <textarea
-                  value={output}
-                  readOnly
-                  placeholder={`${mode === 'yamlToJson' ? 'JSON' : 'YAML'} output will appear here...`}
-                  className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed bg-gray-50"
-                />
+                <>
+                  <label htmlFor="output-textarea" className="sr-only">
+                    {mode === 'yamlToJson' ? 'JSON output' : 'YAML output'}
+                  </label>
+                  <textarea
+                    id="output-textarea"
+                    value={output}
+                    readOnly
+                    aria-label={mode === 'yamlToJson' ? 'JSON output field' : 'YAML output field'}
+                    placeholder={`${mode === 'yamlToJson' ? 'JSON' : 'YAML'} output will appear here...`}
+                    className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed bg-gray-50"
+                  />
+                </>
               )}
             </div>
-          </div>
+          </section>
         </div>
+        {copied && (
+          <div role="status" aria-live="polite" className="sr-only">
+            Output copied to clipboard
+          </div>
+        )}
 
         <InfoSection 
           title="YAML ↔ JSON Conversion"

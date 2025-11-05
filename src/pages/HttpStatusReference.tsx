@@ -109,16 +109,20 @@ const HttpStatusReference: React.FC = () => {
         />
 
         {/* Search and Filter */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section aria-labelledby="search-filter-heading" className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+          <h2 id="search-filter-heading" className="sr-only">Search and Filter Status Codes</h2>
           <div className="p-6">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" aria-hidden="true" />
+                  <label htmlFor="search-input" className="sr-only">Search status codes</label>
                   <input
+                    id="search-input"
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    aria-label="Search by code, name, or description"
                     placeholder="Search by code, name, or description..."
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
@@ -126,9 +130,12 @@ const HttpStatusReference: React.FC = () => {
               </div>
               
               <div className="md:w-64">
+                <label htmlFor="category-filter" className="sr-only">Filter by category</label>
                 <select
+                  id="category-filter"
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
+                  aria-label="Filter status codes by category"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {categories.map(category => (
@@ -140,10 +147,10 @@ const HttpStatusReference: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div role="group" aria-label="Category filter buttons" className="flex flex-wrap gap-2 mb-6">
           {categories.map(category => {
             const Icon = category.icon;
             const isActive = selectedCategory === category.value;
@@ -151,13 +158,15 @@ const HttpStatusReference: React.FC = () => {
               <button
                 key={category.value}
                 onClick={() => setSelectedCategory(category.value)}
+                aria-pressed={isActive}
+                aria-label={`Filter by ${category.label}`}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                   isActive
                     ? 'bg-blue-600 text-white'
                     : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
                 }`}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-4 w-4" aria-hidden="true" />
                 <span className="text-sm">{category.label}</span>
               </button>
             );
@@ -165,56 +174,60 @@ const HttpStatusReference: React.FC = () => {
         </div>
 
         {/* Status Codes Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredStatusCodes.map(status => (
-            <div
-              key={status.code}
-              className={`p-4 rounded-lg border ${getStatusColor(status.category)}`}
-            >
-              <div className="flex items-start space-x-3 mb-3">
-                {getStatusIcon(status.category)}
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <span className="text-2xl font-bold">{status.code}</span>
-                    <span className="text-lg font-semibold">{status.name}</span>
+        <section aria-labelledby="status-codes-heading">
+          <h2 id="status-codes-heading" className="sr-only">HTTP Status Codes</h2>
+          <div role="list" aria-label="HTTP status code results" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredStatusCodes.map(status => (
+              <article
+                key={status.code}
+                role="listitem"
+                className={`p-4 rounded-lg border ${getStatusColor(status.category)}`}
+              >
+                <div className="flex items-start space-x-3 mb-3">
+                  {getStatusIcon(status.category)}
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <span className="text-2xl font-bold">{status.code}</span>
+                      <span className="text-lg font-semibold">{status.name}</span>
+                    </div>
+                    <p className="text-sm opacity-90 mb-2">
+                      {status.description}
+                    </p>
                   </div>
-                  <p className="text-sm opacity-90 mb-2">
-                    {status.description}
-                  </p>
                 </div>
-              </div>
-              
-              <div className="text-sm opacity-80 mb-3">
-                {status.details}
-              </div>
-              
-              {status.examples && (
-                <div className="text-xs opacity-70">
-                  <div className="font-medium mb-1">Examples:</div>
-                  <ul className="list-disc list-inside space-y-1">
-                    {status.examples.map((example, index) => (
-                      <li key={index}>{example}</li>
-                    ))}
-                  </ul>
+                
+                <div className="text-sm opacity-80 mb-3">
+                  {status.details}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {filteredStatusCodes.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <Search className="h-12 w-12 mx-auto" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No status codes found</h3>
-            <p className="text-gray-600">Try adjusting your search terms or category filter.</p>
+                
+                {status.examples && (
+                  <div className="text-xs opacity-70">
+                    <div className="font-medium mb-1">Examples:</div>
+                    <ul className="list-disc list-inside space-y-1">
+                      {status.examples.map((example, index) => (
+                        <li key={index}>{example}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </article>
+            ))}
           </div>
-        )}
+
+          {filteredStatusCodes.length === 0 && (
+            <div role="status" className="text-center py-12">
+              <div className="text-gray-400 mb-4">
+                <Search className="h-12 w-12 mx-auto" aria-hidden="true" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No status codes found</h3>
+              <p className="text-gray-600">Try adjusting your search terms or category filter.</p>
+            </div>
+          )}
+        </section>
 
         {/* Quick Reference */}
-        <div className="mt-8 bg-gray-50 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Reference</h3>
+        <section aria-labelledby="quick-reference-heading" className="mt-8 bg-gray-50 rounded-lg p-6">
+          <h2 id="quick-reference-heading" className="text-lg font-semibold text-gray-900 mb-4">Quick Reference</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 text-sm">
             <div>
               <div className="font-medium text-blue-700 mb-2">1xx Informational</div>
@@ -237,7 +250,7 @@ const HttpStatusReference: React.FC = () => {
               <p className="text-gray-600">Server failed to fulfill an apparently valid request</p>
             </div>
           </div>
-        </div>
+        </section>
 
         <InfoSection 
           title="HTTP Status Code Categories"
