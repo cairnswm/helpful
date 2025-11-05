@@ -95,10 +95,10 @@ const UuidGenerator: React.FC = () => {
           <div className="p-6">
             <div className="flex flex-wrap items-center gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label id="uuid-version-label" className="block text-sm font-medium text-gray-700 mb-2">
                   UUID Version
                 </label>
-                <div className="flex bg-gray-100 rounded-lg p-1">
+                <div className="flex bg-gray-100 rounded-lg p-1" role="group" aria-labelledby="uuid-version-label">
                   <button
                     onClick={() => setVersion('v4')}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -106,6 +106,8 @@ const UuidGenerator: React.FC = () => {
                         ? 'bg-white text-blue-600 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
+                    aria-pressed={version === 'v4'}
+                    aria-label="Select UUID Version 4 (Random)"
                   >
                     Version 4 (Random)
                   </button>
@@ -116,6 +118,8 @@ const UuidGenerator: React.FC = () => {
                         ? 'bg-white text-blue-600 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
+                    aria-pressed={version === 'v1'}
+                    aria-label="Select UUID Version 1 (Timestamp)"
                   >
                     Version 1 (Timestamp)
                   </button>
@@ -123,25 +127,30 @@ const UuidGenerator: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="uuid-count" className="block text-sm font-medium text-gray-700 mb-2">
                   Count
                 </label>
                 <input
+                  id="uuid-count"
                   type="number"
                   min="1"
                   max="100"
                   value={count}
                   onChange={(e) => setCount(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
                   className="w-20 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Number of UUIDs to generate"
+                  aria-describedby="uuid-count-help"
                 />
+                <span id="uuid-count-help" className="sr-only">Enter a number between 1 and 100</span>
               </div>
 
               <div className="flex items-end space-x-2">
                 <button
                   onClick={generateUuids}
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  aria-label="Generate new UUIDs"
                 >
-                  <RefreshCw className="h-4 w-4" />
+                  <RefreshCw className="h-4 w-4" aria-hidden="true" />
                   <span className="font-medium">Generate</span>
                 </button>
 
@@ -149,8 +158,9 @@ const UuidGenerator: React.FC = () => {
                   <button
                     onClick={handleCopyAll}
                     className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    aria-label={copied === -1 ? 'All UUIDs copied to clipboard' : 'Copy all UUIDs to clipboard'}
                   >
-                    {copied === -1 ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    {copied === -1 ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                     <span className="font-medium">
                       {copied === -1 ? 'Copied All!' : 'Copy All'}
                     </span>
@@ -162,32 +172,34 @@ const UuidGenerator: React.FC = () => {
         </div>
 
         {/* Generated UUIDs */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="generated-uuids-heading">
           <div className="p-4 bg-gray-50 border-b rounded-t-lg">
             <div className="flex items-center space-x-2">
-              <Hash className="h-5 w-5 text-blue-600" />
-              <h3 className="text-lg font-semibold text-gray-800">
+              <Hash className="h-5 w-5 text-blue-600" aria-hidden="true" />
+              <h2 id="generated-uuids-heading" className="text-lg font-semibold text-gray-800">
                 Generated UUIDs ({uuids.length})
-              </h3>
+              </h2>
             </div>
           </div>
           
           <div className="p-4">
             {uuids.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-3" role="list" aria-label="Generated UUIDs">
                 {uuids.map((uuid, index) => (
                   <div
                     key={index}
                     className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
+                    role="listitem"
                   >
-                    <code className="font-mono text-sm text-gray-800 flex-1">
+                    <code className="font-mono text-sm text-gray-800 flex-1" aria-label={`UUID ${index + 1}: ${uuid}`}>
                       {uuid}
                     </code>
                     <button
                       onClick={() => handleCopy(uuid, index)}
                       className="ml-3 flex items-center space-x-2 px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+                      aria-label={copied === index ? `UUID ${index + 1} copied to clipboard` : `Copy UUID ${index + 1} to clipboard`}
                     >
-                      {copied === index ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                      {copied === index ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
                       <span className="font-medium">
                         {copied === index ? 'Copied!' : 'Copy'}
                       </span>
@@ -196,12 +208,12 @@ const UuidGenerator: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-500" role="status">
                 Click "Generate" to create UUIDs
               </div>
             )}
           </div>
-        </div>
+        </section>
 
         <InfoSection 
           title="UUID Generation"

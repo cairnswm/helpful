@@ -232,11 +232,11 @@ const ColorPicker: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Color Picker */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="color-picker-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
               <div className="flex items-center space-x-2">
-                <Palette className="h-5 w-5 text-blue-600" />
-                <h3 className="text-lg font-semibold text-gray-800">Color Picker</h3>
+                <Palette className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                <h2 id="color-picker-heading" className="text-lg font-semibold text-gray-800">Color Picker</h2>
               </div>
             </div>
             
@@ -246,6 +246,8 @@ const ColorPicker: React.FC = () => {
                 <div 
                   className="w-32 h-32 mx-auto rounded-lg border-4 border-gray-200 shadow-lg"
                   style={{ backgroundColor: color }}
+                  role="img"
+                  aria-label={`Current color: ${color}`}
                 ></div>
                 <p className="mt-2 text-sm text-gray-600">Current Color</p>
               </div>
@@ -294,14 +296,14 @@ const ColorPicker: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Color Formats */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="color-formats-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
               <div className="flex items-center space-x-2">
-                <Eye className="h-5 w-5 text-green-600" />
-                <h3 className="text-lg font-semibold text-gray-800">Color Formats</h3>
+                <Eye className="h-5 w-5 text-green-600" aria-hidden="true" />
+                <h2 id="color-formats-heading" className="text-lg font-semibold text-gray-800">Color Formats</h2>
               </div>
             </div>
             
@@ -319,8 +321,9 @@ const ColorPicker: React.FC = () => {
                   <button
                     onClick={() => handleCopy(format, value)}
                     className="ml-3 flex items-center space-x-1 px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+                    aria-label={copied === format ? `${format} format copied to clipboard` : `Copy ${format} format`}
                   >
-                    {copied === format ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                    {copied === format ? <Check className="h-3 w-3" aria-hidden="true" /> : <Copy className="h-3 w-3" aria-hidden="true" />}
                     <span className="font-medium">
                       {copied === format ? 'Copied!' : 'Copy'}
                     </span>
@@ -328,7 +331,7 @@ const ColorPicker: React.FC = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </section>
         </div>
 
         {/* Tailwind CSS Shades */}

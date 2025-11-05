@@ -147,17 +147,19 @@ const QRCodeGenerator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Configuration Panel */}
           <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Content</h3>
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="qr-content-heading">
+              <h2 id="qr-content-heading" className="text-lg font-semibold text-gray-800 mb-4">Content</h2>
               
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="qr-type-select" className="block text-sm font-medium text-gray-700 mb-2">
                   QR Code Type
                 </label>
                 <select
+                  id="qr-type-select"
                   value={qrType}
                   onChange={(e) => setQrType(e.target.value as QRType)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Select QR code type"
                 >
                   <option value="text">Plain Text</option>
                   <option value="url">URL</option>
@@ -170,30 +172,34 @@ const QRCodeGenerator: React.FC = () => {
 
               {qrType === 'text' && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="qr-text-input" className="block text-sm font-medium text-gray-700 mb-2">
                     Text
                   </label>
                   <textarea
+                    id="qr-text-input"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     placeholder="Enter text..."
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     rows={3}
+                    aria-label="Text for QR code"
                   />
                 </div>
               )}
 
               {qrType === 'url' && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="qr-url-input" className="block text-sm font-medium text-gray-700 mb-2">
                     URL
                   </label>
                   <input
+                    id="qr-url-input"
                     type="url"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://example.com"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="URL for QR code"
                   />
                 </div>
               )}
@@ -299,10 +305,10 @@ const QRCodeGenerator: React.FC = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </section>
 
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Customization</h3>
+            <section className="bg-white rounded-lg shadow-lg border border-gray-200 p-6" aria-labelledby="qr-customization-heading">
+              <h2 id="qr-customization-heading" className="text-lg font-semibold text-gray-800 mb-4">Customization</h2>
               
               <div className="space-y-4">
                 <div>
@@ -424,7 +430,7 @@ const QRCodeGenerator: React.FC = () => {
                   </>
                 )}
               </div>
-            </div>
+            </section>
 
             <button
               onClick={handleClear}

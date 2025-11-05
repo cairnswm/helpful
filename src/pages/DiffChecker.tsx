@@ -116,24 +116,25 @@ const DiffChecker: React.FC = () => {
 
         {/* Stats */}
         {diff.length > 0 && (
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="diff-stats-heading">
             <div className="p-4">
+              <h2 id="diff-stats-heading" className="sr-only">Difference statistics</h2>
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-6">
+                <div className="flex items-center space-x-6" role="status" aria-live="polite">
                   <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full" aria-hidden="true"></div>
                     <span className="text-sm font-medium text-gray-700">
                       {stats.added} added
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-red-500 rounded-full" aria-hidden="true"></div>
                     <span className="text-sm font-medium text-gray-700">
                       {stats.removed} removed
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-gray-400 rounded-full" aria-hidden="true"></div>
                     <span className="text-sm font-medium text-gray-700">
                       {stats.unchanged} unchanged
                     </span>
@@ -143,16 +144,18 @@ const DiffChecker: React.FC = () => {
                   <button
                     onClick={handleClear}
                     className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                    aria-label="Clear all text"
                     title="Clear all"
                   >
-                    <RotateCcw className="h-4 w-4" />
+                    <RotateCcw className="h-4 w-4" aria-hidden="true" />
                   </button>
                   <button
                     onClick={handleCopy}
                     className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    aria-label={copied ? 'Diff copied to clipboard' : 'Copy diff to clipboard'}
                     title="Copy diff"
                   >
-                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                     <span className="text-sm font-medium">
                       {copied ? 'Copied!' : 'Copy Diff'}
                     </span>
@@ -160,53 +163,60 @@ const DiffChecker: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-320px)]">
           {/* Left Text */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="original-text-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Original Text</h3>
+              <h2 id="original-text-heading" className="text-lg font-semibold text-gray-800">Original Text</h2>
             </div>
             <div className="flex-1 p-4">
+              <label htmlFor="left-text" className="sr-only">Original text to compare</label>
               <textarea
+                id="left-text"
                 value={leftText}
                 onChange={(e) => handleLeftChange(e.target.value)}
                 placeholder="Paste original text here..."
                 className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed"
                 spellCheck={false}
+                aria-label="Original text input"
               />
             </div>
-          </div>
+          </section>
 
           {/* Right Text */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="modified-text-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Modified Text</h3>
+              <h2 id="modified-text-heading" className="text-lg font-semibold text-gray-800">Modified Text</h2>
             </div>
             <div className="flex-1 p-4">
+              <label htmlFor="right-text" className="sr-only">Modified text to compare</label>
               <textarea
+                id="right-text"
                 value={rightText}
                 onChange={(e) => handleRightChange(e.target.value)}
                 placeholder="Paste modified text here..."
                 className="w-full h-full resize-none border-0 outline-none font-mono text-sm leading-relaxed"
                 spellCheck={false}
+                aria-label="Modified text input"
               />
             </div>
-          </div>
+          </section>
 
           {/* Diff Output */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" aria-labelledby="differences-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Differences</h3>
+              <h2 id="differences-heading" className="text-lg font-semibold text-gray-800">Differences</h2>
             </div>
-            <div className="flex-1 p-4 overflow-auto">
+            <div className="flex-1 p-4 overflow-auto" role="region" aria-live="polite">
               {diff.length > 0 ? (
-                <div className="space-y-1">
+                <div className="space-y-1" role="list">
                   {diff.map((line, index) => (
                     <div
                       key={index}
+                      role="listitem"
                       className={`flex items-start space-x-2 px-2 py-1 rounded text-sm font-mono ${
                         line.type === 'added'
                           ? 'bg-green-50 text-green-800'
@@ -215,10 +225,10 @@ const DiffChecker: React.FC = () => {
                           : 'bg-gray-50 text-gray-700'
                       }`}
                     >
-                      <span className="text-xs text-gray-500 w-8 flex-shrink-0 text-right">
+                      <span className="text-xs text-gray-500 w-8 flex-shrink-0 text-right" aria-label={`Line ${line.lineNumber}`}>
                         {line.lineNumber}
                       </span>
-                      <span className="w-4 flex-shrink-0">
+                      <span className="w-4 flex-shrink-0" aria-label={line.type === 'added' ? 'Added' : line.type === 'removed' ? 'Removed' : 'Unchanged'}>
                         {line.type === 'added' ? '+' : line.type === 'removed' ? '-' : ' '}
                       </span>
                       <span className="flex-1 whitespace-pre-wrap break-all">
@@ -228,12 +238,12 @@ const DiffChecker: React.FC = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-gray-500 text-sm">
+                <div className="text-gray-500 text-sm" role="status">
                   Enter text in both panels to see differences...
                 </div>
               )}
             </div>
-          </div>
+          </section>
         </div>
 
         <InfoSection 

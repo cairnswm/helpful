@@ -117,30 +117,36 @@ const RegexTester: React.FC = () => {
         />
 
         {/* Regex Input */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+        <section className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6" aria-labelledby="regex-heading">
           <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-800">Regular Expression</h3>
+            <h2 id="regex-heading" className="text-lg font-semibold text-gray-800">Regular Expression</h2>
           </div>
           <div className="p-4">
             <div className="flex items-center space-x-4 mb-4">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Pattern</label>
+                <label htmlFor="regex-pattern" className="block text-sm font-medium text-gray-700 mb-2">Pattern</label>
                 <div className="flex items-center">
-                  <span className="text-gray-500 font-mono text-lg mr-2">/</span>
+                  <span className="text-gray-500 font-mono text-lg mr-2" aria-hidden="true">/</span>
                   <input
+                    id="regex-pattern"
                     type="text"
                     value={pattern}
                     onChange={(e) => handlePatternChange(e.target.value)}
                     placeholder="Enter regex pattern..."
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="Regular expression pattern"
+                    aria-invalid={error ? 'true' : 'false'}
                   />
-                  <span className="text-gray-500 font-mono text-lg mx-2">/</span>
+                  <span className="text-gray-500 font-mono text-lg mx-2" aria-hidden="true">/</span>
+                  <label htmlFor="regex-flags" className="sr-only">Regular expression flags</label>
                   <input
+                    id="regex-flags"
                     type="text"
                     value={flags}
                     onChange={(e) => handleFlagsChange(e.target.value)}
                     placeholder="flags"
                     className="w-20 px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="Regular expression flags"
                   />
                 </div>
               </div>
@@ -148,9 +154,10 @@ const RegexTester: React.FC = () => {
                 <button
                   onClick={handleClear}
                   className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors duration-200"
+                  aria-label="Clear all fields"
                   title="Clear all"
                 >
-                  <RotateCcw className="h-4 w-4" />
+                  <RotateCcw className="h-4 w-4" aria-hidden="true" />
                 </button>
                 <button
                   onClick={handleCopy}
@@ -160,9 +167,10 @@ const RegexTester: React.FC = () => {
                       ? 'bg-blue-600 text-white hover:bg-blue-700'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   }`}
+                  aria-label={copied ? 'Regex copied to clipboard' : 'Copy regex to clipboard'}
                   title="Copy regex"
                 >
-                  {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copied ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                   <span className="text-sm font-medium">
                     {copied ? 'Copied!' : 'Copy'}
                   </span>
@@ -180,24 +188,27 @@ const RegexTester: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Test String */}
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200">
+          <section className="bg-white rounded-lg shadow-lg border border-gray-200" aria-labelledby="test-string-heading">
             <div className="p-4 bg-gray-50 border-b rounded-t-lg">
-              <h3 className="text-lg font-semibold text-gray-800">Test String</h3>
+              <h2 id="test-string-heading" className="text-lg font-semibold text-gray-800">Test String</h2>
             </div>
             <div className="p-4">
+              <label htmlFor="test-string-input" className="sr-only">Text to test against regex</label>
               <textarea
+                id="test-string-input"
                 value={testString}
                 onChange={(e) => handleTestStringChange(e.target.value)}
                 placeholder="Enter text to test against your regex..."
                 className="w-full h-64 resize-none border border-gray-300 rounded-lg p-3 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 spellCheck={false}
+                aria-label="Test string input"
               />
             </div>
-          </div>
+          </section>
 
           {/* Results */}
           <div className="bg-white rounded-lg shadow-lg border border-gray-200">
