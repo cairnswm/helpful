@@ -43,7 +43,54 @@ function parsePath(path: string): PathSegment[] {
   return segments;
 }
 
-
+/**
+ * Set a value in an object following a path
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function setValueAtPath(obj: any, segments: PathSegment[], value: any): void {
+  let current = obj;
+  
+  for (let i = 0; i < segments.length - 1; i++) {
+    const segment = segments[i];
+    
+    if (segment.isArray) {
+      if (!current[segment.key]) {
+        current[segment.key] = [];
+      }
+      
+      const array = current[segment.key];
+      const index = segment.arrayIndex!;
+      
+      // Ensure array has enough elements
+      while (array.length <= index) {
+        array.push({});
+      }
+      
+      current = array[index];
+    } else {
+      if (!current[segment.key]) {
+        current[segment.key] = {};
+      }
+      current = current[segment.key];
+    }
+  }
+  
+  // Set the final value
+  const lastSegment = segments[segments.length - 1];
+  if (lastSegment.isArray) {
+    if (!current[lastSegment.key]) {
+      current[lastSegment.key] = [];
+    }
+    const array = current[lastSegment.key];
+    const index = lastSegment.arrayIndex!;
+    while (array.length <= index) {
+      array.push({});
+    }
+    current[lastSegment.key][index] = value;
+  } else {
+    current[lastSegment.key] = value;
+  }
+}
 
 /**
  * Infer the type of a value from string
@@ -172,9 +219,7 @@ export function parseCSVWithPaths(csvString: string): any {
       
       if (isChildBlock && joinKey) {
         // Find parent record and attach child
-        // values[0] corresponds to headers[1] (the join key)
-        // headers[0] is the path and not included in values array
-        const joinValue = inferType(values[0]);
+        const joinValue = inferType(values[1]); // Assuming join key is second column
         const parents = parentRecords.get(parentKey);
         
         if (parents) {
@@ -184,13 +229,11 @@ export function parseCSVWithPaths(csvString: string): any {
             // Build child record
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const childRecord: any = {};
-            // Map headers[i] to values[i-1] (skip root path at headers[0])
-            for (let i = 1; i < headers.length; i++) {
-              const valueIndex = i - 1;
-              if (valueIndex >= values.length) break;
+            for (let i = 1; i < headers.length; i++) { // Skip root path, start from actual fields
+              if (i >= values.length) break;
               const fieldName = headers[i];
               if (fieldName !== joinKey) { // Don't include join key in child record
-                childRecord[fieldName] = inferType(values[valueIndex]);
+                childRecord[fieldName] = inferType(values[i]);
               }
             }
             
@@ -204,35 +247,34 @@ export function parseCSVWithPaths(csvString: string): any {
         }
       } else {
         // Parent block - create records normally
-        // Parse the root path once for the block
-        const pathSegments = parsePath(headers[0]);
-        const rootKey = pathSegments[0].key;
-        
-        // Ensure the array exists in result
-        if (!result[rootKey]) {
-          result[rootKey] = [];
+        for (let i = 0; i < headers.length; i++) {
+          if (i >= values.length) break;
+          
+          if (i === 0) {
+            // First column defines the root
+            const pathSegments = parsePath(headers[i]);
+            
+            // Create a record for this row
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const record: any = {};
+            
+            // Add remaining fields to the record
+            for (let j = 1; j < headers.length; j++) {
+              if (j >= values.length) break;
+              record[headers[j]] = inferType(values[j]);
+            }
+            
+            // Store parent records for potential child block joins
+            const rootKey = pathSegments[0].key;
+            if (!parentRecords.has(rootKey)) {
+              parentRecords.set(rootKey, []);
+            }
+            parentRecords.get(rootKey)!.push(record);
+            
+            // Add to result
+            setValueAtPath(result, pathSegments, record);
+          }
         }
-        
-        // Initialize parent records storage
-        if (!parentRecords.has(rootKey)) {
-          parentRecords.set(rootKey, []);
-        }
-        
-        // Create a record for this row
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const record: any = {};
-        
-        // Add fields to the record (skip first header which is the path)
-        // Map headers[j] to values[j-1] (skip root path at headers[0])
-        for (let j = 1; j < headers.length; j++) {
-          const valueIndex = j - 1;
-          if (valueIndex >= values.length) break;
-          record[headers[j]] = inferType(values[valueIndex]);
-        }
-        
-        // Append to array and store for child block joins
-        result[rootKey].push(record);
-        parentRecords.get(rootKey)!.push(record);
       }
     }
   }
