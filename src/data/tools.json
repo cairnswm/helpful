@@ -271,6 +271,16 @@
       "categories": ["Text & Data", "Converters"]
     },
     {
+      "id": "word-count",
+      "title": "Word Count",
+      "description": "Count words, characters, sentences, paragraphs, and estimate reading and speaking time.",
+      "path": "/word-count",
+      "icon": "FileText",
+      "color": "bg-slate-600",
+      "keywords": ["word", "count", "character", "sentence", "paragraph", "reading", "time", "text", "analysis"],
+      "categories": ["Text & Data"]
+    },
+    {
       "id": "password-checker",
       "title": "Password Checker",
       "description": "Evaluate the strength and entropy of passwords with detailed analysis.",

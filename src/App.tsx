@@ -63,6 +63,7 @@ const WatermarkOverlay = React.lazy(() => import('./pages/WatermarkOverlay'));
 const HtmlPdfConverter = React.lazy(() => import('./pages/HtmlPdfConverter'));
 const MarkdownPdfConverter = React.lazy(() => import('./pages/MarkdownPdfConverter'));
 const JsonAiReadyConverter = React.lazy(() => import('./pages/JsonAiReadyConverter'));
+const WordCount = React.lazy(() => import('./pages/WordCount'));
 
 
 // Component to handle focus management on route changes
@@ -161,6 +162,7 @@ function App() {
               <Route path="/html-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><HtmlPdfConverter /></React.Suspense>} />
               <Route path="/markdown-pdf-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><MarkdownPdfConverter /></React.Suspense>} />
               <Route path="/json-ai-ready-converter" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><JsonAiReadyConverter /></React.Suspense>} />
+              <Route path="/word-count" element={<React.Suspense fallback={<div className='p-8 text-center' role="status" aria-live="polite">Loading...</div>}><WordCount /></React.Suspense>} />
               </Routes>
             </FocusManager>
           </div>
