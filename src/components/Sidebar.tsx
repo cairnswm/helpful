@@ -103,6 +103,7 @@ const Sidebar: React.FC = () => {
       title: 'Text & Data',
       icon: Type,
       items: [
+        { path: '/word-count', label: 'Word Count', icon: FileText },
         { path: '/text-case-converter', label: 'Text Case Converter', icon: Type },
         { path: '/url-encoder', label: 'URL Encoder/Decoder', icon: Link2 },
         { path: '/hex-converter', label: 'Hex Converter', icon: Binary },
