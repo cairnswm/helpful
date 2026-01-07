@@ -12,6 +12,41 @@ import {
   Settings, Minimize2, FileCheck, Key,
   FileSpreadsheet, Crop, RotateCw, Droplet, Filter, FileImage, Sparkles
 } from 'lucide-react';
+import toolsData from '../data/tools.json';
+
+// Icon mapping
+const iconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+  Braces, FileText, Shield, Binary, Link2, Search,
+  GitCompare, Hash, Clock, Palette, Database, Code,
+  Globe, Plus, Terminal, Eye, Zap, ArrowRightLeft, Image,
+  CheckCircle, Info, Type, BarChart3,
+  FileX, Lock, RefreshCw, Calculator, QrCode, ImageIcon,
+  Settings, Minimize2, FileCheck, Key, FileSpreadsheet,
+  Crop, RotateCw, Droplet, Filter, FileImage, Sparkles
+};
+
+// Category to icon mapping - defines which icon to use for each category
+const categoryIconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+  'JSON Tools': Braces,
+  'Security & Auth': Shield,
+  'Text & Data': Type,
+  'Image Tools': Image,
+  'Converters': RefreshCw,
+  'UUID Tools': Hash,
+  'Time Tools': Clock,
+  'Color Tools': Palette,
+  'Code Formatting': Code,
+  'Database & SQL': Database,
+  'Development Tools': Terminal,
+  'API Tools': Globe,
+  'Generators': Plus,
+  'Encoders': Binary,
+  'Decoders': Binary,
+  'Validators': CheckCircle,
+  'Formatters': Code,
+  'Reference': Info,
+  'AI Tools': Sparkles
+};
 
 interface NavItem {
   path: string;
@@ -34,146 +69,39 @@ const Sidebar: React.FC = () => {
     setExpandedGroup(expandedGroup === groupTitle ? '' : groupTitle);
   };
 
-  const navGroups = useMemo<NavGroup[]>(() => [
-    {
-      title: 'General',
-      icon: Home,
-      items: [
-        { path: '/diff-checker', label: 'Diff Checker', icon: GitCompare },
-        { path: '/regex-tester', label: 'Regex Tester', icon: Search },
-        { path: '/lorem-ipsum-generator', label: 'Lorem Ipsum Generator', icon: FileText },
-        { path: '/qr-code-generator', label: 'QR Code Generator', icon: QrCode }
-      ]
-    },
-    {
-      title: 'Image Tools',
-      icon: Image,
-      items: [
-        { path: '/image-resizer', label: 'Image Resizer', icon: Image },
-        { path: '/image-cropper', label: 'Image Cropper', icon: Crop },
-        { path: '/image-rotator-flipper', label: 'Rotate & Flip', icon: RotateCw },
-        { path: '/image-color-adjustments', label: 'Color Adjustments', icon: Droplet },
-        { path: '/image-filters-effects', label: 'Filters & Effects', icon: Filter },
-        { path: '/watermark-overlay', label: 'Watermark Overlay', icon: FileImage },
-        { path: '/image-metadata-editor', label: 'Metadata Editor', icon: FileText }
-      ]
-    },
-    {
-      title: 'JSON Tools',
-      icon: Braces,
-      items: [
-        { path: '/format-json', label: 'Format JSON', icon: Braces },
-        { path: '/string-to-json', label: 'String to JSON', icon: FileText },
-        { path: '/json-schema-validator', label: 'JSON Schema Validator', icon: Zap },
-        { path: '/json-schema-creator', label: 'JSON Schema Creator', icon: Plus },
-        { path: '/json-merger', label: 'JSON Merger', icon: GitCompare },
-        { path: '/json-diff', label: 'JSON Diff', icon: GitCompare }
-      ]
-    },
-    {
-      title: 'File Converters',
-      icon: RefreshCw,
-      items: [
-        { path: '/json-csv-converter', label: 'JSON ↔ CSV', icon: ArrowRightLeft },
-        { path: '/json-xlsx-converter', label: 'JSON ↔ XLSX', icon: FileSpreadsheet },
-        { path: '/json-ai-ready-converter', label: 'JSON ↔ AI Ready', icon: Sparkles },
-        { path: '/csv-xlsx-converter', label: 'CSV ↔ XLSX', icon: FileSpreadsheet },
-        { path: '/yaml-json-converter', label: 'YAML ↔ JSON', icon: RefreshCw },
-        { path: '/xml-json-converter', label: 'XML ↔ JSON', icon: RefreshCw },
-        { path: '/markdown-html-converter', label: 'Markdown ↔ HTML', icon: RefreshCw },
-        { path: '/html-pdf-converter', label: 'HTML → PDF', icon: FileText },
-        { path: '/markdown-pdf-converter', label: 'Markdown → PDF', icon: FileText },
-        { path: '/image-base64-converter', label: 'Image ↔ Base64', icon: ImageIcon }
-      ]
-    },
-    {
-      title: 'Security & Auth',
-      icon: Shield,
-      items: [
-        { path: '/jwt-decoder', label: 'JWT Decoder', icon: Shield },
-        { path: '/jwt-generator', label: 'JWT Generator', icon: Plus },
-        { path: '/password-checker', label: 'Password Checker', icon: Lock },
-        { path: '/base64', label: 'Base64 Encoder/Decoder', icon: Binary },
-        { path: '/certificate-inspector', label: 'Certificate Inspector', icon: FileCheck },
-        { path: '/security-headers-checker', label: 'Security Headers Checker', icon: Shield },
-        { path: '/encryption-tool', label: 'Encryption/Decryption Tool', icon: Key }
-      ]
-    },
-    {
-      title: 'Text & Data',
-      icon: Type,
-      items: [
-        { path: '/word-count', label: 'Word Count', icon: FileText },
-        { path: '/text-case-converter', label: 'Text Case Converter', icon: Type },
-        { path: '/url-encoder', label: 'URL Encoder/Decoder', icon: Link2 },
-        { path: '/hex-converter', label: 'Hex Converter', icon: Binary },
-        { path: '/markdown-previewer', label: 'Markdown Previewer', icon: Eye },
-        { path: '/html-entity-encoder', label: 'HTML Entity Encoder', icon: Code }
-      ]
-    },
-    {
-      title: 'Code Formatting',
-      icon: Code,
-      items: [
-        { path: '/css-formatter', label: 'CSS Minifier/Beautifier', icon: Code },
-        { path: '/javascript-minifier', label: 'JavaScript Minifier', icon: Minimize2 },
-        { path: '/sql-formatter', label: 'SQL Formatter', icon: Database },
-        { path: '/xml-formatter', label: 'XML Formatter', icon: FileX },
-        { path: '/svg-optimizer', label: 'SVG Optimizer', icon: Image }
-      ]
-    },
-    {
-      title: 'Database & SQL',
-      icon: Database,
-      items: [
-        { path: '/sql-formatter', label: 'SQL Formatter', icon: Database },
-        { path: '/sql-query-analyzer', label: 'SQL Query Analyzer', icon: BarChart3 }
-      ]
-    },
-    {
-      title: 'UUID Tools',
-      icon: Hash,
-      items: [
-        { path: '/uuid-generator', label: 'UUID Generator', icon: Hash },
-        { path: '/uuid-validator', label: 'UUID Validator', icon: CheckCircle }
-      ]
-    },
-    {
-      title: 'Color Tools',
-      icon: Palette,
-      items: [
-        { path: '/color-picker', label: 'Color Picker', icon: Palette },
-        { path: '/color-converter', label: 'Color Converter', icon: Palette }
-      ]
-    },
-    {
-      title: 'Time Tools',
-      icon: Clock,
-      items: [
-        { path: '/timestamp-converter', label: 'Timestamp Converter', icon: Clock },
-        { path: '/timezone-converter', label: 'Timezone Converter', icon: Globe }
-      ]
-    },
-    {
-      title: 'Number & Encoding',
-      icon: Hash,
-      items: [
-        { path: '/hash-generator', label: 'Hash Generator', icon: Shield },
-        { path: '/number-base-converter', label: 'Number Base Converter', icon: Calculator }
-      ]
-    },
-    {
-      title: 'Utilities',
-      icon: Clock,
-      items: [
-        { path: '/api-request-builder', label: 'API Request Builder', icon: Globe },
-        { path: '/command-builder', label: 'Command Builder', icon: Terminal },
-        { path: '/http-status-reference', label: 'HTTP Status Reference', icon: Info },
-        { path: '/cron-expression-builder', label: 'Cron Expression Builder', icon: Clock },
-        { path: '/env-variable-manager', label: 'Environment Variables', icon: Settings }
-      ]
-    }
-  ], []);
+  // Build navigation groups dynamically from tools.json
+  const navGroups = useMemo<NavGroup[]>(() => {
+    // Create a map of categories to tools
+    const categoryMap = new Map<string, NavItem[]>();
+    
+    toolsData.tools.forEach(tool => {
+      const toolIcon = iconMap[tool.icon] || Braces;
+      const navItem: NavItem = {
+        path: tool.path,
+        label: tool.title,
+        icon: toolIcon
+      };
+      
+      // Add tool to each of its categories
+      tool.categories.forEach(category => {
+        if (!categoryMap.has(category)) {
+          categoryMap.set(category, []);
+        }
+        categoryMap.get(category)!.push(navItem);
+      });
+    });
+    
+    // Convert map to array of NavGroups, sorted alphabetically
+    const groups: NavGroup[] = Array.from(categoryMap.entries())
+      .map(([category, items]) => ({
+        title: category,
+        icon: categoryIconMap[category] || Code,
+        items: items.sort((a, b) => a.label.localeCompare(b.label))
+      }))
+      .sort((a, b) => a.title.localeCompare(b.title));
+    
+    return groups;
+  }, []);
 
   // Filter navigation based on search term
   const filteredNavGroups = useMemo(() => {
