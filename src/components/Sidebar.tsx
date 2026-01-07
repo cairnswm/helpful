@@ -87,7 +87,10 @@ const Sidebar: React.FC = () => {
         if (!categoryMap.has(category)) {
           categoryMap.set(category, []);
         }
-        categoryMap.get(category)!.push(navItem);
+        const items = categoryMap.get(category);
+        if (items) {
+          items.push(navItem);
+        }
       });
     });
     
